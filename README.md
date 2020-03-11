@@ -1,9 +1,9 @@
 # Competitive-Programming
 My own templates and implementation of important algorithms and data structures for competitive programming purposes
-# Graph:
+## Graph
   DFS
   BFS
-# Dynamic Programming
+## Dynamic Programming
   Knapsack
-# Data Structure:
+## Data Structure
   Fenwick Tree
