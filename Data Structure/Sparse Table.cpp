@@ -28,7 +28,7 @@ void build_log_table() { // for O(1) range minimum query
         lg[i] = lg[i/2] + 1;
 }
 
-void build_sparse_table() { O(nlogn)
+void build_sparse_table() { // O(nlogn)
     for(int i = 0; i < N; i++)
         table[i][0] = arr[i];
 
@@ -45,7 +45,7 @@ int rmq(int l, int r){ // range minimum query in O(1)
 
 int rsq(int l, int r) { //range sum query in O(logn)
     int sum = 0;
-    for (int j = MAXLOG; j >= 0; j--) {
+    for (int j = MAX_L; j >= 0; j--) {
         if ((1 << j) <= r - l + 1) {
             sum += table[l][j];
             l += 1 << j;
