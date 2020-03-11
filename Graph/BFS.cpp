@@ -16,18 +16,11 @@ typedef vector<vi> vvi;
 #define LSOne(S) (S & (-S))
 #define isBitSet(S, i) ((S >> i) & 1)
 
-int V, E, visited[MAX_N] = {0};
+int V, E, dist[MAX_N]; 
+//dist[u] = -1 if u is unvisited, = 0 for source, shortes distance from source if > 0 (only applicable for unweighted graph)
+queue<int> Q;
 vector<int> adj[MAX_N];
 //For a rooted tree, an array par[MAX_N] storing nodes' direct ancestors can be used instead of adjacent list adj
-
-void dfs(int u) {
-    visited[u] = 1; //visited
-    for(int i = 0; i < adj[u].size(); i++) {
-        int v = adj[u][i];
-        if (!visited[v]) 
-            dfs(v);
-    }
-}
 
 int main() {
     ios_base::sync_with_stdio(0);
@@ -40,5 +33,17 @@ int main() {
         int x, y; cin >> x >> y;
         adj[x].push_back(y); adj[y].push_back(x);
     }
-    dfs(0);    
+    
+    memset(dist, -1, sizeof dist);
+    Q.push(0); dist[0] = 0;
+    while(!Q.empty()) {
+        int u = Q.front(); Q.pop();
+        for(int i = 0; i < adj[u].size(); i++) {
+            int v = adj[u][i];
+            if(dist[v] == -1) {
+                dist[v] = dist[u] + 1;
+                Q.push(v);
+            }
+        }
+    }
 }
