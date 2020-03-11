@@ -20,7 +20,7 @@ typedef vector<vi> vvi;
 
 int ft[MAX_N] = {0}, ft2[MAX_N] = {0}, arr[MAX_N], N, Q;
 
-void range_adjust(int x, int v) {
+void range_adjust(int x, int y, int v) {
     for(int tx = x; tx <= N; tx += LSOne(tx)) {
         ft[tx] += v;
         ft2[tx] -= v*(x-1);
