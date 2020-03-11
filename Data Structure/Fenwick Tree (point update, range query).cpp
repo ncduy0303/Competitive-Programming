@@ -18,7 +18,7 @@ typedef vector<vi> vvi;
 #define LSOne(S) (S & (-S))
 #define isBitSet(S, i) ((S >> i) & 1)
 
-int ft[MAX_N] = {0}, arr[MAX_N] N, Q;
+int ft[MAX_N] = {0}, arr[MAX_N], N, Q;
 
 void adjust(int x, int v) {
     for(; x <= N; x += LSOne(x))
