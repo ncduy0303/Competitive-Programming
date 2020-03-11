@@ -8,6 +8,7 @@ Find the maximum value one can obtain with a total weight W limit
 using namespace std;
 
 const int INF = 1 << 30;
+const int MAX_W = 1000 + 5;
 const int MAX_N = 100000 + 5;
 const int MAX_L = 20; // ~ Log N
 const long long MOD = 1e9 + 7;
@@ -21,7 +22,7 @@ typedef vector<vi> vvi;
 #define LSOne(S) (S & (-S))
 #define isBitSet(S, i) ((S >> i) & 1)
 
-int N, W, val[MAX_N], weight[MAX_N], dp[MAX_N][MAX_N], ans = 0;
+int N, W, val[MAX_N], weight[MAX_N], dp[MAX_N][MAX_W], ans = 0;
 
 int main() {
     ios_base::sync_with_stdio(0);
