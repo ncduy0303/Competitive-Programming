@@ -26,7 +26,7 @@ void Dijkstra(int s) {
     dist[s] = 0;
     priority_queue<ii, vii, greater<ii> > pq;
     pq.push({0, s});
-    while(!pq.epmty()) {
+    while(!pq.empty()) {
         pair<int, int> next = pq.top(); pq.pop();
         int d = next.first, u = next.second;
         if (d > dist[u]) continue;
@@ -45,12 +45,11 @@ int main() {
     cin.tie(0); cout.tie(0);
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
-  
+
     cin >> V >> E;
     for(int i = 0; i < E; i++) {
         int x, y, w; cin >> x >> y >> w;
-        adj[x].push_back({y, w}); 
-        adj[y].push_back({x, w);
-    }   
+        adj[x].push_back({y, w});
+    }
     Dijkstra(0);
 }
