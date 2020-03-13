@@ -1,5 +1,6 @@
 // Kruskal Algorithm for finding Maximum Spanning Tree (MST)
 // To use Kruskal, EdgeList representation for graph is preferred
+// Time Complexity: O(ElogV)
 
 #include <bits/stdc++.h>
 
