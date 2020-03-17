@@ -2,6 +2,7 @@
 Solution: define two sorted arrays to keep track of the order of the departure time and the arrival time (in reverse),
           The problem can be converted into finding the longest common subsequence (LCS) between the two arrays
 Time complexity: O(n^2)
+*/
 
 #include <bits/stdc++.h>
 
