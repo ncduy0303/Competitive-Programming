@@ -19,12 +19,33 @@ typedef vector<vi> vvi;
 #define LSOne(S) (S & (-S))
 #define isBitSet(S, i) ((S >> i) & 1)
 
-long long A, B, M;
-
-int qexp(int A, int B, int M) {
-  
+int qexp(int A, int B, int M) { // only works if M fits in the range of 32-bit signed integer
+    if B == 0) return 1; //base case A^0 = 1
+    long long half = qexp(A, B/2, M);
+    half *= half;
+    half %= M;
+    if (B % 2 == 1) half *= A;  //Compensate the 'round down' of B/2 when B is odd
+    return half % M;
 }
 
+/* Long Long Exponention (if M fits in the range of 64-bit signed integer)
+long long qmult(long long A, long long B, long long M) { // multiplication using divide and conquer
+    if (B = 0) return 0; // base case A * 0 = 0
+    long long half = qmult(A, B/2, M);
+    half += half;
+    half %= M;
+    if (B % 2 == 1) half *= half; 
+    return half % M;
+}
+long long qexp(long long A, long long B, long M) { // only works if M fits in the range of 32-bit signed integer
+    if B == 0) return 1; //base case A^0 = 1
+    long long half = qexp(A, B/2, M);
+    half *= half;
+    half %= M;
+    if (B % 2 == 1) half *= A;  //Compensate the 'round down' of B/2 when B is odd
+    return half % M;
+}
+*/ 
 
 int main() {
     ios_base::sync_with_stdio(0);
@@ -32,5 +53,7 @@ int main() {
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
   
+    int A, B, M;
     cin >> A >> B >> M;
+    cout << qexp(A, B, M);
 }
