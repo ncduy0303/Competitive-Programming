@@ -22,25 +22,36 @@ typedef vector<vi> vvi;
 
 int N, Q, arr[MAX_N], st[4 * MAX_N];
 
-void build(){
-    for(int i = N - 1; i > 0; i--){
-        st[i] = max(st[i * 2], st[i * 2 + 1]);
+void build(int node, int start, int end) {
+    if(start == end)
+        st[node] = arr[start];
+    else {
+        int mid = (start + end) / 2;
+        build(2 * node, start, mid);
+        build(2 * node + 1, mid + 1, end);
+        st[node] = st[2 * node] + st[2 * node + 1];
     }
 }
 
-void update(int i, int val){ //assign val
-    for(st[i += N] = val; i > 1; i /= 2){
-        st[i / 2] = st[i] + st[i ^ 2];
+void update(int node, int start, int end, int idx, int val){ //add val to arr[idx]
+    if(start == end) {
+        arr[idx] += val;
+        st[node] + val;
+    }
+    else {
+        int mid = (start + end) / 2;
+        update(2 * node, start, mid, idx, val);
+        update(2 * node + 1, mid + 1, end, idx, val);
+        st[node] = st[2 * node] + st[2 * node + 1];
     }
 }
 
-int rmq(int l, int r){ //range max query in [l..r]
-    int ans = -INF;
-    for(l += N, r += N; l < r; l /= 2, r /= 2){
-        if(l % 2 != 0) ans = max(ans, st[l++]);
-        if(r % 2 != 0) ans = max(ans, st[--r]);
-    }
-    return ans;
+int rsq(int node, int start, int end, int l, int r){ //range sum query in [l..r]
+    if(start > r || end < l) return 0;
+    if(start >= l && end <= r) return st[node];
+    
+    int mid = (start + end) / 2;
+    return rsq(2 * node, start, mid, l, r) + rsq(2 * node + 1, mid + 1, end, l, r);
 }
 
 int main() {
@@ -53,9 +64,16 @@ int main() {
     for(int i = 0; i < N; i++){ 
         cin >> arr[i];
     }
-    build();
+    build(1, 1, N);
     while(Q--){
-        int i, j; cin >> i >> j;
-        cout << rmq(i, j) << "\n";
+        int t; cin >> t;
+        if(t == 0) { // update
+            int idx, val; cin >> idx >> val;
+            update(1, 1, N, idx, val);
+        } 
+        else {
+            int l, r; cin >> l >> r;
+            cout << rsq(1, 1, N, l, r) << "\n";
+        }
     }
 }
