@@ -1,3 +1,7 @@
+// This is an improved version of the naive approach for the LCA problem
+// Instead of jumping nodes directly, we can jump nodes in power of 2, reducing time complexity from N to logN
+// This idea is quite similar to the sparse table data structure
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -64,6 +68,7 @@ int main() {
         adj[u].push_back(v);
         adj[v].push_back(u);
     }
+    dfs(0, 0);
     while(Q--) {
         int u, v; cin >> u >> v;
         printf("LCA of %d and %d is %d\n", u, v, LCA(u, v));
