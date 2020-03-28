@@ -6,7 +6,7 @@ My own templates and implementation of important algorithms and data structures 
   - Single-Source Shortest Paths (Dijkstra, Bellman-Ford)
   - All-Pair Shortest Paths (Floyd Warshall)
   - Maximum FLow (Edmonds-Karp)
-  - Lowest Common Ancestor (Binray Lifting, RMQ)
+  - Lowest Common Ancestor (Binary Lifting, RMQ)
 ## Dynamic Programming
   - Knapsack
   - Coin Change
