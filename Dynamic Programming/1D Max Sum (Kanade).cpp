@@ -26,5 +26,14 @@ int main() {
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
   
+    cin >> N;
+    for(int i = 0; i < N; i++) cin >> arr[i];
     
+    cur = ans = arr[0];
+    for(int i = 1; i < N; i++) {
+        cur = max(0, cur);
+        cur += arr[i];
+        ans = max(ans, cur);
+    }
+    cout << ans;
 }
