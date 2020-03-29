@@ -1,11 +1,7 @@
-/* NOI 2019: Feast
-Idea: Greedy (combine adjacent values with the same sign and remove negative values from the two ends)
-Time Complexity: O(NlogN)
-*/
-
 // N Queens Problem
 // Find the total number of ways to put N queens problem on an N x N chess board
 // Advanced: there will be Q queens initially placed on the chess board and B squares that cannot have queens placed on them
+// Idea: complete search with pruning
 // Full details here: https://dunjudge.me/analysis/problems/401/
 
 #include <bits/stdc++.h>
@@ -29,14 +25,14 @@ typedef vector<vi> vvi;
 //all one indexed
 bool row[100] = {false}, col[100] = {false}, d1[100] = {false}, d2[100] = {false};
 bool check[100][100], bef[100][100];
-long long N, Q, B, ans = 0;
+int N, Q, B, ans = 0;
 
 void solve(int c) {
-    if(c == N + 1) {
+    if(c == N + 1) { // finished, reach the last column
         ans++;
         return;
     }
-    if(col[c]) solve(c + 1);
+    if(col[c]) solve(c + 1); // move on to the next column
     else { // test queen in each row and check
         for(int r = 1; r <= N; r++) {
             if(!check[r][c] && !row[r] && !d1[c - r + N] && !d2[c + r - 1]){
@@ -68,11 +64,12 @@ int main() {
     cin >> B;
     for(int i = 0; i < B; i++) {
         int r, c; cin >> r >> c;
-        if (!bef[r][c]) check[r][c] = true;
-		else {
-			cout << 0;
-			return 0;
-		}
+        if(!bef[r][c]) 
+	    check[r][c] = true;
+	else {
+	    cout << 0;
+	    return 0;
+	}
     }
     solve(1);
     cout << ans;
