@@ -37,4 +37,5 @@ int main() {
                 dp[i][j] = max(dp[i][j], max(dp[i - 1][j], dp[i][j - 1]));
         }
     }
+    cout << dp[x.size()][y.size()];
 }
