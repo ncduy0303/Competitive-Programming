@@ -10,6 +10,7 @@ My own templates and implementation of important algorithms and data structures 
 ## Dynamic Programming
   - Knapsack
   - Coin Change
+  - Max Sum Subarray (Kanade's Alogorithm)
   - Longest Common Subsequence
   - Longest Increasing Subsequence
   - Matrix Chain Multiplication
