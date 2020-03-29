@@ -5,7 +5,7 @@
 using namespace std;
 
 const int INF = 1 << 30;
-const int MAX_N = 100000 + 5;
+const int MAX_N = 1000 + 5;
 const int MAX_L = 20; // ~ Log N
 const long long MOD = 1e9 + 7;
 
@@ -27,8 +27,8 @@ int main() {
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
   
-    cin >> X >> y;
-    memset(dp, 0, sizeof(0));
+    cin >> x >> y;
+    memset(dp, 0, sizeof dp);
     for(int i = 1; i <= x.size(); i++) {
         for(int j = 1; j <= y.size(); j++) {
             if(x[i - 1] == y[j - 1]) 
