@@ -1,4 +1,5 @@
 // Given an array of integers, find the maximum sum subarray
+// Time complexity: O(n)
 
 #include <bits/stdc++.h>
 
