@@ -1,4 +1,4 @@
-# Competitive-Programming
+# Competitive Programming
 My own templates and implementation of important algorithms and data structures for competitive programming purposes
 
 ## Contest templates
@@ -40,4 +40,4 @@ My own templates and implementation of important algorithms and data structures 
   - [Fibonancci](https://github.com/ncduy0303/Competitive-Programming/blob/master/Number%20Theory/Fibonancci.cpp)
   
 ## Other Classic Problems
-  - N-queen(https://github.com/ncduy0303/Competitive-Programming/blob/master/Other%20Classic%20Problems/N_Queens.cpp)
+  - [N-queen](https://github.com/ncduy0303/Competitive-Programming/blob/master/Other%20Classic%20Problems/N_Queens.cpp)
