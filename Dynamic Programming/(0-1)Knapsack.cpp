@@ -51,6 +51,9 @@ int main() {
     for (int i = 0; i < N; i++) 
         for (int j = W; j >= weight[i]; j--) 
             dp2[j] = max(dp2[j], val[i] + dp2[j - weight[i]];
+
+    for (int i = 0; i <= W; ++i) ans = max(ans, dp2[i]);
+    cout << ans;
     */
   
     ans = dp[N][W];
