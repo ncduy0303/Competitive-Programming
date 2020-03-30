@@ -1,6 +1,7 @@
 // Matrix Chain Mulitiplication
 // Given N matrixs with dimensions p0 x p1, p1 x p2, ... , pn-1 x pn
 // Find the minimum number of scalar multiplications to carry out the matrix multiplication
+// Time complexity: O(N^3)
 
 #include <bits/stdc++.h>
 
@@ -32,7 +33,6 @@ int main() {
     // Matrix Ai has dimension p[i-1] x p[i] for i = 1..N
     for (int i = 0; i <= N; i++) cin >> p[i];
 
-    /* 1) Time complexity: O(n^3)
     // cost is zero when multiplying one matrix
     for (int i = 1; i <= N; i++) dp[i][i] = 0;
     // length is one
@@ -47,8 +47,5 @@ int main() {
             }
         }
     }
-    cout << dp[1][N];
-    */
-    
-    
+    cout << dp[1][N];  
 }
