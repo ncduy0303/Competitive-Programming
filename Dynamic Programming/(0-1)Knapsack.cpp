@@ -23,6 +23,7 @@ typedef vector<vi> vvi;
 #define isBitSet(S, i) ((S >> i) & 1)
 
 int N, W, val[MAX_N], weight[MAX_N], dp[MAX_N][MAX_W], ans = 0;
+int dp2[MAX_W]; // space optimization technqiue (from N x W to 1 x W)
 
 int main() {
     ios_base::sync_with_stdio(0);
@@ -45,6 +46,12 @@ int main() {
                 dp[i][j] = dp[i - 1][j];
         }
     }
+    
+    /* Space optimization
+    for (int i = 0; i < N; i++) 
+        for (int j = W; j >= weight[i]; j--) 
+            dp2[j] = max(dp2[j], val[i] + dp2[j - weight[i]];
+    */
   
     ans = dp[N][W];
     cout << ans;
