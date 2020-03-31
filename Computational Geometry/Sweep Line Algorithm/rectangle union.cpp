@@ -1,14 +1,17 @@
-// Given N points (x, y) on a plane, find the minimum distance between a pair of points
-// Idea: Sweep Line Algorithm
+// Given N rectangles on a plane (they are all parallel to the axis), find the union area of all the rectangles
+// Each rectangle is defined by two points (x1, y1) bottom left and (x2, y2) top right
+// Idea: Sweep Line Algorithm (apply to 2 events simultaneously)
+// At any instance, the set contains only the rectangles which intersect the sweep line
 // Reference: https://www.topcoder.com/community/competitive-programming/tutorials/line-sweep-algorithms/
-// Time complexity: (NlogN)
+// Time complexity: (N^2)
+// It can be improved to NlogN if we use a more efficient data strucutre
 
 #include <bits/stdc++.h>
 
 using namespace std;
 
 const int INF = 1 << 30;
-const int MAX_N = 10000 + 5;
+const int MAX_N = 1000 + 5;
 const int MAX_L = 20; // ~ Log N
 const long long MOD = 1e9 + 7;
 
@@ -22,37 +25,37 @@ typedef vector<vi> vvi;
 #define isBitSet(S, i) ((S >> i) & 1)
 
 struct event {
-    int ind; // Index of rectangle in rects
+    int id; // Index of rectangle in rects
     int type; // Type of event: 0 = Lower-left ; 1 = Upper-right
     event() {};
-    event(int ind, int type) : ind(ind), type(type) {};
+    event(int id, int type) : id(id), type(type) {};
 };
 
 struct point{
     int x, y;
 };
 
-int N, E = 0; // N = no. of rectangles, E = no. of edges
+int N, E = 0; // N = no. of rectangles, E = no. of events
 point rects[MAX_N][2]; // Each rectangle consists of 2 points: [0] = lower-left ; [1] = upper-right
 event events_v [2 * MAX_N]; // Events of horizontal sweep line
 event events_h [2 * MAX_N]; // Events of vertical sweep line
 
-bool in_set [10 * MAX_N] = {0}; // Boolean array in place of balanced binary tree (set)
+bool in_set[MAX_N] = {0}; // Boolean array in place of balanced binary tree (set)
 long long area = 0; // The output: Area of the union
 
 bool compare_x(event a, event b) {
-    return rects[a.ind][a.type].x < rects[b.ind][b.type].x;
+    return rects[a.id][a.type].x < rects[b.id][b.type].x;
 }
 
 bool compare_y(event a, event b) {
-    return rects[a.ind][a.type].y < rects[b.ind][b.type].y;
+    return rects[a.id][a.type].y < rects[b.id][b.type].y;
 }
 
 int main() { /// x -> v; y -> h
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
+    //freopen("input.txt", "r", stdin);
+    //freopen("output.txt", "w", stdout);
 
     cin >> N;
     for(int i = 0; i < N; ++i){
@@ -65,35 +68,35 @@ int main() { /// x -> v; y -> h
     }
     sort(events_v, events_v + E, compare_x);
     sort(events_h, events_h + E, compare_y); // Pre-sort set of horizontal edges
-    in_set[events_v[0].ind] = 1;
+    in_set[events_v[0].id] = 1;
 
     // Vertical sweep line
     for(int i = 1; i < E; ++i){
-        event c = events_v[i];
+        event cur = events_v[i], precur = events_v[i - 1];
         int cnt = 0; // Counter to indicate how many rectangles are currently overlapping
 
         // Delta_x: Distance between current sweep line and previous sweep line
-        int delta_x = rects[c.ind][c.type].x - rects[events_v[i - 1].ind][events_v[i - 1].type].x;
+        int delta_x = rects[cur.id][cur.type].x - rects[precur.id][precur.type].x;
+        if (delta_x < 0) continue;
 
         int begin_y;
-        if (delta_x == 0) continue;
-
+        // Horizontal sweep line
         for (int j = 0; j < E; j++){
-            if (in_set[events_h[j].ind] == 1){ // Horizontal sweep line
+            if (in_set[events_h[j].id]){
                 if (events_h[j].type == 0) {
-                    if (cnt == 0) begin_y = rects[events_h[j].ind][0].y; // Block starts
+                    if (cnt == 0) begin_y = rects[events_h[j].id][0].y; // Block starts
                     cnt++;
                 }
                 else {
                     cnt--;
                     if (cnt == 0) { // Block ends
-                        int delta_y = (rects[events_h[j].ind][1].y - begin_y);
+                        int delta_y = rects[events_h[j].id][1].y - begin_y;
                         area += delta_x * delta_y;
                     }
                 }
             }
         }
-        in_set[c.ind] = (c.type == 0);
+        in_set[cur.id] = (cur.type == 0);
     }
 
     cout << area;
