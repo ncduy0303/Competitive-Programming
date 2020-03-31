@@ -58,7 +58,7 @@ int main() { /// x -> v; y -> h
     //freopen("output.txt", "w", stdout);
 
     cin >> N;
-    for(int i = 0; i < N; ++i){
+    for(int i = 0; i < N; i++){
         cin >> rects[i][0].x >> rects[i][0].y; // Lower-left coordinate
         cin >> rects[i][1].x >> rects[i][1].y; // Upper-right coordinate
         events_v[E] = event(i, 0);
@@ -71,7 +71,7 @@ int main() { /// x -> v; y -> h
     in_set[events_v[0].id] = 1;
 
     // Vertical sweep line
-    for(int i = 1; i < E; ++i){
+    for(int i = 1; i < E; i++){
         event cur = events_v[i], precur = events_v[i - 1];
         int cnt = 0; // Counter to indicate how many rectangles are currently overlapping
 
