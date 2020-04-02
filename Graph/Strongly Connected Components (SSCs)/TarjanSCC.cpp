@@ -1,5 +1,6 @@
 // Tarjan's algorithm to find strongly connected components (SCCs)
 // Idea: SSCs form subtrees in the DFS spanning tree
+// Time complexity: O(V + E)
 
 #include <bits/stdc++.h>
 
