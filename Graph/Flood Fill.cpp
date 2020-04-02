@@ -50,9 +50,9 @@ int main() {
     //freopen("output.txt", "w", stdout);
 
     cin >> N >> M;
-    for (int i = 0; i < N; i++)
-        for (int j = 0; j < M; j++)
-            cin >> grid[i][j];
+    for (int r = 0; r < N; r++)
+        for (int c = 0; c < M; c++)
+            cin >> grid[r][c];
 
     memset(visited, 0, sizeof visited);
     for (int r = 0; r < N; r++)
