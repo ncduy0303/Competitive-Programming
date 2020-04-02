@@ -13,7 +13,7 @@ My own templates and implementation of important algorithms and data structures 
   - Strongly Connected Components ([Tarjan](https://github.com/ncduy0303/Competitive-Programming/blob/master/Graph/Strongly%20Connected%20Components%20(SSCs)/TarjanSCC.cpp), [Kosaraju](https://github.com/ncduy0303/Competitive-Programming/blob/master/Graph/Strongly%20Connected%20Components%20(SSCs)/Kosaraju.cpp))
   - [Bipartite Matching](https://github.com/ncduy0303/Competitive-Programming/blob/master/Graph/Bipartite.cpp)
   - [Topological Sort](https://github.com/ncduy0303/Competitive-Programming/blob/master/Graph/Topological%20Sort.cpp)
-  - Maximum FLow (Edmonds-Karp)
+  - Maximum FLow ([Edmonds-Karp](https://github.com/ncduy0303/Competitive-Programming/blob/master/Graph/Edmonds_Karp.cpp))
   - Lowest Common Ancestor ([Binary Lifting](https://github.com/ncduy0303/Competitive-Programming/blob/master/Graph/Lowest%20Common%20Ancestor/LCA(Binary%20Lifting).cpp), [RMQ](https://github.com/ncduy0303/Competitive-Programming/blob/master/Graph/Lowest%20Common%20Ancestor/LCA(RMQ).cpp))
   
 ## Dynamic Programming
