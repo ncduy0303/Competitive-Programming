@@ -55,9 +55,7 @@ int main() {
             cin >> grid[i][j];
 
     memset(visited, 0, sizeof visited);
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < M; j++) {
-
-        }
-    }
+    for (int r = 0; r < N; r++)
+        for (int c = 0; c < M; c++)
+            floodfill(r, c);
 }
