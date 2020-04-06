@@ -21,7 +21,7 @@ typedef vector<vi> vvi;
 #define LSOne(S) (S & (-S))
 #define isBitSet(S, i) ((S >> i) & 1)
 
-int N, M, table[MAX_N][MAX_N];
+int N, M, table[MAX_N][MAX_N], ans = -INF;
 
 int main() {
     ios_base::sync_with_stdio(0);
@@ -42,19 +42,12 @@ int main() {
     int tmp[N], start, finish, cur, ans = -INF;
     int finalLeft, finalRight, finalTop, finalBottom;
     for (int l = 0; l < M; l++) { // looping through all pairs of columns, running kanade on a column
-        memset(tmp, 0, sizeof tmp);
         for (int r = l; r < N; r++) {
-            for (int i = 0; i < N; i++) {
-                tmp[i] += table[i][r];
-            }
-            cur = kadane(tmp, &start, &finish);
-            if (cur  > ans) {
-                ans = cur;
-                finalLeft = l;
-                finalRight = r;
-                finalTop = start;
-                finalBottom = finish;
-            }
+            int cur = 0;
+            if (l > 0) cur += A[i][r] - A[i][l - 1];
+            else cur += A[i][r];
+            cur = max(cur, 0); // restart if negative
+            ans = max(ans, cur);
         }
     }
     cout << "Max sum is: " << ans;
