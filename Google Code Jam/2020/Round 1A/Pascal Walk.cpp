@@ -25,18 +25,18 @@ void solve() {
 	bool left = true;
     for (int i = 0; i < 30; i++) {
         // move to current row
-		cout << i + 1 << " " << (left ? 1 : i + 1) << "\n";
-		if (N >> i & 1) {
-            if (left)
-				for (int j = 1; j <= i; j++)
-					cout << i + 1<< " " << j + 1 << "\n";
-			else
-				for (int j = i - 1; j >= 0; j--)
-					cout << i + 1 << " " << j + 1 << "\n";
-            left = !left;
-			// add 1 to m to add the additional 1 later
-			m++;
-		}
+	cout << i + 1 << " " << (left ? 1 : i + 1) << "\n";
+	if (N >> i & 1) {
+		if (left)
+			for (int j = 1; j <= i; j++)
+				cout << i + 1<< " " << j + 1 << "\n";
+		else
+			for (int j = i - 1; j >= 0; j--)
+				cout << i + 1 << " " << j + 1 << "\n";
+		left = !left;
+		// add 1 to m to add the additional 1 later
+		m++;
+	}
     }
     // add some additional ones
 	for (int i = 30; m; m--, i++) {
