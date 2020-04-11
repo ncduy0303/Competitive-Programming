@@ -6,7 +6,6 @@ Idea: This one is just a heavy simulation & implementation problem, use C++ STL 
 
 using namespace std;
 
-int N, M;
 set<pair<int, int> > tr;
 
 struct cell {
