@@ -34,9 +34,9 @@ void solve() {
     // check whether all prefixes & suffixes match with the longest one
     for (int i = 0; i < N; i++) {
         if (pre[lp].substr(0, pre[i].size()) != pre[i] || suf[ls].substr(suf[ls].size() - suf[i].size()) != suf[i]) {
-			cout << "*\n";
-			return;
-		}
+		cout << "*\n";
+		return;
+	}
     }
 
     // build the answer
