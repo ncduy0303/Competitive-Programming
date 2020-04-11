@@ -36,13 +36,11 @@ int main() {
         cin >> val[i] >> weight[i];
     
     //Tabulation DP
-    for (int i = 0; i <= N; i++) {
-        for (int j = 0; j <= W; j++) {
-            if (i == 0 || j == 0) //base case 
-                dp[i][j] = 0;
-            else if (weight[i] <= j)     
-                dp[i][j] = max(dp[i - 1][j], val[i] + dp[i - 1][j - weight[i]]);
-            else                         
+    for (int i = 1; i <= N; i++) {
+        for (int j = 1; j <= W; j++) {
+            if (weight[i - 1] <= j)
+                dp[i][j] = max(dp[i - 1][j], val[i - 1] + dp[i - 1][j - weight[i - 1]]);
+            else
                 dp[i][j] = dp[i - 1][j];
         }
     }
