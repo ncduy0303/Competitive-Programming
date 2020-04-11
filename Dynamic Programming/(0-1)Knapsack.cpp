@@ -41,7 +41,7 @@ int main() {
             if (i == 0 || j == 0) //base case 
                 dp[i][j] = 0;
             else if (weight[i] <= j)     
-                dp[i][j] = max(dp[i - 1][j], val[i] + dp[i - 1][j - val[i]]);
+                dp[i][j] = max(dp[i - 1][j], val[i] + dp[i - 1][j - weight[i]]);
             else                         
                 dp[i][j] = dp[i - 1][j];
         }
