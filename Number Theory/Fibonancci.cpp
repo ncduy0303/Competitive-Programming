@@ -46,6 +46,18 @@ matrix qfib(int N) {
     return half;
 }
 
+// Simpler implementation using C++ STL vector
+vector<long long> fib(long long n) {
+    if (n == 1) return {0, 1, 1, 1,};
+    vector<long long> mx = fib(n / 2);
+    mx = {((mx[0] * mx[0]) % MOD + (mx[1] * mx[2]) % MOD) % MOD,
+          ((mx[0] * mx[1]) % MOD + (mx[1] * mx[3]) % MOD) % MOD,
+          ((mx[2] * mx[0]) % MOD + (mx[3] * mx[2]) % MOD) % MOD,
+          ((mx[2] * mx[1]) % MOD + (mx[3] * mx[3]) % MOD) % MOD};
+    if (n % 2) mx = {mx[1], (mx[0] + mx[1]) % MOD, mx[3], (mx[2] + mx[3]) % MOD};
+    return mx;
+}
+
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
@@ -53,5 +65,6 @@ int main() {
     //freopen("output.txt", "w", stdout);
   
     int N; cin >> N;
-    cout << qfib(N).m[0][1];
+    cout << qfib(N).m[0][1] << "\n";
+    cout << fib(N + 1)[0] << "\n";
 }
