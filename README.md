@@ -40,6 +40,7 @@ My own templates and implementation of important algorithms and data structures 
   - [Greatest Common Divisor (Euclidean Algorithm)](https://github.com/ncduy0303/Competitive-Programming/blob/master/Number%20Theory/GCD.cpp)
   - [Quick Exponentiation](https://github.com/ncduy0303/Competitive-Programming/blob/master/Number%20Theory/Quick_Exponention.cpp)
   - [Fibonancci](https://github.com/ncduy0303/Competitive-Programming/blob/master/Number%20Theory/Fibonancci.cpp)
+  - [Binomial Coefficients](https://github.com/ncduy0303/Competitive-Programming/blob/master/Number%20Theory/Binomial%20Coefficients.cpp)
 
 ## Computational Geometry
   - [Sweep Line](https://github.com/ncduy0303/Competitive-Programming/tree/master/Computational%20Geometry/Sweep%20Line%20Algorithm)
