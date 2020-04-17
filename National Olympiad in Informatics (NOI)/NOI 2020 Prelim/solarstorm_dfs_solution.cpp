@@ -24,7 +24,6 @@ typedef vector<vi> vvi;
 // next_k[i] stores the rightmost module that can be protected if a shield is placed on module i
 // next_k[next_k[i]] stores the rightmost module that can be protected by the same shield that is protecting module i
 long long N, S, K, next_k[MAX_N], ans[MAX_N];
-pair<long long, long long> par[MAX_N];
 long long v[MAX_N], d[MAX_N];
 vector<long long> children[MAX_N], ancestors;
 
