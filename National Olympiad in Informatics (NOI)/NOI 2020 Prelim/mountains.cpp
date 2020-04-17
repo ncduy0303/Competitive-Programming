@@ -22,8 +22,9 @@ typedef vector<vi> vvi;
 #define LSOne(S) (S & (-S))
 #define isBitSet(S, i) ((S >> i) & 1)
 
-int N, height[MAX_N], ft[MAX_N], smallLeft[MAX_N], smallRight[MAX_N], ans = 0;
-pair<int, int> arr[MAX_N];
+int N, ft[MAX_N];
+pair<long long, int> arr[MAX_N];
+long long height[MAX_N], smallLeft[MAX_N], smallRight[MAX_N], ans = 0;
 
 void adjust(int x, int v) {
     for(; x <= N; x += LSOne(x))
@@ -40,8 +41,8 @@ int sum(int x) {
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
+    //freopen("input.txt", "r", stdin);
+    //freopen("output.txt", "w", stdout);
 
     cin >> N;
     for(int i = 1; i <= N; i++) {
