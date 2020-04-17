@@ -1,16 +1,16 @@
-/* NOI 2020 Prelim: Visiting Singapore
-Idea: Dynamic Programming
-Time Complexity: O(NM)
+/* NOI 2020 Prelim: Solar Storm
+Idea: DFS
+Time Complexity: O(N)
 */
 
 #include <bits/stdc++.h>
 
 using namespace std;
 
-const int INF = 1 << 30;
 const int MAX_N = 1000000 + 5;
 const int MAX_L = 20; // ~ Log N
 const long long MOD = 1e9 + 7;
+const long long INF = 1e18;
 
 typedef long long ll;
 typedef vector<int> vi;
@@ -23,17 +23,21 @@ typedef vector<vi> vvi;
 
 // next_k[i] stores the rightmost module that can be protected if a shield is placed on module i
 // next_k[next_k[i]] stores the rightmost module that can be protected by the same shield that is protecting module i
-int N, S, K, next_k[MAX_N], ans[MAX_N];
-pair<int, int> par[MAX_N];
+long long N, S, K, next_k[MAX_N], ans[MAX_N];
+pair<long long, long long> par[MAX_N];
 long long v[MAX_N], d[MAX_N];
+vector<long long> children[MAX_N], ancestors;;
 
-int dfs(int u, int depth) {
-    if(depth == 0) return u;
-    if(u == N) return N;
+void dfs(long long u) {
+    if (ancestors.size() < S)
+        ans[u] = N;
+    else
+        ans[u] = ancestors[ancestors.size() - S];
 
-    int res = par[u].second ? dfs(par[u].first, depth - par[u].second) : dfs(next_k[next_k[u]] + 1, depth - 1);
-    par[u] = {res, depth};
-    return res;
+    ancestors.push_back(u);
+    for (long long x : children[u])
+        dfs(x);
+    ancestors.pop_back();
 }
 
 int main() {
@@ -53,21 +57,24 @@ int main() {
         v[i] += v[i - 1];
     }
 
-    int cur = 0;
+    long long cur = 0;
     for(int i = 0; i < N; i++){
         while(d[cur + 1] - d[i] <= K) cur++;
         next_k[i] = cur;
     }
 
-    for(int i = 0; i < N; i++)
-        ans[i] = dfs(i, S);
+    for (int i = 0; i < N; i++)
+        children[next_k[next_k[i]] + 1].push_back(i);
 
-    int best_index = 0;
+    for (long long x : children[N])
+        dfs(x);
+
+    long long best_index = 0;
     for(int i = 1; i < N; i++)
         if(v[ans[i]] - v[i] > v[ans[best_index]] - v[best_index])
             best_index = i;
 
-    int cnt = 0, tmp = best_index;
+    long long cnt = 0, tmp = best_index;
     while(tmp < N && cnt < S) {
         tmp = next_k[next_k[tmp]];
         cnt++;
@@ -75,10 +82,9 @@ int main() {
     cout << cnt << "\n";
 
     best_index = next_k[best_index];
-    cout << best_index + 1; cnt--;
-    while(cnt > 0) {
+    cout << best_index + 1 << " ";
+    while(--cnt > 0) {
         best_index = next_k[next_k[best_index] + 1];
-        cout << " " << best_index + 1;
-        cnt--;
+        cout << best_index + 1 << " ";
     }
 }
