@@ -28,7 +28,7 @@ pair<long long, long long> par[MAX_N];
 long long v[MAX_N], d[MAX_N];
 vector<long long> children[MAX_N], ancestors;
 
-void dfs(long long u) {
+void dfs(long long u) { // running dfs to find the rightmost proteced value at most S shields for each chosen module as the the left most protected
     if (ancestors.size() < S)
         ans[u] = N;
     else
@@ -71,7 +71,7 @@ int main() {
 
     long long best_index = 0;
     for(int i = 1; i < N; i++)
-        if(v[ans[i]] - v[i] > v[ans[best_index]] - v[best_index])
+        if(v[ans[i]] - v[i] > v[ans[best_index]] - v[best_index]) // using prefix sum to quickly calculate the best position for the left most protected module
             best_index = i;
 
     long long cnt = 0, tmp = best_index;
