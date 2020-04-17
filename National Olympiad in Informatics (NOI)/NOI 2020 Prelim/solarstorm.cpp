@@ -26,7 +26,7 @@ typedef vector<vi> vvi;
 long long N, S, K, next_k[MAX_N], ans[MAX_N];
 pair<long long, long long> par[MAX_N];
 long long v[MAX_N], d[MAX_N];
-vector<long long> children[MAX_N], ancestors;;
+vector<long long> children[MAX_N], ancestors;
 
 void dfs(long long u) {
     if (ancestors.size() < S)
