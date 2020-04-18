@@ -40,18 +40,18 @@ void update(int node, int start, int end, int idx, int val){ //add val to arr[id
     }
     else {
         int mid = (start + end) / 2;
-        update(2 * node, start, mid, idx, val);
-        update(2 * node + 1, mid + 1, end, idx, val);
+        if (idx <= mid) update(2 * node, start, mid, idx, val);
+        else update(2 * node + 1, mid + 1, end, idx, val);
         st[node] = st[2 * node] + st[2 * node + 1];
     }
 }
 
 int rsq(int node, int start, int end, int l, int r){ //range sum query in [l..r]
-    if(start > r || end < l) return 0; // remember to change to INF for min query
-    if(start >= l && end <= r) return st[node];
+    if (l > r) return 0; // remember to change to INF for min query nad -INF for max query
+    if (start == l && end == r) return st[node];
 
     int mid = (start + end) / 2;
-    return rsq(2 * node, start, mid, l, r) + rsq(2 * node + 1, mid + 1, end, l, r);
+    return rsq(2 * node, start, mid, l, min(r, mid)) + rsq(2 * node + 1, mid + 1, end, max(l, mid + 1), r);
 }
 
 int main() {
