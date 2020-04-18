@@ -34,9 +34,9 @@ void build(int node, int start, int end) {
 }
 
 void update(int node, int start, int end, int idx, int val){ //add val to arr[idx]
-    if(start == end) {
+    if (start == end) {
         arr[idx] += val;
-        st[node] + val;
+        st[node] += val;
     }
     else {
         int mid = (start + end) / 2;
@@ -47,9 +47,9 @@ void update(int node, int start, int end, int idx, int val){ //add val to arr[id
 }
 
 int rsq(int node, int start, int end, int l, int r){ //range sum query in [l..r]
-    if(start > r || end < l) return 0;
+    if(start > r || end < l) return 0; // remember to change to INF for min query
     if(start >= l && end <= r) return st[node];
-    
+
     int mid = (start + end) / 2;
     return rsq(2 * node, start, mid, l, r) + rsq(2 * node + 1, mid + 1, end, l, r);
 }
@@ -59,18 +59,18 @@ int main() {
     cin.tie(0); cout.tie(0);
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
-    
+
     cin >> N >> Q;
-    for(int i = 0; i < N; i++){ 
+    for (int i = 1; i <= N; i++) { // using 1-indexed
         cin >> arr[i];
     }
     build(1, 1, N);
-    while(Q--){
+    while (Q--) {
         int t; cin >> t;
-        if(t == 0) { // update
+        if (t == 0) { // update
             int idx, val; cin >> idx >> val;
             update(1, 1, N, idx, val);
-        } 
+        }
         else {
             int l, r; cin >> l >> r;
             cout << rsq(1, 1, N, l, r) << "\n";
