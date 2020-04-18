@@ -1,6 +1,6 @@
 // Answer range query for static array
 // O(nlogn) construction
-// Usually O(logn) for each query, but can be modified to be O(1) for queries that can overlap (i.e minimum/maximum, gcd) 
+// Usually O(logn) for each query, but can be modified to be O(1) for queries that can overlap (i.e minimum/maximum, gcd)
 
 #include <bits/stdc++.h>
 
@@ -29,11 +29,11 @@ void build_log_table() { // for O(1) range minimum query
 }
 
 void build_sparse_table() { // O(nlogn)
-    for(int i = 0; i < N; i++)
+    for(int i = 1; i <= N; i++)
         table[i][0] = arr[i];
 
     for(int j = 1; j <= MAX_L; j++) {
-        for(int i = 0; i + (1 << j) <= N; i++)
+        for(int i = 1; i + (1 << j) <= N; i++)
             table[i][j] = min(table[i][j - 1], table[i + (1 << (j - 1))][j - 1]);
     }
 }
@@ -59,7 +59,7 @@ int main() {
     cin.tie(0); cout.tie(0);
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
-    
+
     cin >> N >> Q;
     for(int i = 1; i <= N; i++) {
         cin >> arr[i];
