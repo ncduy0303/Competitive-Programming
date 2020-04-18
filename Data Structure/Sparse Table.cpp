@@ -33,7 +33,7 @@ void build_sparse_table() { // O(nlogn)
         table[i][0] = arr[i];
 
     for(int j = 1; j <= MAX_L; j++) {
-        for(int i = 1; i + (1 << j) <= N; i++)
+        for(int i = 1; i + (1 << j) <= N + 1; i++)
             table[i][j] = min(table[i][j - 1], table[i + (1 << (j - 1))][j - 1]);
     }
 }
