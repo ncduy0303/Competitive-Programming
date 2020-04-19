@@ -39,13 +39,12 @@ int main() {
     for (int i = 1; i <= N - 1; i++) dp[i][i + 1] = p[i - 1] * p[i] * p[i + 1];
     // l is the length of the chain
     for (int l = 2; l <= N - 1; l++) {
-        for (int i = 1; i <= N - l; i++) {
-            int j = i + l;
+        for (int i = 1, j = i + l; j <= N; i++, j++) {
             dp[i][j] = INF;
             for (int k = i; k <= j - 1; k++) {
                 dp[i][j] = min(dp[i][j], dp[i][k] + dp[k + 1][j] + p[i - 1] * p[k] * p[j]);
             }
         }
     }
-    cout << dp[1][N];  
+    cout << dp[1][N];
 }
