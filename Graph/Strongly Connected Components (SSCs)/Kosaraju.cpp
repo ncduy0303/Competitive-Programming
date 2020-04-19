@@ -23,7 +23,7 @@ typedef vector<vi> vvi;
 #define isBitSet(S, i) ((S >> i) & 1)
 
 int V, E, numSCC = 0, visited[MAX_N];
-vector<int> adj[MAX_N], adj_T[MAX_N], S;
+vector<int> adj[MAX_N], adj_T[MAX_N], dfn;
 
 void Kosaraju(int u, int pass) {
     visited[u] = 1;
@@ -32,7 +32,7 @@ void Kosaraju(int u, int pass) {
             int v = adj[u][i];
             if (!visited[v]) Kosaraju(v, 1); // first time visited
         }
-        S.push_back(u);
+        dfn.push_back(u);
     }
     else { // 2nd pass
         cout << u << " ";
@@ -63,9 +63,9 @@ int main() {
 
     memset(visited, 0, sizeof visited);
     for (int i = V - 1; i >= 0; i--) {
-        if (!visited[S[i]]) {
+        if (!visited[dfn[i]]) {
             cout << "SCC " << ++numSCC << ": ";
-            Kosaraju(S[i], 2);
+            Kosaraju(dfn[i], 2);
             cout << "\n";
         }
     }
