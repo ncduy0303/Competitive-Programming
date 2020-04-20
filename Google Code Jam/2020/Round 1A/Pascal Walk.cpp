@@ -12,18 +12,18 @@ Notice that the entries in the r-th row (counting starting from 1) sum to 2^r-1
 using namespace std;
 
 void solve() {
-    	int N; cin >> N;
-    	// trivial construction for very small n
+    int N; cin >> N;
+    // trivial construction for very small n
 	if (N < 30) {
 		for (int i = 0; i < N; i++)
 			cout << i + 1 << " 1\n";
 		return;
 	}
-    	// construction for big n based on binary
-    	N -= 30;
+    // construction for big n based on binary
+    N -= 30;
 	int m = 0;
 	bool left = true;
-    	for (int i = 0; i < 30; i++) {
+    for (int i = 0; i < 30; i++) {
         	// move to current row
 		cout << i + 1 << " " << (left ? 1 : i + 1) << "\n";
 		if (N >> i & 1) {
@@ -37,7 +37,7 @@ void solve() {
 			// add 1 to m to add the additional 1 later
 			m++;
 		}
-    	}
+    }
     	// add some additional ones
 	for (int i = 30; m; m--, i++) {
 		// move to current row
