@@ -42,19 +42,19 @@ int main() {
     for(int i = 0; i < N; i++) cin >> arr[i];
 
     int j, idx = 0;
-    for(int i = 0; i < N; i = j) {
+    for (int i = 0; i < N; i = j) {
 		b[idx].sum = 0;
 		b[idx].l = idx - 1;
 		b[idx].r = idx + 1;
 
-		for(j = i; j < N && (arr[i] * arr[j] >= 0); j++) // arr[i] and arr[j] must have the same sign
+		for (j = i; j < N && (arr[i] * arr[j] >= 0); j++) // arr[i] and arr[j] must have the same sign
 			b[idx].sum += arr[j];
 
-		if(!(b[idx].sum < 0 && idx == 0)) idx++; // remove the first block if it is negative
+		if (!(b[idx].sum < 0 && idx == 0)) idx++; // remove the first block if it is negative
 	}
 
-	if(idx != 0 && b[idx - 1].sum < 0) idx--; // remove the last block if it is negative
-	if(idx == 0) { // if after remove, there's nothing left
+	if (idx != 0 && b[idx - 1].sum < 0) idx--; // remove the last block if it is negative
+	if (idx == 0) { // if after remove, there's nothing left
 		cout << 0;
 		return 0;
 	}
