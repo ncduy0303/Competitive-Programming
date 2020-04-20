@@ -24,20 +24,20 @@ int N, Q, dp[MAX_N][MAX_L + 1], tin[MAX_N], tout[MAX_N], timer = 0;
 bool visited[MAX_N] = {false};
 vector<int> adj[MAX_N];
 
-void dfs(int u, int p) {
+void dfs(int u, int p) { // dfs to fill in the 2^k ancestors of each node
     if(visited[u]) return;
     visited[u] = true;
-    
+
     tin[u] = timer++;
     dp[u][0] = p; // direct parent (2^0 = 1)
-    
-    for(int i = 1; i <= MAX_L; i++) 
+
+    for(int i = 1; i <= MAX_L; i++)
         dp[u][i] = dp[dp[u][i - 1]][i - 1];
-    
+
     for(int v : adj[u])
         if(!visited[v])
             dfs(v, u);
-    
+
     tout[u] = timer++;
 }
 
@@ -48,11 +48,11 @@ bool is_ancestor(int u, int v){ // check if u is an ancestor of v
 int LCA(int u, int v) {
     if(is_ancestor(u, v)) return u;
     if(is_ancestor(v, u)) return v;
-    
+
     for (int i = MAX_L; i >= 0; i--)
         if (!is_ancestor(dp[u][i], v))
             u = dp[u][i];
-    
+
     return dp[u][0];
 }
 
@@ -61,7 +61,7 @@ int main() {
     cin.tie(0); cout.tie(0);
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
-    
+
     cin >> N >> Q;
     for(int i = 0; i < N - 1; i++) {
         int u, v; cin >> u >> v;
