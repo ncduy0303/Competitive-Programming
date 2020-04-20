@@ -27,7 +27,7 @@ long long ps[MAX_N];
 stack<pair<int, int> > s;
 
 void update(int val, int pos) {
-	while(!s.empty() && s.top().first < val) {
+	while (!s.empty() && s.top().first < val) {
 		auto p = s.top(); s.pop();
 		long long value = (pos - p.second) * (p.second - s.top().second);
 		ps[p.first] += value;
@@ -43,16 +43,16 @@ int main() {
 
     cin >> N >> Q;
     s.push({MAX_N, -1}); //left extreme
-    for(int i = 0; i < N; i++) {
+    for (int i = 0; i < N; i++) {
         int val; cin >> val;
         update(val, i);
     }
     update(MAX_N, N); //right extreme
 
-    for(int i = 1; i < MAX_N; i++)
+    for (int i = 1; i < MAX_N; i++)
         ps[i] += ps[i - 1];
 
-    while(Q--) {
+    while (Q--) {
         int x; cin >> x;
         cout << ps[x] << "\n";
     }
