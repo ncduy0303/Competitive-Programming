@@ -64,12 +64,12 @@ int main() {
     cin >> B;
     for(int i = 0; i < B; i++) {
         int r, c; cin >> r >> c;
-        if(!bef[r][c]) 
-	    check[r][c] = true;
-	else {
-	    cout << 0;
-	    return 0;
-	}
+        if(!bef[r][c])
+            check[r][c] = true;
+        else {
+            cout << 0;
+            return 0;
+        }
     }
     solve(1);
     cout << ans;
