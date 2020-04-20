@@ -1,4 +1,4 @@
-/* 
+/*
 Given a string S (with length N) and a pattern P (with length M), find all the occurrence of P in S
 Naive Approach: O(NM)
 KMP Time complexity: O(N + M)
@@ -25,22 +25,22 @@ typedef vector<vi> vvi;
 
 int kmp[MAX_N];
 
-void kmp_preprocess(string P){
+void kmp_preprocess(string P) {
     int i = 0, j = -1; kmp[0] = -1;
-    while(i < P.size()){ // pre-process the pattern string P
-        while(j >= 0 && P[i] != P[j]) j = kmp[j];// if different, reset j using kmp array
+    while (i < P.size()) { // pre-process the pattern string P
+        while (j >= 0 && P[i] != P[j]) j = kmp[j];// if different, reset j using kmp array
         i++; j++; // if same, advance both pointers
         kmp[i] = j;
     }
 }
 
-void kmp_search(string S, string P){
+void kmp_search(string S, string P) {
     int i = 0, j = 0;
-    while(i < S.size()){
-        while(j >= 0 && S[i] != P[j]) j = kmp[j];
+    while (i < S.size()) {
+        while (j >= 0 && S[i] != P[j]) j = kmp[j];
         i++; j++;
-        if(j == P.size()){ //find a match
-            printf("P is found at index %d in S\n", i-j);
+        if (j == P.size()) { //find a match
+            printf("P is found at index %d in S\n", i - j);
             j = kmp[j]; // prepare j for the next possible match
         }
     }
@@ -51,8 +51,8 @@ int main() {
     cin.tie(0); cout.tie(0);
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
-  
+
     string S, P; cin >> S >> P;
-    kmp_preprocess(P); 
+    kmp_preprocess(P);
     kmp_search(S, P);
 }
