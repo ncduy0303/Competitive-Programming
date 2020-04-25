@@ -53,3 +53,7 @@ My profile: [Codeforces](https://codeforces.com/profile/caoduy73), [Dunjudge.me]
 ## Other Classic Problems
   - [N-queen](https://github.com/ncduy0303/Competitive-Programming/blob/master/Other%20Classic%20Problems/N_Queens.cpp)
   - [Maximum Histogram Area](https://github.com/ncduy0303/Competitive-Programming/blob/master/Other%20Classic%20Problems/Maximum%20Histogram%20Area.cpp)
+  
+## Contests & Competitions
+  - [Google Code Jam](https://github.com/ncduy0303/Competitive-Programming/tree/master/Google%20Code%20Jam)
+  - [Singapore National Olympiad in Informatics (NOI)](https://github.com/ncduy0303/Competitive-Programming/tree/master/National%20Olympiad%20in%20Informatics%20(NOI))
