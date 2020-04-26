@@ -1,6 +1,9 @@
 # Competitive Programming
 My own templates and implementation of important algorithms and data structures for competitive programming purposes
 
+
+My profile: [Codeforces](https://codeforces.com/profile/caoduy73), [Dunjudge.me](https://dunjudge.me/users/g1760382k/)
+
 ## Contest templates
   - [My template C++](https://github.com/ncduy0303/Competitive-Programming/blob/master/Contest%20templates/cp_template.cpp)
 
@@ -31,6 +34,7 @@ My own templates and implementation of important algorithms and data structures 
   - [Segment Tree](https://github.com/ncduy0303/Competitive-Programming/tree/master/Data%20Structure/Segment%20Tree)
   - [SQRT Decomposition + Mo's Algoithm](https://github.com/ncduy0303/Competitive-Programming/blob/master/Data%20Structure/Mo-Algo.cpp)
   - [Union-Find Disjoint Sets](https://github.com/ncduy0303/Competitive-Programming/blob/master/Data%20Structure/UFDS.cpp)
+  - [Policy-based data structures C++ STL](https://github.com/ncduy0303/Competitive-Programming/blob/master/Data%20Structure/Policy_based_DT.cpp) 
   
 ## String Algorithm
   - Pattern Searching ([KMP](https://github.com/ncduy0303/Competitive-Programming/blob/master/String%20Algorithm/KMP.cpp), [Z-Algorithm](https://github.com/ncduy0303/Competitive-Programming/blob/master/String%20Algorithm/Z-algo.cpp))
@@ -48,3 +52,8 @@ My own templates and implementation of important algorithms and data structures 
   
 ## Other Classic Problems
   - [N-queen](https://github.com/ncduy0303/Competitive-Programming/blob/master/Other%20Classic%20Problems/N_Queens.cpp)
+  - [Maximum Histogram Area](https://github.com/ncduy0303/Competitive-Programming/blob/master/Other%20Classic%20Problems/Maximum%20Histogram%20Area.cpp)
+  
+## Contests & Competitions
+  - [Google Code Jam](https://github.com/ncduy0303/Competitive-Programming/tree/master/Google%20Code%20Jam)
+  - [Singapore National Olympiad in Informatics (NOI)](https://github.com/ncduy0303/Competitive-Programming/tree/master/National%20Olympiad%20in%20Informatics%20(NOI))
