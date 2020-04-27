@@ -65,7 +65,7 @@ void precompute() {
 	}
 }
 
-long long coefficient2(int n, int k) { // Calculate C(n, k) using precomputed table
+long long coefficient2(int n, int k) { // Calculate nCk using precomputed table
     if (k < 0 || k > n) return 0;
 	return fact[n] * invf[k] % MOD * invf[n - k] % MOD;
 }
