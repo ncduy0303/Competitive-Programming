@@ -24,7 +24,7 @@ void solve() {
 	int m = 0;
 	bool left = true;
     for (int i = 0; i < 30; i++) {
-        	// move to current row
+        // move to current row
 		cout << i + 1 << " " << (left ? 1 : i + 1) << "\n";
 		if (N >> i & 1) {
 			if (left)
@@ -38,7 +38,7 @@ void solve() {
 			m++;
 		}
     }
-    	// add some additional ones
+    // add some additional ones
 	for (int i = 30; m; m--, i++) {
 		// move to current row
 		cout << i + 1 << " " << (left ? 1 : i + 1) << "\n";
@@ -46,14 +46,14 @@ void solve() {
 }
 
 int main() {
-    	ios_base::sync_with_stdio(0);
-    	cin.tie(0); cout.tie(0);
-    	freopen("input.txt", "r", stdin);
-    	freopen("output.txt", "w", stdout);
+    ios_base::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
 
-    	int TC; cin >> TC;
-    	for (int t = 1; t <= TC; t++) {
-        	cout << "Case #" << t << ":\n";
-        	solve();
-    	}
+    int TC; cin >> TC;
+    for (int t = 1; t <= TC; t++) {
+        cout << "Case #" << t << ":\n";
+        solve();
+    }
 }
