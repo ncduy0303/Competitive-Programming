@@ -1,4 +1,4 @@
-/* 
+/*
 Given a string S (with length N) and a pattern P (with length M), find all the occurrence of P in S
 Naive Approach: O(NM)
 Z-algorithm Time complexity: O(N + M)
@@ -24,26 +24,27 @@ typedef vector<vi> vvi;
 
 void Z_Algo(string S, string P) {
     string T = P + "#" + S;
-    int Z[T.size()], l = 0, r = 0; 
+    int Z[T.size()], l = 0, r = 0;
     Z[0] = T.size();
-    
-    for(int i = 0; i < T.size(); i++) {
-        if(i > r) {
+
+    for (int i = 0; i < T.size(); i++) {
+        if (i > r) {
             l = r = i;
             while(r < T.size() && T[r] == T[r - l]) r++;
             Z[i] = r - l;
             r--;
-        } else {
+        }
+        else {
             int k = i - l;
             if (Z[k] < r - i + 1) Z[i] = Z[k];
             else {
                 l = i;
                 while (r < T.size() && T[r] == T[r - l]) r++;
-                Z[i] = r - l; 
+                Z[i] = r - l;
                 r--;
             }
         }
-        if(Z[i] == P.size()) 
+        if (Z[i] == P.size())
             printf("P is found at index %d in S\n", i - P.size() - 1);
     }
 }
@@ -53,7 +54,7 @@ int main() {
     cin.tie(0); cout.tie(0);
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
-  
+
     string S, P; cin >> S >> P;
     Z_Algo(S, P);
 }
