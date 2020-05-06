@@ -29,10 +29,10 @@ typedef vector<vi> vvi;
 #define LSOne(S) (S & (-S))
 #define isBitSet(S, i) ((S >> i) & 1)
 
-int N, M, visited[MAX_N][MAX_N];
+int N, M, visited[MAX_N][MAX_N], mark_row[MAX_N], mark_col[MAX_N];
 char grid[MAX_N][MAX_N];
-int dr[] = {1, 1, 0, -1, -1, -1, 0, 1};
-int dc[] = {0, 1 ,1, 1, 0, -1, -1, -1};
+int dr[8] = {1, 1, 0, -1, -1, -1, 0, 1};
+int dc[8] = {0, 1 ,1, 1, 0, -1, -1, -1};
 
 void floodfill (int r, int c) {
     if (r < 0 || c < 0 || r >= N || c >= M) return;
@@ -40,7 +40,7 @@ void floodfill (int r, int c) {
 
     visited[r][c] = 1;
     for (int d = 0; d < 8; d++)
-        floodfill(r + dr[r], c + dc[c]);
+        floodfill(r + dr[d], c + dc[d]);
 }
 
 int main() {
