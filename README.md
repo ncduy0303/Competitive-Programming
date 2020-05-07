@@ -16,7 +16,7 @@ My profile: [Codeforces](https://codeforces.com/profile/caoduy73), [Dunjudge.me]
   - [Bridges and Articulation Points](https://github.com/ncduy0303/Competitive-Programming/blob/master/Graph/Bridges_ArticulationPoints.cpp)
   - Strongly Connected Components ([Tarjan](https://github.com/ncduy0303/Competitive-Programming/blob/master/Graph/Strongly%20Connected%20Components%20(SSCs)/TarjanSCC.cpp), [Kosaraju](https://github.com/ncduy0303/Competitive-Programming/blob/master/Graph/Strongly%20Connected%20Components%20(SSCs)/Kosaraju.cpp))
   - [Bipartite Matching](https://github.com/ncduy0303/Competitive-Programming/blob/master/Graph/Bipartite.cpp)
-  - [Topological Sort](https://github.com/ncduy0303/Competitive-Programming/blob/master/Graph/Topological%20Sort.cpp)
+  - Topological Sort ([DFS](https://github.com/ncduy0303/Competitive-Programming/blob/master/Graph/Topological%20Sort/Topological%20Sort%20(DFS).cpp), [in_deg](https://github.com/ncduy0303/Competitive-Programming/blob/master/Graph/Topological%20Sort/Topological%20Sort%20(in_deg).cpp))
   - Maximum FLow ([Edmonds-Karp](https://github.com/ncduy0303/Competitive-Programming/blob/master/Graph/Edmonds_Karp.cpp))
   - Lowest Common Ancestor ([Binary Lifting](https://github.com/ncduy0303/Competitive-Programming/blob/master/Graph/Lowest%20Common%20Ancestor/LCA(Binary%20Lifting).cpp), [RMQ](https://github.com/ncduy0303/Competitive-Programming/blob/master/Graph/Lowest%20Common%20Ancestor/LCA(RMQ).cpp))
   
