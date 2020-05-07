@@ -43,7 +43,6 @@ int main() {
     for (int i = 0; i < E; i++) {
         int x, y; cin >> x >> y;
         adj[x].push_back(y); 
-        adj[y].push_back(x);
     }
     for (int i = 0; i < V; i++) {
         if (!visited[i]) {
