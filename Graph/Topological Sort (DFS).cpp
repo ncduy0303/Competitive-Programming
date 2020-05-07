@@ -1,3 +1,5 @@
+// Idea: notice that traversal path of a typical DFS is a reverse topological order
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -16,7 +18,7 @@ typedef vector<vi> vvi;
 #define LSOne(S) (S & (-S))
 #define isBitSet(S, i) ((S >> i) & 1)
 
-int V, E, visited[MAX_N] = {0};
+int V, E, visited[MAX_N];
 vector<int> adj[MAX_N];
 vector<int> topo;
 //For a rooted tree, an array par[MAX_N] storing nodes' direct ancestors can be used instead of adjacent list adj
@@ -38,11 +40,16 @@ int main() {
     //freopen("output.txt", "w", stdout);
   
     cin >> V >> E;
-    for(int i = 0; i < E; i++) {
+    for (int i = 0; i < E; i++) {
         int x, y; cin >> x >> y;
-        adj[x].push_back(y); adj[y].push_back(x);
+        adj[x].push_back(y); 
+        adj[y].push_back(x);
     }
-    dfs(0);    
+    for (int i = 0; i < V; i++) {
+        if (!visited[i]) {
+            dfs(i);
+        }
+    }
     reverse(topo.begin(), topo.end());
     for(int i = 0; i < topo.size(); i++)
         cout << topo[i] << " ";
