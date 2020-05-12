@@ -23,15 +23,45 @@ vector<int> sieve(int N) {
     bool prime[N + 1] = {true};
     vector<int> ans;
     prime[0] = prime[1] = false;
-    for(int p = 2; p * p <= N; p++) 
-        if(prime[p])
-            for(int i = p * 2; i <= N; i += p)
+    for (int p = 2; p * p <= N; p++)
+        if (prime[p])
+            for (int i = p * 2; i <= N; i += p)
                 prime[i] = false;
-                
-    for(int p = 2; p <= N; p++)
-        if(prime[p])
+
+    for (int p = 2; p <= N; p++)
+        if (prime[p])
             ans.push_back(p);
     return ans;
+}
+
+// Modified sieve to make enable prime factorization in log(n)
+// Instead of just storing whether a number is prime, we will store the its smallest prime factor greater than 1
+
+int spf[MAX_N + 1];
+vector<int> primes;
+
+void sieve1() {
+    for (int p = 1; p <= MAX_N; p++)
+        spf[p] = p;
+
+    for (int p = 2; p * p <= MAX_N; p++)
+        if (spf[p] == p)
+            for (int i = p * 2; i <= MAX_N; i += p)
+                if (spf[i] == i) // if prime
+                    spf[i] = p;
+
+    for (int p = 2; p <= MAX_N; p++)
+        if (spf[p] == p)
+            primes.push_back(p);
+}
+
+vector<int> factorize(int x) {
+    vector<int> res;
+    while (x != 1) {
+        res.push_back(spf[x]);
+        x = x / spf[x];
+    }
+    return res;
 }
 
 int main() {
@@ -39,6 +69,6 @@ int main() {
     cin.tie(0); cout.tie(0);
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
-  
+
     int N; cin >> N;
 }
