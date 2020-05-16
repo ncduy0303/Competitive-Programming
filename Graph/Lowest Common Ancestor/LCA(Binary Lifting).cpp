@@ -21,21 +21,17 @@ typedef vector<vi> vvi;
 #define isBitSet(S, i) ((S >> i) & 1)
 
 int N, Q, dp[MAX_N][MAX_L + 1], tin[MAX_N], tout[MAX_N], timer = 0;
-bool visited[MAX_N] = {false};
 vector<int> adj[MAX_N];
 
 void dfs(int u, int p) { // dfs to fill in the 2^k ancestors of each node
-    if(visited[u]) return;
-    visited[u] = true;
-
     tin[u] = timer++;
     dp[u][0] = p; // direct parent (2^0 = 1)
 
-    for(int i = 1; i <= MAX_L; i++)
+    for (int i = 1; i <= MAX_L; i++)
         dp[u][i] = dp[dp[u][i - 1]][i - 1];
 
-    for(int v : adj[u])
-        if(!visited[v])
+    for (int v : adj[u])
+        if (v != par)
             dfs(v, u);
 
     tout[u] = timer++;
