@@ -44,7 +44,7 @@ tdata make(int val) {
 }
 
 void build(int node, int start, int end) {
-    if(start == end)
+    if (start == end)
         st[node] = make(arr[start]);
     else {
         int mid = (start + end) / 2;
