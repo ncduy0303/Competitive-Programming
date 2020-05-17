@@ -65,7 +65,7 @@ void solve() {
         int idx = getFirstGreater(1, 0, N - 1, 0, N - 1, val);
         if (idx == -1) cout << 0 << " ";
         else {
-            cout << idx + 1<< " ";
+            cout << idx + 1 << " ";
             update(1, 0, N - 1, idx, -val);
         }
     }
