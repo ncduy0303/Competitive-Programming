@@ -21,7 +21,7 @@ typedef vector<vi> vvi;
 int ft[MAX_N] = {0}, arr[MAX_N], N, Q;
 
 void adjust(int x, int v) {
-    for(; x <= N; x += LSOne(x))
+    for (; x <= N; x += LSOne(x))
         ft[x] += v;
 }
 
@@ -41,13 +41,13 @@ int main() {
     cin.tie(0); cout.tie(0);
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
-    
+
     cin >> N >> Q;
     for(int i = 1; i <= N; i++) {
         cin >> arr[i];
         adjust(i, arr[i]);
     }
-    
+
     while(Q--) {
         int t; cin >> t;
         if (t == 0) { //query
