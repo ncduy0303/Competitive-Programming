@@ -21,7 +21,7 @@ typedef vector<vi> vvi;
 #define LSOne(S) (S & (-S))
 #define isBitSet(S, i) ((S >> i) & 1)
 
-int N, M, table[MAX_N][MAX_N], ans = -INF;
+int N, M, table[MAX_N][MAX_N];
 
 int main() {
     ios_base::sync_with_stdio(0);
@@ -39,15 +39,16 @@ int main() {
     }
 
     // 2D max sum subarray
-    int tmp[N], start, finish, cur, ans = -INF;
-    int finalLeft, finalRight, finalTop, finalBottom;
+    int ans = -INF;
     for (int l = 0; l < M; l++) { // looping through all pairs of columns, running kanade on a column
-        for (int r = l; r < N; r++) {
+        for (int r = l; r < M; r++) {
             int cur = 0;
-            if (l > 0) cur += A[i][r] - A[i][l - 1];
-            else cur += A[i][r];
-            cur = max(cur, 0); // restart if negative
-            ans = max(ans, cur);
+            for (int i = 0; i < N; i++) {
+                if (l > 0) cur += table[i][r] - table[i][l - 1];
+                else cur += table[i][r];
+                cur = max(cur, 0); // restart if negative
+                ans = max(ans, cur);
+            }
         }
     }
     cout << "Max sum is: " << ans;
