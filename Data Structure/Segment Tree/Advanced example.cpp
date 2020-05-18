@@ -27,19 +27,19 @@ struct tdata {
 int N, Q, arr[MAX_N];
 tdata st[4 * MAX_N];
 
+tdata make(int val) {
+    tdata res;
+    res.sum = val;
+    res.ans = res.pref = res.suff = max(0, val);
+    return res;
+}
+
 tdata combine(tdata l, tdata r) {
     tdata res;
     res.sum = l.sum + r.sum;
     res.pref = max(l.pref, l.sum + r.pref);
     res.suff = max(r.suff, r.sum + l.suff);
     res.ans = max(max(l.ans, r.ans), l.suff + r.pref);
-    return res;
-}
-
-tdata make(int val) {
-    tdata res;
-    res.sum = val;
-    res.ans = res.pref = res.suff = max(0, val);
     return res;
 }
 
