@@ -34,7 +34,7 @@ long long qmult(long long A, long long B, long long M) { // multiplication using
     long long half = qmult(A, B/2, M);
     half += half;
     half %= M;
-    if (B % 2 == 1) half *= half; 
+    if (B % 2 == 1) half += A % M;
     return half %= M;
 }
 long long qexp(long long A, long long B, long M) { // only works if M fits in the range of 32-bit signed integer
@@ -43,16 +43,16 @@ long long qexp(long long A, long long B, long M) { // only works if M fits in th
     half = qmult(half, half, M); //qmult is required to ensure this operation does not overflow
     half %= M;
     if (B % 2 == 1) half *= A % M;  //Compensate the 'round down' of B/2 when B is odd
-    return half % M;
+    return half %= M;
 }
-*/ 
+*/
 
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
-  
+
     int A, B, M;
     cin >> A >> B >> M;
     cout << qexp(A, B, M);
