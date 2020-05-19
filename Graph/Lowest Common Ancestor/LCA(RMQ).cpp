@@ -1,6 +1,6 @@
 // We can convert the Lowest Common Ancestor (LCA) problem into the Range Minimum Query (RMQ) Problem
 // This can then be solved using common methods such as segment tree or sparse table
-// Details about the algorithm can be found here: 
+// Details about the algorithm can be found here:
 // https://www.topcoder.com/community/competitive-programming/tutorials/range-minimum-query-and-lowest-common-ancestor/
 
 #include <bits/stdc++.h>
@@ -33,18 +33,18 @@ vector<int> adj[MAX_N];
 void dfs(int u, int h) {
     if(visited[u]) return;
     visited[u] = true;
-    
+
     first[u] = idx;
     euler[idx] = u;
     depth[idx++] = h;
-    
+
     for(int v : adj[u]) {
         if(!visited[v]) {
             dfs(v, h + 1);
             euler[idx] = u;
             depth[idx++] = h;
         }
-    }    
+    }
 }
 
 /* Segment Tree approach
@@ -98,31 +98,31 @@ int main() {
     cin.tie(0); cout.tie(0);
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
-    
+
     cin >> N >> Q;
     for(int i = 0; i < N - 1; i++) {
         int u, v; cin >> u >> v;
         adj[u].push_back(v);
         adj[v].push_back(u);
     }
-    
-    dfs(0, 0);
-    
+
+    dfs(1, 0);
+
     /* Segment Tree approach
     for(int i = 0; i < N * 2; i++){ //all the elements in the array are assigned as leaves in the ST
         ST[i + N * 2] = depth[i];
     }
     build();
     */
-    
+
     /* Sparse Table approach
     build_sparse_table();
     build_log_table();
-    for(int i = 0; i < N * 2; i++){ 
+    for(int i = 0; i < N * 2; i++){
         arr[i] = depth[i];
     }
     */
-    
+
     while(Q--) {
         int u, v; cin >> u >> v;
         printf("LCA of %d and %d is %d\n", u, v, LCA(u, v));
