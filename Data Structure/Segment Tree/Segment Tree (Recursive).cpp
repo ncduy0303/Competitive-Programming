@@ -23,7 +23,7 @@ typedef vector<vi> vvi;
 int N, Q, arr[MAX_N], st[4 * MAX_N];
 
 void build(int node, int start, int end) {
-    if(start == end)
+    if (start == end)
         st[node] = arr[start];
     else {
         int mid = (start + end) / 2;
@@ -33,7 +33,7 @@ void build(int node, int start, int end) {
     }
 }
 
-void update(int node, int start, int end, int idx, int val){ //add val to arr[idx]
+void update(int node, int start, int end, int idx, int val) { //add val to arr[idx]
     if (start == end) {
         arr[idx] += val;
         st[node] += val;
@@ -46,7 +46,7 @@ void update(int node, int start, int end, int idx, int val){ //add val to arr[id
     }
 }
 
-int rsq(int node, int start, int end, int l, int r){ //range sum query in [l..r]
+int rsq(int node, int start, int end, int l, int r) { //range sum query in [l..r]
     if (l > r) return 0; // remember to change to INF for min query nad -INF for max query
     if (start == l && end == r) return st[node];
 
