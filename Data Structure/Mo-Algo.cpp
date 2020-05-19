@@ -33,58 +33,57 @@ bool cmp(node a, node b){
         return a.l/BLOCK < b.l/BLOCK;
     else
         return a.r < b.r;
-        
+
         //trick to reduce run time by 1/2
         //return (a.r < b.r) ^ ((a.l/BLOCK) % 2);
 }
 
-void add(int pos){
-    cnt[arr[pos]]++;
-    if(cnt[arr[pos]] == 1) cur++;
+void add(int idx) {
+    if (cnt[arr[idx]] == 0) cur++;
+    cnt[arr[idx]]++;
 }
 
-void subtract(int pos){
-    cnt[arr[pos]]--;
-    if(cnt[arr[pos]] == 0) cur--;
+void subtract(int idx) {
+    if (cnt[arr[idx]] == 1) cur--;
+    cnt[arr[idx]]--;
 }
-
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
-    
+
     cin >> N >> Q;
-    for(int i = 0; i < N; i++) 
+    for(int i = 0; i < N; i++)
         cin >> arr[i];
     for(int i = 0; i < Q; i++) {
-        cin >> query[i].l >> query[i].r; 
+        cin >> query[i].l >> query[i].r;
         query[i].id = i;
     }
     sort(query, query + Q, cmp);
-    
+
     int curL = 0, curR = 0;
     for(int i = 0; i < Q; i++) {
         int L = query[i].l, R = query[i].r;
-        while(curL < L) {
+        while (curL < L) {
             subtract(curL);
             curL++;
         }
-        while(curL > L) {
-            add(curL - 1);
+        while (curL > L) {
             curL--;
+            add(curL);
         }
-        while(curR <= R) {
-            add(curR);
+        while (curR < R) {
             curR++;
+            add(curR);
         }
-        while(curR > R + 1) {
-            subtract(curR - 1);
+        while (curR > R) {
+            subtract(curR);
             curR--;
         }
         ans[query[i].id] = cur;
     }
-    
+
     for(int i = 0; i < Q; i++)
         cout << ans[i] << "\n";
 }
