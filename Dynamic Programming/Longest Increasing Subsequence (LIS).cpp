@@ -23,11 +23,11 @@ int main() {
     cin.tie(0); cout.tie(0);
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
-  
+
     cin >> N;
-    for(int i = 0; i < N; i++) 
+    for(int i = 0; i < N; i++)
         cin >> arr[i];
-    
+
     // Solution 1 (using dynamic programming - O(n^2))
     for (int i = 0; i < N; i++) {
         dp[i] = 0;
@@ -38,12 +38,12 @@ int main() {
         dp[i]++;
         ans = max(ans, dp[i]);
     }
-    
+
     //Solution 2 (using binary search - O(nlogn))
-    vector<int> len(N + 1, INF);
+    vector<int> len(N, INF);
     for (int i = 0; i < N; i++) {
         int k = lower_bound(len.begin(), len.end(), arr[i]) - len.begin();
         len[k] = arr[i];
-        ans = max(ans, k);
+        ans = max(ans, k + 1);
     }
 }
