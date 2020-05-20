@@ -36,6 +36,7 @@ My profile: [Codeforces](https://codeforces.com/profile/caoduy73), [Dunjudge.me]
   - [SQRT Decomposition + Mo's Algoithm](https://github.com/ncduy0303/Competitive-Programming/blob/master/Data%20Structure/Mo-Algo.cpp)
   - [Union-Find Disjoint Sets](https://github.com/ncduy0303/Competitive-Programming/blob/master/Data%20Structure/UFDS.cpp)
   - [Policy-based data structures C++ STL](https://github.com/ncduy0303/Competitive-Programming/blob/master/Data%20Structure/Policy_based_DT.cpp) 
+  - [Heavy Light Decomposition](https://github.com/ncduy0303/Competitive-Programming/blob/master/Data%20Structure/HLD.cpp) 
   
 ## String Algorithm
   - Pattern Searching ([KMP](https://github.com/ncduy0303/Competitive-Programming/blob/master/String%20Algorithm/KMP.cpp), [Z-Algorithm](https://github.com/ncduy0303/Competitive-Programming/blob/master/String%20Algorithm/Z-algo.cpp))
