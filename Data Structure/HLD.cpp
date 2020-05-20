@@ -16,6 +16,14 @@ Problem: https://www.spoj.com/problems/QTREE/
 // chainId[u] = the chain that node u belongs to
 // chainPos[u] = the position of node u in the chain it belongs to (aka chainInd[u])
 
+// adj: adjacency list
+// edges: edge list
+// cost: cost of edges
+
+// arr: array storing edge costs based on HLD
+// st_pos: position of edges based on HLD
+// st: segment tree
+
 #include <bits/stdc++.h>
 
 using namespace std;
