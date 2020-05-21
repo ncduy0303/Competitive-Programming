@@ -49,6 +49,21 @@ void Z_Algo(string S, string P) {
     }
 }
 
+vector<int> Z_Func(string T) {
+    vector<int> Z(T.size());
+    int l = -1, r = -1;
+    Z[0] = T.size();
+    for (int i = 1; i < T.size(); i++) {
+        Z[i] = i >= r ? 0 : min(r - i, Z[i - l]);
+        while (i + Z[i] < T.size() && T[i + Z[i]] == T[Z[i]]) Z[i]++;
+        if (i + Z[i] > r) {
+            l = i;
+            r = i + Z[i];
+        }
+    }
+    return Z;
+}
+
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
