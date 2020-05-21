@@ -101,20 +101,19 @@ void hld(int u = 1, int val = 0) { // can pass in more information depending on 
 
     int heaviest = -1, max_cost;
     for (int i = 0; i < adj[u].size(); i++) {
-        int v = adj[u][i];
+        int v = adj[u][i], w = cost[v][i];
         if (v != par[u])
             if (heaviest == -1 || num_child[v] > num_child[heaviest]) // find the heaviest path from node u
-                heaviest = v, max_cost = cost[v][i];
+                heaviest = v, max_cost = w;
     }
-
 
     if (heaviest != -1) // if not leaf node, then extend the chain
         hld(heaviest, max_cost);
 
     for (int i = 0; i < adj[u].size(); i++) { // extend to all other light paths
-        int v = adj[u][i];
+        int v = adj[u][i], w = cost[u][i];
         if (v != par[u] && v != heaviest)
-            chainNum++, hld(v, cost[v][i]);
+            chainNum++, hld(v, w);
     }
 }
 
