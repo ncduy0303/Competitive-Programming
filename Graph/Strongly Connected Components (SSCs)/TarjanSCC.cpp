@@ -33,10 +33,10 @@ vector<int> adj[MAX_N];
 
 void tarjanSCC(int u) { // Modified DFS
     dfs_low[u] = dfs_num[u] = dfsCounter++;
-    S.push(u); visited[u] = 1;
+    visited[u] = 1;
+    S.push(u);
 
-    for (int i = 0; i < adj[u].size(); i++) {
-        int v = adj[u][i];
+    for (int v : adj[u]) {
         if (dfs_num[v] == -1) tarjanSCC(v); // first time visited
         if (visited[v]) dfs_low[u] = min(dfs_low[u], dfs_low[v]); // back edge
     }
@@ -64,8 +64,9 @@ int main() {
         int x, y; cin >> x >> y;
         adj[x].push_back(y);
     }
-
+    memset(dfs_low, -1, sizeof dfs_low);
     memset(dfs_num, -1, sizeof dfs_num);
+    memset(visited, 0, sizeof visited);
     for (int i = 0; i < V; i++)
         if (dfs_num[i] == -1)
             tarjanSCC(i);
