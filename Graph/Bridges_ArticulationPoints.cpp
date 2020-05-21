@@ -27,31 +27,30 @@ typedef vector<vi> vvi;
 // dfs_low[u] stores the lowest dfs_num reachable from the current DFS spanning subtree of node u
 // then dfs_low[u] can only be made smaller if there is a back edge to form a cycle and v is currently visited
 
-int V, E, root_child = 0, dfsCounter = 0;
-int dfs_num[MAX_N], dfs_low[MAX_N];
-bool visited[MAX_N];
+int V, E, dfsCounter = 0;
+int dfs_num[MAX_N], dfs_low[MAX_N], visited[MAX_N];
 vector<int> adj[MAX_N];
 
-void dfs(int u, int par = 0) {
-    visited[u] = true;
+void dfs(int u, int p = -1) {
     dfs_num[u] = dfs_low[u] = dfsCounter++;
+    visited[u] = 1;
+    int num_child = 0;
     for (int v : adj[u]) {
-        if (v == par) continue; //ignore the case when a child is connected to its parent
-        if (u == 1) root_child++; //here we assume the root is node 1
+        if (v == p) continue; //ignore the case when a child is connected to its parent
         if (visited[v]) // back edge
             dfs_low[u] = min(dfs_low[u], dfs_num[v]); // update
         else { // tree edge
             dfs(v, u);
             dfs_low[u] = min(dfs_low[u], dfs_low[v]);  // subtree, always update
-
+            num_child++;
             if (dfs_low[v] > dfs_num[u]) // bridge
                 cout << "Edge " << u << "-" << v << " is a bridge\n";
 
-            if (dfs_low[v] >= dfs_num[u] && par != 0) // articulation point, the root node need to be treated separately
+            if (dfs_low[v] >= dfs_num[u] && p != -1) // articulation point, the root node need to be treated separately
                 cout << "Node " << u << " is an articulation point\n";
         }
     }
-    if (u == 1 && root_child > 1) // check whether the root node is an articulation point
+    if (p == -1 && num_child > 1) // check whether the root node is an articulation point if has more than 1 child
         cout << "Node " << u << " is an articulation point\n";
 }
 
@@ -67,7 +66,12 @@ int main() {
         adj[x].push_back(y);
         adj[y].push_back(x);
     }
-    dfs(1);
+    memset(dfs_low, -1, sizeof dfs_low);
+    memset(dfs_num, -1, sizeof dfs_num);
+    memset(visited, 0, sizeof visited);
+    for (int i = 1; i <= V; i++)
+        if (!visited[i])
+            dfs(i);
 }
 
 /* Example input:
