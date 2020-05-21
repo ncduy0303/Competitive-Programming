@@ -27,6 +27,7 @@ My profile: [Codeforces](https://codeforces.com/profile/caoduy73), [Dunjudge.me]
   - [Longest Common Subsequence](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/Longest%20Common%20Subsequence%20(LCS).cpp)
   - [Longest Increasing Subsequence](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/Longest%20Increasing%20Subsequence%20(LIS).cpp)
   - [Matrix Chain Multiplication](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/Matrix%20chain%20multiplication.cpp)
+  - [Elevator Rides](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/Elevator%20Rides.cpp)
   - [Travelling Salesman Problem](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/Traveling%20Salesman%20Problem%20(TSP).cpp)
   
 ## Data Structure
