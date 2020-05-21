@@ -24,24 +24,25 @@ vector<int> dist;
 void Bellman_Ford(int s) {
     dist.assign(V, INF);
     dist[s] = 0;
-    for(int i = 0; i < V - 1; i++) {
-        for(int u = 0; u < V; u++) {
-            for(int j = 0; j < adj[u].size(); j++) {
-                int v = adj[u][j].first, w = adj[u][j].second;
+    for (int i = 0; i < V - 1; i++) {
+        for (int u = 0; u < V; u++) {
+            for (auto next : adj[u]) {
+                int v = next.first, w = next.second;
                 dist[v] = min(dist[v], dist[u] + w);
             }
         }
     }
 }
 
-//Detecting cycle 
+//Detecting cycle
 bool hasNegativeCycle() {
     bool ans = false;
-    for(int u = 0; u < V; u++)
-        for(int i = 0; i < adj[u].size(); i++) {
-            int v = adj[u][i].first, w = adj[u][i].second;
+    for (int u = 0; u < V; u++) {
+        for (auto next : adj[u]) {
+            int v = next.first, w = next.second;
             if (dist[v] > dist[u] + w) ans = true;
         }
+    }
     return ans;
 }
 
