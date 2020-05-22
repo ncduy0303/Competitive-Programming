@@ -38,7 +38,7 @@ typedef vector<int> vi;
 typedef pair<int,int> ii;
 typedef vector<ii> vii;
 
-int N, pos = 1;
+int N, pos = 0;
 int num_child[MAX_N], par[MAX_N], dep[MAX_N];
 int chainNum = 0, chainSize[MAX_N], chainHead[MAX_N], chainId[MAX_N], chainPos[MAX_N];
 int arr[MAX_N], st_pos[MAX_N], st[4 * MAX_N];
@@ -95,9 +95,8 @@ void hld(int u = 1, int val = 0) { // can pass in more information depending on 
     chainPos[u] = chainSize[chainNum];
     chainSize[chainNum]++;
 
-    st_pos[u] = pos;
+    st_pos[u] = ++pos;
     arr[pos] = val;
-    pos++;
 
     int heaviest = -1, max_cost;
     for (int i = 0; i < adj[u].size(); i++) {
