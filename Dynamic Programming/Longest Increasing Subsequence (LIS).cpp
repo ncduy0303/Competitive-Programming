@@ -46,4 +46,12 @@ int main() {
         len[k] = arr[i];
         ans = max(ans, k + 1);
     }
+
+    /*vector<int> dp;
+    for (int x : arr) {
+        auto it = lower_bound(dp.begin(), dp.end(), x);
+        if (it == dp.end()) dp.push_back(x);
+        else *it = x;
+    }
+    cout << dp.size();*/
 }
