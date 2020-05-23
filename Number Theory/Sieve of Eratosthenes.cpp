@@ -45,13 +45,13 @@ void sieve1() {
         spf[p] = p;
 
     for (int p = 2; p * p <= MAX_N; p++)
-        if (spf[p] == p)
+        if (spf[p] == p) // if prime
             for (int i = p * 2; i <= MAX_N; i += p)
-                if (spf[i] == i) // if prime
+                if (spf[i] == i)
                     spf[i] = p;
 
     for (int p = 2; p <= MAX_N; p++)
-        if (spf[p] == p)
+        if (spf[p] == p) // if prime
             primes.push_back(p);
 }
 
@@ -59,7 +59,7 @@ vector<int> factorize(int x) {
     vector<int> res;
     while (x != 1) {
         res.push_back(spf[x]);
-        x = x / spf[x];
+        x /= spf[x];
     }
     return res;
 }
