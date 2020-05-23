@@ -70,6 +70,20 @@ long long coefficient2(int n, int k) { // Calculate nCk using precomputed table
 	return fact[n] * invf[k] % MOD * invf[n - k] % MOD;
 }
 
+// A trick to calculate large factorial without overflowing is to take log at every step when precompute and take exponential when calculating
+// no need for invf now because it is the same as negative log of fact
+double log_fact[MAX_N];
+void precompute_log() {
+    log_fact[0] = 0.0; // log(0!) = 0
+    for (int i = 1; i < MAX_N; i++)
+        log_fact[i] = log_fact[i - 1] + log(i); // log(i!) = log((i-1)!) + log(i)
+}
+
+long long log_nCk(int n, int k) { // remember to take exponential at the end
+    if (k < 0 || k > n) return 0;
+	return exp(log_fact[n] - log_fact[n - k] - log_fact[k]);
+}
+
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
