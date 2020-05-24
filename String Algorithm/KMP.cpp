@@ -2,6 +2,7 @@
 Given a string S (with length N) and a pattern P (with length M), find all the occurrence of P in S
 Naive Approach: O(NM)
 KMP Time complexity: O(N + M)
+Idea: build the prefix function
 */
 
 #include <bits/stdc++.h>
