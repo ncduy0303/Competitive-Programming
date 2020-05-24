@@ -1,17 +1,18 @@
 // 2D Fenwick Tree
-// Problem: https://cses.fi/problemset/task/1652/
+// Problem: https://cses.fi/problemset/task/1739
 
 #include <bits/stdc++.h>
 
 using namespace std;
 
-const int MAX_N = 1e4 + 5;
+const int MAX_N = 1e3 + 5;
 
 typedef long long ll;
 
 #define LSOne(S) (S & (-S))
 
-int N, M, Q, arr[MAX_N];
+int N, Q;
+char grid[MAX_N][MAX_N];
 int ft[MAX_N][MAX_N];
 
 void adjust(int x, int y, int v) {
@@ -41,12 +42,26 @@ int main() {
     cin >> N >> Q;
     for (int i = 1; i <= N; i++) {
         for (int j = 1; j <= N; j++) {
-            char c; cin >> c;
-            if (c == '*') adjust(i, j, 1);
+            cin >> grid[i][j];
+            if (grid[i][j] == '*') adjust(i, j, 1);
         }
     }
     while (Q--) {
-        int x1, x2, y1, y2; cin >> x1 >> y1 >> x2 >> y2;
-        cout << query(x1, y1, x2, y2) << "\n";
+        char c; cin >> c;
+        if (c == '1') {
+            int x, y; cin >> x >> y;
+            if (grid[x][y] == '*') {
+                adjust(x, y, -1);
+                grid[x][y] = '.';
+            }
+            else {
+                adjust(x, y, 1);
+                grid[x][y] = '*';
+            }
+        }
+        else {
+            int x1, x2, y1, y2; cin >> x1 >> y1 >> x2 >> y2;
+            cout << query(x1, y1, x2, y2) << "\n";
+        }
     }
 }
