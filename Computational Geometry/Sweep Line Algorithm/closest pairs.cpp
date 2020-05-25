@@ -39,14 +39,14 @@ int main() {
     cin >> N;
     for (int i = 0; i < N; i++)
         cin >> pnts[i].second >> pnts[i].first;
-    sort(pnts, pnts + N, cmp);
+    sort(pnts, pnts + N, cmp); // sort bases on x-coordinates (from left to right)
 
     box.insert(pnts[0]);
     int left = 0;
     for (int i = 1; i < N; i++){
         while (left < i && pnts[left].second - pnts[i].second > best)
             box.erase(pnts[left++]);
-        for (auto it = box.lower_bound({pnts[i].second - best, pnts[i].first - best}); it != box.end() && pnts[i].first + best >= it->first; it++)
+        for (auto it = box.lower_bound({pnts[i].second - best, pnts[i].first - best}); it != box.end() && it->first - pnts[i].first <= best; it++)
             best = min(best, hypot(pnts[i].first - it->first, pnts[i].second - it->second));
         box.insert(pnts[i]);
     }
