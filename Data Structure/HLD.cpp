@@ -150,7 +150,7 @@ void clear_data() { // must do it at the beginning of every test case
     memset(st, 0, sizeof st);
     memset(chainHead, -1, sizeof chainHead);
     for (int i = 1; i <= N; i++) adj[i].clear();
-    chainNum = pos = 0;
+    chainNum = 1; pos = 0;
 }
 
 void solve() {
