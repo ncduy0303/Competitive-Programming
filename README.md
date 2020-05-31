@@ -26,6 +26,7 @@ My profile: [Codeforces](https://codeforces.com/profile/caoduy73), [Dunjudge.me]
   - Max Sum Subarray (Kadane's Alogorithm): [1D](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/1D%20Max%20Sum%20(Kanade).cpp), [2D](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/2D%20Max%20Sum.cpp)
   - [Longest Common Subsequence](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/Longest%20Common%20Subsequence%20(LCS).cpp)
   - [Longest Increasing Subsequence](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/Longest%20Increasing%20Subsequence%20(LIS).cpp)
+  - [Digit DP](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/Digit%20DP.cpp)
   - [Weighted Job Scheduling](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/Weighted%20Job%20Scheduling.cpp)
   - [Matrix Chain Multiplication](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/Matrix%20chain%20multiplication.cpp)
   - [Elevator Rides](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/Elevator%20Rides.cpp)
