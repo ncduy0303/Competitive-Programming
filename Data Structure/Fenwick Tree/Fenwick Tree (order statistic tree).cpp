@@ -1,6 +1,6 @@
 // Using a Fenwick Tree to implement an order statistic tree with the range of elements within a small range N
 // Fenwick Tree can easily do a search(logN), an erase(logN), and an order_by_key(logN)
-// The only new function that we need to implement is find_by_order(logN*logN)
+// The only new function that we need to implement is find_by_order(logN*logN) using binary search or (logN) just by traversing the Fenwick Tree
 
 #include <bits/stdc++.h>
 
@@ -34,16 +34,30 @@ int sum(int x) {
     return res;
 }
 
-int find_by_order(int k) { // return the k-th smallest element using a basic binary search
-    int lo = 1, hi = N + 1; // set upper bound as N + 1 so it will always return N + 1 if k > size of tree
+int find_by_order(int k) { // return the k-th smallest element using binary search O(logN * logN)
+    // set upper bound as N + 1 so it will always return N + 1 if k > N
+    // set lower bound as 0 so it will always return 0 if k < 1
+    int lo = 0, hi = N + 1;
     while (lo < hi) {
         int mid = (lo + hi) / 2;
-        if (k <= sum(mid))
+        if (sum(mid) >= k)
             hi = mid;
         else
             lo = mid + 1;
     }
     return lo;
+}
+
+int find_by_order(int k) { // return the k-th smallest element using binary lifting O(logN)
+    int sum = 0, pos = 0;
+    for (int i = MAX_L; i >= 0; i--) {
+        if (pos + (1 << i) < N && sum + ft[pos + (1 << i)] < k) {
+            sum += ft[pos + (1 << i)];
+            pos += (1 << i);
+        }
+    }
+	return pos + 1; // +1 because 'pos' will have position of largest value less than 'k'
+	// this function returns 1 if k < 1 and returns N if k > N
 }
 
 int order_by_key(int k) {
