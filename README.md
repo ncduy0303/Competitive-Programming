@@ -59,6 +59,7 @@ My profile: [Codeforces](https://codeforces.com/profile/caoduy73), [Dunjudge.me]
   
 ## Other Classic Problems
   - [N-queen](https://github.com/ncduy0303/Competitive-Programming/blob/master/Other%20Classic%20Problems/N_Queens.cpp)
+  - [Median Heap](https://github.com/ncduy0303/Competitive-Programming/blob/master/Other%20Classic%20Problems/Median%20Heap.cpp)
   - [Maximum Histogram Area](https://github.com/ncduy0303/Competitive-Programming/blob/master/Other%20Classic%20Problems/Maximum%20Histogram%20Area.cpp)
   - [Meet In The Middle](https://github.com/ncduy0303/Competitive-Programming/blob/master/Other%20Classic%20Problems/Meet%20In%20The%20Middle.cpp)
   - [Binary Search](https://github.com/ncduy0303/Competitive-Programming/blob/master/Other%20Classic%20Problems/Binary%20Search.cpp)
