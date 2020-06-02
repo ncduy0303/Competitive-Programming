@@ -2,7 +2,7 @@
 // Problem: given a stream of input integers (N), we need to maintain the median of the current array in the most efficient way
 // Idea: use a max heap to store the first half of current integers (<= median) and a min heap to store the second half (> median)
 // As we insert s new number, just need to compare it with the top of each heap and insert accordingly => Time complexity: O(NlogN)
-// We can also remove the current median if we want to
+// We can also remove the current median (lo.top())
 // Here if the number of elements is odd, median will be the element to the left of the middle
 
 // Naive approach: sort the entire array every time we try to insert a new number => time complexity: O(N^2logN)
@@ -14,7 +14,7 @@
 
 using namespace std;
 
-int n, median;
+int Q, median;
 priority_queue<int> lo;
 priority_queue<int, vector<int>, greater<int>> hi;
 vector<int> ans;
@@ -25,60 +25,32 @@ int main() {
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
 
-    cin >> n;
-    for (int i = 0; i < n; i++) {
+    cin >> Q;
+    while (Q--) {
         string s; cin >> s;
         if (s == "PUSH") {
             int x; cin >> x;
-            if (lo.empty() && hi.empty()) {
+            if (hi.empty() || x <= hi.top()) // insert x to the lo heap if possible
                 lo.push(x);
-                median = x;
+            else // otherwise, insert x to the hi heap
+                hi.push(x);
+
+            // the 2 heaps can become imbalanced, so need to fix it
+            if (lo.size() > hi.size() + 1) {
+                hi.push(lo.top());
+                lo.pop();
             }
-            else if (lo.size() > hi.size()) {
-                if (x < median) {
-                    hi.push(lo.top());
-                    lo.pop(); lo.push(x);
-                }
-                else hi.push(x);
-                median = lo.top();
-            }
-            else if (lo.size() < hi.size()) {
-                if (x > median) {
-                    lo.push(hi.top());
-                    hi.pop(); hi.push(x);
-                }
-                else lo.push(x);
-                median = lo.top();
-            }
-            else { // lo.size() == hi.size()
-                if (x < median) {
-                    lo.push(x);
-                    median = lo.top();
-                }
-                else {
-                    hi.push(x);
-                    median = hi.top();
-                }
+            if (lo.size() < hi.size()) {
+                lo.push(hi.top());
+                hi.pop();
             }
         }
         else { // POP (remove the median)
-            if (lo.size() < hi.size()) {
+            lo.pop();
+            // the 2 heaps can become imbalanced, so need to fix it
+            if (lo.size() != hi.size()) {
+                lo.push(hi.top());
                 hi.pop();
-                if (!lo.empty()) median = min(lo.top(), hi.top());
-            }
-            else if (lo.size() > hi.size()) {
-                lo.pop();
-                if (!hi.empty()) median = min(lo.top(), hi.top());
-            }
-            else { // lo.size() == hi.size()
-                if (lo.top() == median) {
-                    lo.pop();
-                    median = hi.top();
-                }
-                else {
-                    hi.pop();
-                    median = lo.top();
-                }
             }
         }
     }
