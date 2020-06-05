@@ -1,17 +1,19 @@
 // Given N rectangles on a plane (they are all parallel to the axis), find the union area of all the rectangles
 // Each rectangle is defined by two points (x1, y1) bottom left and (x2, y2) top right
+// Problem link: https://cses.fi/problemset/task/1741/
+
 // Idea: Sweep Line Algorithm (apply to 2 events simultaneously)
 // At any instance, the set contains only the rectangles which intersect the sweep line
 // Reference: https://www.topcoder.com/community/competitive-programming/tutorials/line-sweep-algorithms/
-// Time complexity: (N^2)
-// It can be improved to NlogN if we use a more efficient data strucutre
+// Time complexity: O(N^2)
+// It can be improved to O(NlogN) if we use a more efficient data structure (i.e segment tree)
 
 #include <bits/stdc++.h>
 
 using namespace std;
 
 const int INF = 1 << 30;
-const int MAX_N = 1000 + 5;
+const int MAX_N = 1e5 + 5;
 const int MAX_L = 20; // ~ Log N
 const long long MOD = 1e9 + 7;
 
@@ -76,7 +78,7 @@ int main() { /// x -> v; y -> h
         int cnt = 0; // Counter to indicate how many rectangles are currently overlapping
 
         // Delta_x: Distance between current sweep line and previous sweep line
-        int delta_x = rects[cur.id][cur.type].x - rects[precur.id][precur.type].x;
+        ll delta_x = rects[cur.id][cur.type].x - rects[precur.id][precur.type].x;
         if (delta_x < 0) continue;
 
         int begin_y;
@@ -90,7 +92,7 @@ int main() { /// x -> v; y -> h
                 else {
                     cnt--;
                     if (cnt == 0) { // Block ends
-                        int delta_y = rects[events_h[j].id][1].y - begin_y;
+                        ll delta_y = rects[events_h[j].id][1].y - begin_y;
                         area += delta_x * delta_y;
                     }
                 }
