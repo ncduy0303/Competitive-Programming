@@ -28,14 +28,14 @@ bool check[100][100], bef[100][100];
 int N, Q, B, ans = 0;
 
 void solve(int c) {
-    if(c == N + 1) { // finished, reach the last column
+    if (c == N + 1) { // finished, reach the last column
         ans++;
         return;
     }
-    if(col[c]) solve(c + 1); // move on to the next column
+    if (col[c]) solve(c + 1); // move on to the next column
     else { // test queen in each row and check
-        for(int r = 1; r <= N; r++) {
-            if(!check[r][c] && !row[r] && !d1[c - r + N] && !d2[c + r - 1]){
+        for (int r = 1; r <= N; r++) {
+            if (!check[r][c] && !row[r] && !d1[c - r + N] && !d2[c + r - 1]){
                 row[r] = col[c] = d1[c - r + N] = d2[c + r - 1] = true;
                 solve(c + 1);
                 row[r] = col[c] = d1[c - r + N] = d2[c + r - 1] = false;
@@ -47,13 +47,13 @@ void solve(int c) {
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
+    //freopen("input.txt", "r", stdin);
+    //freopen("output.txt", "w", stdout);
 
     cin >> N >> Q;
-    for(int i = 0; i < Q; i++) {
+    for (int i = 0; i < Q; i++) {
         int r, c; cin >> r >> c;
-        if(!row[r] && !d1[c - r + N] && !d2[c + r - 1])
+        if (!row[r] && !d1[c - r + N] && !d2[c + r - 1])
             row[r] = col[c] = d1[c - r + N] = d2[c + r - 1] = true;
         else {
             cout << 0;
@@ -62,9 +62,9 @@ int main() {
         bef[r][c] = true;
     }
     cin >> B;
-    for(int i = 0; i < B; i++) {
+    for (int i = 0; i < B; i++) {
         int r, c; cin >> r >> c;
-        if(!bef[r][c])
+        if (!bef[r][c])
             check[r][c] = true;
         else {
             cout << 0;
