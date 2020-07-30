@@ -1,4 +1,4 @@
-// Basically, calculate A^B mod M;
+// Calculate A^B mod M;
 // Time complexity: O(logB)
 
 #include <bits/stdc++.h>
@@ -19,31 +19,30 @@ typedef vector<vi> vvi;
 #define LSOne(S) (S & (-S))
 #define isBitSet(S, i) ((S >> i) & 1)
 
-int qexp(int A, int B, int M) { // only works if M fits in the range of 32-bit signed integer
-    if (B == 0) return 1; //base case A^0 = 1
+// Int Exponention (if M fits in the range of 32-bit signed integer)
+int qexp(int A, int B, int M) { 
+    if (B == 0) return 1; // base case A^0 = 1
     long long half = qexp(A, B/2, M);
-    half *= half;
-    half %= M;
-    if (B % 2 == 1) half *= A;  //Compensate the 'round down' of B/2 when B is odd
+    (half *= half) %= M;
+    if (B % 2 == 1) half *= A; //Compensate the 'round down' of B/2 when B is odd
     return half % M;
 }
 
 /* Long Long Exponention (if M fits in the range of 64-bit signed integer)
-long long qmult(long long A, long long B, long long M) { // multiplication using divide and conquer
+long long qmult(long long A, long long B, long long M) { 
     if (B == 0) return 0; // base case A*0 = 0
     long long half = qmult(A, B/2, M);
-    half += half;
-    half %= M;
-    if (B % 2 == 1) half += A % M;
-    return half %= M;
+    (half += half) %= M;
+    if (B % 2 == 1) half += A % M; // Compensate the 'round down' of B/2 when B is odd
+    return half % M;
 }
-long long qexp(long long A, long long B, long M) { // only works if M fits in the range of 32-bit signed integer
+
+long long qexp(long long A, long long B, long long M) { 
     if (B == 0) return 1; //base case A^0 = 1
     long long half = qexp(A, B/2, M);
-    half = qmult(half, half, M); //qmult is required to ensure this operation does not overflow
-    half %= M;
-    if (B % 2 == 1) half *= A % M;  //Compensate the 'round down' of B/2 when B is odd
-    return half %= M;
+    half = qmult(half, half, M); // qmult is required to ensure this operation does not overflow
+    if (B % 2 == 1) half *= (A % M); // Compensate the 'round down' of B/2 when B is odd
+    return half % M;
 }
 */
 

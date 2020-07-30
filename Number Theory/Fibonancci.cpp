@@ -27,9 +27,8 @@ struct matrix {
         m[1][0] = c;
         m[1][1] = d;
     }
-    matrix clone() { return matrix(m[0][0], m[0][1], m[1][0], m[1][1]); }
     matrix operator* (matrix b) {
-        matrix a = (*this).clone(), o;
+        matrix o, a = (*this);
         o.m[0][0] = (a.m[0][0]*b.m[0][0] + a.m[0][1]*b.m[1][0]) % MOD;
         o.m[1][0] = (a.m[0][1]*b.m[0][0] + a.m[1][1]*b.m[1][0]) % MOD;
         o.m[0][1] = (a.m[0][0]*b.m[0][1] + a.m[0][1]*b.m[1][1]) % MOD;
@@ -38,23 +37,29 @@ struct matrix {
     }
 };
 
-matrix qfib(int N) {
-    if (N == 1) return matrix(1, 1, 1, 0);
-    matrix half = qfib(N/2);
+// Matrix Exponention 
+matrix qexp(matrix A, int B) { 
+    if (B == 1) return matrix(1, 1, 1, 0); // base case
+    matrix half = qexp(A, B/2);
     half = half * half;
-    if (N % 2 == 1) half = half * matrix(1, 1, 1, 0); // //Compensate the 'round down' of N/2 when N is odd
+    if (B % 2) half = half * A; // Compensate the 'round down' of B/2 when B is odd
     return half;
 }
 
-// Simpler implementation using C++ STL vector
-vector<long long> fib(long long n) {
-    if (n == 1) return {0, 1, 1, 1,};
-    vector<long long> mx = fib(n / 2);
+matrix qfib(int N) {
+    matrix A = matrix(1, 1, 1, 0);
+    return qexp(A, N);
+}
+
+// Another implementation using C++ STL vector
+vector<long long> fibo(int N) {
+    if (N == 1) return {0, 1, 1, 1}; // base case
+    vector<long long> mx = fibo(N / 2);
     mx = {((mx[0] * mx[0]) % MOD + (mx[1] * mx[2]) % MOD) % MOD,
           ((mx[0] * mx[1]) % MOD + (mx[1] * mx[3]) % MOD) % MOD,
           ((mx[2] * mx[0]) % MOD + (mx[3] * mx[2]) % MOD) % MOD,
           ((mx[2] * mx[1]) % MOD + (mx[3] * mx[3]) % MOD) % MOD};
-    if (n % 2) mx = {mx[1], (mx[0] + mx[1]) % MOD, mx[3], (mx[2] + mx[3]) % MOD};
+    if (N % 2) mx = {mx[1], (mx[0] + mx[1]) % MOD, mx[3], (mx[2] + mx[3]) % MOD}; // Compensate the 'round down' of N/2 when N is odd
     return mx;
 }
 
@@ -66,5 +71,5 @@ int main() {
   
     int N; cin >> N;
     cout << qfib(N).m[0][1] << "\n";
-    cout << fib(N + 1)[0] << "\n";
+    cout << fibo(N + 1)[0] << "\n";
 }
