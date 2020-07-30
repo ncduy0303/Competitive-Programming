@@ -33,7 +33,7 @@ long long qmult(long long A, long long B, long long M) {
     if (B == 0) return 0; // base case A*0 = 0
     long long half = qmult(A, B/2, M);
     (half += half) %= M;
-    if (B % 2 == 1) half += A % M; // Compensate the 'round down' of B/2 when B is odd
+    if (B % 2 == 1) half += (A % M); // Compensate the 'round down' of B/2 when B is odd
     return half % M;
 }
 
