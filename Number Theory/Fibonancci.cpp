@@ -21,7 +21,7 @@ typedef vector<vi> vvi;
 
 struct matrix {
     long long m[2][2];
-    matrix (long long a = 1, long long b = 1, long long c = 1, long long d = 0) {
+    matrix (long long a = 0, long long b = 0, long long c = 0, long long d = 0) {
         m[0][0] = a;
         m[0][1] = b;
         m[1][0] = c;
@@ -33,6 +33,12 @@ struct matrix {
         o.m[1][0] = (a.m[0][1]*b.m[0][0] + a.m[1][1]*b.m[1][0]) % MOD;
         o.m[0][1] = (a.m[0][0]*b.m[0][1] + a.m[0][1]*b.m[1][1]) % MOD;
         o.m[1][1] = (a.m[1][0]*b.m[0][1] + a.m[1][1]*b.m[1][1]) % MOD;
+
+        // Another way to implement matrix multiplication
+        // for (int i = 0; i < 2; i++) 
+        //     for (int j = 0; j < 2; j++)
+        //         for (int k = 0; k < 2; k++)
+        //             (o.m[i][j] += (a.m[i][k] + b.m[k][j])) %= MOD; 
         return o;
     }
 };
