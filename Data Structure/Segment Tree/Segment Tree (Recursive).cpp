@@ -54,6 +54,15 @@ int rsq(int node, int start, int end, int l, int r) { //range sum query in [l..r
     return rsq(2 * node, start, mid, l, min(r, mid)) + rsq(2 * node + 1, mid + 1, end, max(l, mid + 1), r);
 }
 
+// A more common way to write the query function
+int rsq(int node, int start, int end, int l, int r) {
+    if (start > r || end < l) return 0;
+    if (l <= start && end <= r) return st[node];
+    
+    int mid = (start + end) / 2;
+    return rsq(2 * node, start, mid, l, r) + rsq(2 * node + 1, mid + 1, end, l, r);
+}
+
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);

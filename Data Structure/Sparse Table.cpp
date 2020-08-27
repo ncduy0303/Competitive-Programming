@@ -44,11 +44,12 @@ int rmq(int l, int r){ // range minimum query in O(1)
 }
 
 int rsq(int l, int r) { //range sum query in O(logn)
+    int k = r - l + 1;
     int sum = 0;
-    for (int j = MAX_L; j >= 0; j--) {
-        if ((1 << j) <= r - l + 1) {
-            sum += table[l][j];
-            l += 1 << j;
+    for (int i = 0; i <= MAX_L; i++) {
+        if (k & (1 << i)) { // represent k in binary base and move on power of 2
+            sum ^= table[l][i];
+            l += (1 << i);
         }
     }
     return sum;
