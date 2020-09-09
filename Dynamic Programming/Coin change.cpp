@@ -1,55 +1,65 @@
-// Coin change problem
-// Given N different values of coins
-// 1) Find different combinations of these coins (there is an infinite supply of each coin value) to sum up to V
-// 2) Find the minimum coins required to sum up to V
+// Given n different values of coins
+// 1) Find the number of distinct ways to sum up to x
+// 2) Find the number of distinct "ordered" ways to sum up to x
+// 3) Find the minimum number of coins required to sum up to x
+// Time complexity: O(nx)
 
 #include <bits/stdc++.h>
 
 using namespace std;
 
-const int INF = 1 << 30;
-const int MAX_N = 100 + 5;
-const int MAX_V = 100000 + 5;
-const int MAX_L = 20; // ~ Log N
-const long long MOD = 1e9 + 7;
+#define ar array
+#define ll long long
 
-typedef long long ll;
-typedef vector<int> vi;
-typedef pair<int,int> ii;
-typedef vector<ii> vii;
-typedef vector<vi> vvi;
+const int MAX_N = 1e5 + 1;
+const int MOD = 1e9 + 7;
+const int INF = 1e9;
+const ll LINF = 1e18;
 
-#define LSOne(S) (S & (-S))
-#define isBitSet(S, i) ((S >> i) & 1)
 
-int N, V, coin[MAX_N], dp[MAX_V];
+
+void solve() {
+    int n, x; cin >> n >> x;
+    int arr[n]; 
+    for (int i = 0; i < n; i++) cin >> arr[i];
+
+    // 1) Problem link: https://cses.fi/problemset/task/1635
+    vector<int> dp(x + 1, 0);
+    dp[0] = 1;
+    for (int i = 1; i <= x; i++) 
+        for (int j : arr) 
+            if (i - j >= 0) 
+                dp[i] = (dp[i] + dp[i - j]) % MOD; 
+    cout << dp[x] << "\n";
+
+    // 2) Problem link: https://cses.fi/problemset/task/1636
+    vector<int> dp(x + 1, 0);
+    dp[0] = 1;
+    for (int j : arr) 
+        for (int i = 1; i <= x; i++) 
+            if (i - j >= 0) 
+                dp[i] = (dp[i] + dp[i - j]) % MOD; 
+    cout << dp[x] << "\n";
+
+    // 3) Problem link: https://cses.fi/problemset/task/1634
+    vector<int> dp(x + 1, INF);
+    dp[0] = 0;
+    for (int i = 1; i <= x; i++) 
+        for (int j : arr) 
+            if (i - j >= 0) 
+                dp[i] = min(dp[i], dp[i - j] + 1);
+    cout << (dp[x] == INF ? -1 : dp[x]) << "\n";
+}
 
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
 
-    cin >> N >> V;
-    for(int i = 0; i < N; i++) cin >> coin[i];
-
-    // 1) Coin change ways
-    memset(dp, 0, sizeof dp); 
-    dp[0] = 1; // there is one way to sum up to 0
-    for (int i = 0; i < N; i++)
-        for (int v = coin[i]; v <= V; v++)
-            dp[v] += dp[v - coin[i]];
-    cout << dp[V];
-    
-    // 2) Coin change min
-    memset(dp, -1, sizeof dp); //-1 represents no way here
-    dp[0] = 0;
-    for (int i = 0; i < N; i++) {
-        for (int v = coin[i]; v <= V; v++) {
-            if (dp[v - coin[i]] == -1) continue;
-            if (dp[v] == -1) dp[v] = dp[v - coin[i]] + 1;
-            dp[v] = min(dp[v], dp[v - coin[i]] + 1);
-        }
+    int tc; tc = 1;
+    for (int t = 1; t <= tc; t++) {
+        // cout << "Case #" << t  << ": ";
+        solve();
     }
-    cout << dp[V];
 }

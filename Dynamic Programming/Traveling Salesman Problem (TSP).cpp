@@ -1,40 +1,29 @@
-// Traveling Salesman Problem (A classic bitmask DP problem)
-// Given a set of cities(nodes), find a minimum weight Hamiltonian Cycle/Tour
-// Easier to solve using adjacent matrix
-// Time complexity: (N^2 x 2^N)
-// Reference: https://codingblocks.com/resources/travelling-salesman/
+// Given n cities/nodes, find a minimum weight Hamiltonian Cycle/Tour
+// Time complexity: O(2^n * n^2)
+// Problem link: https://onlinejudge.org/external/104/10496.pdf
 
 #include <bits/stdc++.h>
 
 using namespace std;
 
-const int INF = 1 << 30;
-const int MAX_N = 10;
-const int MAX_L = 20; // ~ Log N
-const long long MOD = 1e9 + 7;
+#define ar array
+#define ll long long
 
-typedef long long ll;
-typedef vector<int> vi;
-typedef pair<int,int> ii;
-typedef vector<ii> vii;
-typedef vector<vi> vvi;
+const int MAX_N = 11;
+const int MOD = 1e9 + 7;
+const int INF = 1e9;
+const ll LINF = 1e18;
 
-#define LSOne(S) (S & (-S))
-#define isBitSet(S, i) ((S >> i) & 1)
-
-int V, E, adj[MAX_N][MAX_N], dp[1 << MAX_N][MAX_N];
+int n, x[MAX_N], y[MAX_N], adj[MAX_N][MAX_N], dp[1 << MAX_N][MAX_N];
 
 int tsp(int mask, int u) {
-    if (mask == (1 << V) - 1) // base case, all nodes visited
-        return adj[u][0];
-
-    if(dp[mask][u] != -1)
-	   return dp[mask][u];
+    if (mask == (1 << n) - 1) return adj[u][0]; // finish all nodes (bitmask == 11...11)
+    if (dp[mask][u] != -1) return dp[mask][u];
 
     int ans = INF;
 	// Visit all the unvisited nodes and take the best route
-	for (int v = 0; v < V; v++) {
-		if ((mask & (1 << v)) == 0) { // this node is unvisited
+	for (int v = 0; v < n; v++) {
+		if (!(mask & (1 << v))) { // this node is unvisited
 			int cur = adj[u][v] + tsp(mask | (1 << v), v);
 			ans = min(ans, cur);
 		}
@@ -43,19 +32,27 @@ int tsp(int mask, int u) {
 	return dp[mask][u] = ans;
 }
 
+void solve() {
+	int xs, ys; cin >> xs >> ys; // not important
+	cin >> x[0] >> y[0] >> n; n++;
+	for (int i = 1; i < n; i++) cin >> x[i] >> y[i];
+	for (int i = 0; i < n; i++) 
+		for (int j = i; j < n; j++)
+			adj[i][j] = adj[j][i] = abs(x[i] - x[j]) + abs(y[i] - y[j]);
+	memset(dp, -1, sizeof dp);
+    // start from node 0 (bitmask = 00...01)
+	cout << "The shortest path has length " << tsp(1, 0) << "\n";
+}
+
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
 
-    memset(adj, -1, sizeof adj);
-	memset(dp, -1, sizeof dp);
-	cin >> V >> E;
-	for (int i = 0; i < V; i++) adj[i][i] = 0;
-	for (int i = 0; i < E; i++) {
-        int x, y, w; cin >> x >> y >> w;
-        adj[x][y] = adj[y][x] = w;
-	}
-	cout << tsp(1, 0); // mask == 1 means all nodes are unvisited
+    int tc; cin >> tc;
+    for (int t = 1; t <= tc; t++) {
+        // cout << "Case #" << t  << ": ";
+        solve();
+    }
 }

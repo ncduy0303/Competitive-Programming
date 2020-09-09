@@ -1,74 +1,69 @@
-// Cutting sticks problem
-// Given a length L and N cutting points, find the minimum cost perform all N cuts
-// The cost of a cut is equal to the length of the stick that we are cutting
-// Example: UVa/10003 https://onlinejudge.org/external/100/10003.pdf
+// Given a length x and n cutting points, find the minimum cost perform all n cuts
+// Cost of a cut is equal to the length of the current stick
+// A variation of Matrix Chain Multiplication DP Problem
+// Time complexity: O(n^3), can be reduced to O(n^2) with Knuth Optimization
+// Problem link: https://onlinejudge.org/external/100/10003.pdf
 
 #include <bits/stdc++.h>
 
 using namespace std;
 
-const int INF = 1 << 30;
-const int MAX_N = 100 + 5;
-const int MAX_L = 20; // ~ Log N
-const long long MOD = 1e9 + 7;
+#define ar array
+#define ll long long
 
-typedef long long ll;
-typedef vector<int> vi;
-typedef pair<int,int> ii;
-typedef vector<ii> vii;
-typedef vector<vi> vvi;
+const int MAX_N = 50 + 5;
+const int MOD = 1e9 + 7;
+const int INF = 1e9;
+const ll LINF = 1e18;
 
-#define LSOne(S) (S & (-S))
-#define isBitSet(S, i) ((S >> i) & 1)
+int opt[MAX_N][MAX_N];
 
-int L, N, arr[MAX_N], dp[MAX_N][MAX_N], sv[MAX_N][MAX_N];
-// dp[i][j] stores the minimum cost of cutting between points i and j
+void solve() {
+    while (true) {
+        int x; cin >> x;
+        if (!x) return;
+
+        int n; cin >> n;
+        int arr[n + 2];
+        // adding the beginning point and the ending point
+        arr[0] = 0; arr[n + 1] = x;
+        for (int i = 1; i <= n; i++) cin >> arr[i];
+        vector<vector<int>> dp(n + 2, vector<int>(n + 2, INF));
+        for (int i = 0; i < n + 1; i++) {
+            dp[i][i + 1] = 0;
+            opt[i][i + 1] = i;
+        }
+        // range dp
+        for (int i = n + 1; i >= 0; i--) {
+            for (int j = i; j <= n + 1; j++) {
+                for (int k = i + 1; k < j; k++) {
+                    if (dp[i][j] > dp[i][k] + dp[k][j] + arr[j] - arr[i]) {
+                        dp[i][j] = dp[i][k] + dp[k][j] + arr[j] - arr[i];
+                    }
+                }
+                // Knuth Optimization (only need to change 2 lines)
+                // Condition: dp[i][j] = min{i < k < j}(dp[i][k] + dp[k][j]) + C[i][j]
+                // for (int k = opt[i][j - 1]; k <= opt[i + 1][j]; k++) {
+                //     if (dp[i][j] > dp[i][k] + dp[k][j] + arr[j] - arr[i]) {
+                //         dp[i][j] = dp[i][k] + dp[k][j] + arr[j] - arr[i];
+                //         opt[i][j] = k;
+                //     }
+                // }
+            }
+        }
+        cout << "The minimum cutting is " << dp[0][n + 1] << ".\n"; 
+    }
+}
 
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
 
-    cin >> L >> N;
-    for (int i = 1; i <= N; i++) cin >> arr[i];
-    arr[0] = 0; arr[N + 1] = L; // adding the beginning point and the ending point
-
-    // Time complexity: O(N^3)
-    for (int len = 0; len <= N; len++) { // try all length of the stick
-        for (int i = 0, j = len + 1; j <= N + 1; i++, j++) { // try all possible left points
-            if (len == 0) dp[i][j] = 0;
-            else {
-                dp[i][j] = INF;
-                for (int k = i + 1; k < j; k++) { // try all possible intermediate points
-                    dp[i][j] = min(dp[i][j], dp[i][k] + dp[k][j]);
-                }
-                dp[i][j] += arr[j] - arr[i]; // cost(i, j)
-            }
-        }
+    int tc; tc = 1;
+    for (int t = 1; t <= tc; t++) {
+        // cout << "Case #" << t  << ": ";
+        solve();
     }
-    cout << dp[0][N + 1]; 
-
-    // Knuth Optimization to O(N^2)
-    // Condition: dp[i][j] = min{i < k < j}(dp[i][k] + dp[k][j]) + C[i][j]
-    // Reference: http://www.cse.unsw.edu.au/~cs4128/18s1/lectures/7-dp2.pdf
-    for (int i = 0; i <= N; i++)
-        sv[i][i + 1] = i;
-
-    for (int len = 0; len <= N; len++) { // try all length of the stick
-        for (int i = 0, j = len + 1; j <= N + 1; i++, j++) { // try all possible left points
-            if (len == 0) dp[i][j] = 0;
-            else {
-                dp[i][j] = INF;
-                for (int k = sv[i][j - 1]; k <= sv[i + 1][j]; k++) { // optimize by restricting the range of k
-                    if (dp[i][k] + dp[k][j] < dp[i][j]) {
-                        sv[i][j] = k;
-                        dp[i][j] = dp[i][k] + dp[k][j];
-                    }
-                }
-                dp[i][j] += arr[j] - arr[i]; // cost(i, j)
-            }
-        }
-    }
-    cout << dp[0][N + 1];
 }
