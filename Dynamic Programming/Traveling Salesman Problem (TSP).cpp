@@ -1,6 +1,6 @@
 // Given n cities/nodes, find a minimum weight Hamiltonian Cycle/Tour
 // Time complexity: O(2^n * n^2)
-// Problem link: https://onlinejudge.org/external/104/10496.pdf
+// Problem link: https://vjudge.net/problem/UVA-10496
 
 #include <bits/stdc++.h>
 

@@ -1,30 +1,19 @@
-// Given N rectangles on a plane (they are all parallel to the axis), find the union area of all the rectangles
+// Given n rectangles on a plane (they are all parallel to the axis), find the union area of all the rectangles
 // Each rectangle is defined by two points (x1, y1) bottom left and (x2, y2) top right
+// Time complexity: O(n^2), can be improved to O(nlogn)
 // Problem link: https://cses.fi/problemset/task/1741/
-
-// Idea: Sweep Line Algorithm (apply to 2 events simultaneously)
-// At any instance, the set contains only the rectangles which intersect the sweep line
-// Reference: https://www.topcoder.com/community/competitive-programming/tutorials/line-sweep-algorithms/
-// Time complexity: O(N^2)
-// It can be improved to O(NlogN) if we use a more efficient data structure (i.e segment tree)
 
 #include <bits/stdc++.h>
 
 using namespace std;
 
-const int INF = 1 << 30;
-const int MAX_N = 1e5 + 5;
-const int MAX_L = 20; // ~ Log N
-const long long MOD = 1e9 + 7;
+#define ar array
+#define ll long long
 
-typedef long long ll;
-typedef vector<int> vi;
-typedef pair<int,int> ii;
-typedef vector<ii> vii;
-typedef vector<vi> vvi;
-
-#define LSOne(S) (S & (-S))
-#define isBitSet(S, i) ((S >> i) & 1)
+const int MAX_N = 1e5 + 1;
+const int MOD = 1e9 + 7;
+const int INF = 1e9;
+const ll LINF = 1e18;
 
 struct event {
     int id; // Index of rectangle in rects
@@ -37,7 +26,7 @@ struct point{
     int x, y;
 };
 
-int N, E = 0; // N = no. of rectangles, E = no. of events
+int n, e = 0; // n = no. of rectangles, e = no. of events
 point rects[MAX_N][2]; // Each rectangle consists of 2 points: [0] = lower-left ; [1] = upper-right
 event events_v [2 * MAX_N]; // Events of horizontal sweep line
 event events_h [2 * MAX_N]; // Events of vertical sweep line
@@ -53,27 +42,22 @@ bool compare_y(event a, event b) {
     return rects[a.id][a.type].y < rects[b.id][b.type].y;
 }
 
-int main() { /// x -> v; y -> h
-    ios_base::sync_with_stdio(0);
-    cin.tie(0); cout.tie(0);
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
-
-    cin >> N;
-    for(int i = 0; i < N; i++){
+void solve() {
+    cin >> n;
+    for (int i = 0; i < n; i++){
         cin >> rects[i][0].x >> rects[i][0].y; // Lower-left coordinate
         cin >> rects[i][1].x >> rects[i][1].y; // Upper-right coordinate
-        events_v[E] = event(i, 0);
-        events_h[E++] = event(i, 0);
-        events_v[E] = event(i, 1);
-        events_h[E++] = event(i, 1);
+        events_v[e] = event(i, 0);
+        events_h[e++] = event(i, 0);
+        events_v[e] = event(i, 1);
+        events_h[e++] = event(i, 1);
     }
-    sort(events_v, events_v + E, compare_x);
-    sort(events_h, events_h + E, compare_y); // Pre-sort set of horizontal edges
+    sort(events_v, events_v + e, compare_x);
+    sort(events_h, events_h + e, compare_y); // Pre-sort set of horizontal edges
     in_set[events_v[0].id] = 1;
 
     // Vertical sweep line
-    for(int i = 1; i < E; i++){
+    for (int i = 1; i < e; i++){
         event cur = events_v[i], precur = events_v[i - 1];
         int cnt = 0; // Counter to indicate how many rectangles are currently overlapping
 
@@ -83,7 +67,7 @@ int main() { /// x -> v; y -> h
 
         int begin_y;
         // Horizontal sweep line
-        for (int j = 0; j < E; j++){
+        for (int j = 0; j < e; j++){
             if (in_set[events_h[j].id]){
                 if (events_h[j].type == 0) {
                     if (cnt == 0) begin_y = rects[events_h[j].id][0].y; // Block starts
@@ -100,6 +84,18 @@ int main() { /// x -> v; y -> h
         }
         in_set[cur.id] = (cur.type == 0);
     }
+    cout << area << "\n";
+}
 
-    cout << area;
+int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+
+    int tc; tc = 1;
+    for (int t = 1; t <= tc; t++) {
+        // cout << "Case #" << t  << ": ";
+        solve();
+    }
 }

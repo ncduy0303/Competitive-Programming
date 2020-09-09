@@ -23,12 +23,13 @@ My profile: [Codeforces](https://codeforces.com/profile/caoduy73), [Dunjudge.me]
 ## Dynamic Programming
   - [0-1 Knapsack](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/(0-1)Knapsack.cpp)
   - [Coin Change](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/Coin%20change.cpp)
-  - Max Sum Subarray (Kadane's Alogorithm): [1D](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/1D%20Max%20Sum%20(Kanade).cpp), [2D](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/2D%20Max%20Sum.cpp)
+  - Max Sum Subarray: [1D](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/1D%20Max%20Sum%20(Kanade).cpp), [2D](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/2D%20Max%20Sum.cpp)
   - [Longest Common Subsequence](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/Longest%20Common%20Subsequence%20(LCS).cpp)
   - [Longest Increasing Subsequence](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/Longest%20Increasing%20Subsequence%20(LIS).cpp)
   - [Digit DP](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/Digit%20DP.cpp)
   - [Weighted Job Scheduling](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/Weighted%20Job%20Scheduling.cpp)
-  - [Matrix Chain Multiplication](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/Matrix%20chain%20multiplication.cpp)
+  - [Cutting Sticks](Dynamic%20Programming/Cutting%20Sticks.cpp)
+  - [Matrix Chain](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/Matrix%20chain%20multiplication.cpp)
   - [Elevator Rides](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/Elevator%20Rides.cpp)
   - [Travelling Salesman Problem](https://github.com/ncduy0303/Competitive-Programming/blob/master/Dynamic%20Programming/Traveling%20Salesman%20Problem%20(TSP).cpp)
   
@@ -55,7 +56,6 @@ My profile: [Codeforces](https://codeforces.com/profile/caoduy73), [Dunjudge.me]
 
 ## Computational Geometry
   - [Sweep Line](https://github.com/ncduy0303/Competitive-Programming/tree/master/Computational%20Geometry/Sweep%20Line%20Algorithm)
-  - Convex Hull
   
 ## Other Classic Problems
   - [N-queen](https://github.com/ncduy0303/Competitive-Programming/blob/master/Other%20Classic%20Problems/N_Queens.cpp)

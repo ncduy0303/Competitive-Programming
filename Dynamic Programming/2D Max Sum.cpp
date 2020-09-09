@@ -1,7 +1,7 @@
 // Given a 2D array of integers, find the maximum sum 2D subarray
 // Performing the 1D maxsum algorithm on the columns of all O(n^2) consecutive set of rows
 // Time complexity: O(n^3)
-// Problem link: https://onlinejudge.org/external/1/108.pdf
+// Problem link: https://vjudge.net/problem/UVA-108
 
 #include <bits/stdc++.h>
 

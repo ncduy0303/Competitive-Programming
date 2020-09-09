@@ -2,7 +2,7 @@
 // Cost of a cut is equal to the length of the current stick
 // A variation of Matrix Chain Multiplication DP Problem
 // Time complexity: O(n^3), can be reduced to O(n^2) with Knuth Optimization
-// Problem link: https://onlinejudge.org/external/100/10003.pdf
+// Problem link: https://vjudge.net/problem/UVA-10003
 
 #include <bits/stdc++.h>
 
