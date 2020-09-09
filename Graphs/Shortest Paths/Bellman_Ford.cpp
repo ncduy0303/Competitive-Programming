@@ -1,62 +1,80 @@
+// Time complexity: O(nm)
+// Problem link: https://cses.fi/problemset/task/1197/
+
 #include <bits/stdc++.h>
 
 using namespace std;
 
-const int INF = 1 << 30;
-const int MAX_N = 100000 + 5;
-const int MAX_L = 20; // ~ Log N
-const long long MOD = 1e9 + 7;
+#define ar array
+#define ll long long
 
-typedef long long ll;
-typedef vector<int> vi;
-typedef pair<int,int> ii;
-typedef vector<ii> vii;
-typedef vector<vi> vvi;
+const int MAX_N = 2.5e3 + 1;
+const int MOD = 1e9 + 7;
+const int INF = 1e9;
+const ll LINF = 1e15;
 
-#define LSOne(S) (S & (-S))
-#define isBitSet(S, i) ((S >> i) & 1)
+int n, m, par[MAX_N];
+vector<ar<ll,2>> adj[MAX_N];
+vector<ll> dist;
 
-int V, E;
-vector<pair<int, int> > adj[MAX_N];
-vector<int> dist;
-
-//Bellman_Ford O(VE)
-void Bellman_Ford(int s) {
-    dist.assign(V, INF);
+void bellman_ford(int s) {
+    dist.assign(n + 1, LINF);
     dist[s] = 0;
-    for (int i = 0; i < V - 1; i++) {
-        for (int u = 0; u < V; u++) {
-            for (auto next : adj[u]) {
-                int v = next.first, w = next.second;
-                dist[v] = min(dist[v], dist[u] + w);
+    for (int i = 0; i < n - 1; i++) {
+        for (int u = 1; u <= n; u++) {
+            for (auto [v, w] : adj[u]) {
+                if (dist[u] + w < dist[v]) {
+                    par[v] = u;
+                    dist[v] = dist[u] + w;
+                }
             }
         }
     }
 }
 
-//Detecting cycle
-bool hasNegativeCycle() {
-    bool ans = false;
-    for (int u = 0; u < V; u++) {
-        for (auto next : adj[u]) {
-            int v = next.first, w = next.second;
-            if (dist[v] > dist[u] + w) ans = true;
+void cycle_detect() {
+    int cycle = 0;
+    for (int u = 1; u <= n; u++) {
+        for (auto [v, w] : adj[u]) {
+            if (dist[u] + w < dist[v]) {
+                cycle = v; 
+                break;
+            }
         }
     }
-    return ans;
+    if (!cycle) cout << "NO\n";
+    else {
+        cout << "YES\n";
+        // backtrack to print the cycle
+        for (int i = 0; i < n; i++) cycle = par[cycle];
+        vector<int> ans; ans.push_back(cycle);
+        for (int i = par[cycle]; i != cycle; i = par[i]) ans.push_back(i); 
+        ans.push_back(cycle);
+        reverse(ans.begin(), ans.end());
+        for (int x : ans) cout << x << " ";
+        cout << "\n";
+    }
 }
-
+ 
+void solve() {
+    cin >> n >> m;
+    for (int i = 0; i < m; i++) {
+        int u, v, w; cin >> u >> v >> w;
+        adj[u].push_back({v, w});
+    }
+    bellman_ford(1);
+    cycle_detect();
+}
+ 
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
-
-    cin >> V >> E;
-    for(int i = 0; i < E; i++) {
-        int x, y, w; cin >> x >> y >> w;
-        adj[x].push_back({y, w});
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+ 
+    int tc; tc = 1;
+    for (int t = 1; t <= tc; t++) {
+        // cout << "Case #" << t  << ": ";
+        solve();
     }
-    Bellman_Ford(0);
-    bool has_cycle = hasNegativeCycle();
 }

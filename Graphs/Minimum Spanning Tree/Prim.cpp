@@ -1,6 +1,6 @@
-// Prim Algorithm for finding Maximum Spanning Tree (MST)
-// Prim Agorithm has similar ideas to Dijkstra
-// Time Complexity: O(ElogV)
+// Prim Agorithm is similar to Dijkstra
+// Time Complexity: O(mlogn)
+// Problem link: https://cses.fi/problemset/task/1675
 
 #include <bits/stdc++.h>
 
@@ -57,6 +57,5 @@ int main() {
         adj[u].push_back({v, w}); 
         adj[v].push_back({u, w});
     }
-    
     cout << Prim(0);
 }

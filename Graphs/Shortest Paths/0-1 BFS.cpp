@@ -7,50 +7,68 @@
 
 using namespace std;
 
-const int INF = 1 << 30;
-const int MAX_N = 100000 + 5;
-const int MAX_L = 20; // ~ Log N
-const long long MOD = 1e9 + 7;
+#define ar array
+#define ll long long
 
-typedef long long ll;
-typedef vector<int> vi;
-typedef pair<int,int> ii;
-typedef vector<ii> vii;
-typedef vector<vi> vvi;
+const int MAX_N = 1e5 + 1;
+const int MOD = 1e9 + 7;
+const int INF = 1e9;
+const ll LINF = 1e18;
 
-#define LSOne(S) (S & (-S))
-#define isBitSet(S, i) ((S >> i) & 1)
+int n, m;
+vector<ar<int,2>> adj[MAX_N];
+vector<int> dist;
 
-int V, E, dist[MAX_N]; 
-//dist[u] = -1 if u is unvisited, = 0 for source, shortes distance from source if > 0 (only applicable for unweighted graph)
-deque<int> Q;
-vector<pair<int, int>> adj[MAX_N];
-//For a rooted tree, an array par[MAX_N] storing nodes' direct ancestors can be used instead of adjacent list adj
+void bfs(int s) {
+    dist.assign(n + 1, -1);
+    deque<int> q;
+    dist[s] = 0; q.push_front(s);
+    while (q.size()) {
+        int u = q.front(); q.pop_front();
+        for (auto [v, w] : adj[u]) {
+            if (dist[v] == -1) {
+                dist[v] = dist[u] + w;
+                if (w == 1) q.push_back(v);
+                else q.push_front(v);
+            }
+        }
+    }
+}
+
+void solve() {
+    cin >> n >> m;
+    for (int i = 0; i < m; i++) {
+        int u, v, w; cin >> u >> v >> w; // w is 0 or 1
+        adj[u].push_back({v, w});
+        adj[v].push_back({u, w});
+    }
+    bfs(1);
+    for (int i = 1; i <= n; i++) 
+        cout << dist[i] << " ";
+    cout << "\n";
+
+    /*
+    Example input:
+        6 5
+        1 2 0 
+        5 1 1
+        2 4 1
+        4 6 1
+        1 4 0
+    Expected output:
+        0 0 -1 0 1 1
+    */
+}
 
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
-  
-    cin >> V >> E;
-    for (int i = 0; i < E; i++) {
-        int x, y, w; cin >> x >> y >> w; // w here is either 0 or 1 only
-        adj[x].push_back({y, w});
-        adj[y].push_back({x, w});
-    }
-    
-    memset(dist, -1, sizeof dist);
-    Q.push_front(0); dist[0] = 0;
-    while (!Q.empty()) {
-        int u = Q.front(); Q.pop_front();
-        for (int i = 0; i < adj[u].size(); i++) {
-            int v = adj[u][i].first, w = adj[u][i].second;
-            if (dist[v] == -1) {
-                dist[v] = dist[u] + w;
-                if (w == 1) Q.push_back(v);
-                else Q.push_front(v);
-            }
-        }
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+
+    int tc; tc = 1;
+    for (int t = 1; t <= tc; t++) {
+        // cout << "Case #" << t  << ": ";
+        solve();
     }
 }
