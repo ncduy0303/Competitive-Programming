@@ -1,76 +1,59 @@
-// N Queens Problem
-// Find the total number of ways to put N queens problem on an N x N chess board
-// Advanced: there will be Q queens initially placed on the chess board and B squares that cannot have queens placed on them
-// Idea: complete search with pruning
-// Full details here: https://dunjudge.me/analysis/problems/401/
+// Count the number of ways to place the queens so that no two queens are attacking each other
+// Use backtracking
+// Problem link: https://cses.fi/problemset/task/1624/
 
 #include <bits/stdc++.h>
 
 using namespace std;
 
-const int INF = 1 << 30;
-const int MAX_N = 1000000 + 5;
-const int MAX_L = 20; // ~ Log N
-const long long MOD = 1e9 + 7;
+#define ar array
+#define ll long long
 
-typedef long long ll;
-typedef vector<int> vi;
-typedef pair<int,int> ii;
-typedef vector<ii> vii;
-typedef vector<vi> vvi;
+const int MAX_N = 1e5 + 1;
+const int MOD = 1e9 + 7;
+const int INF = 1e9;
+const ll LINF = 1e18;
 
-#define LSOne(S) (S & (-S))
-#define isBitSet(S, i) ((S >> i) & 1)
+const int n = 8;
 
-//all one indexed
-bool row[100] = {false}, col[100] = {false}, d1[100] = {false}, d2[100] = {false};
-bool check[100][100], bef[100][100];
-int N, Q, B, ans = 0;
-
-void solve(int c) {
-    if (c == N + 1) { // finished, reach the last column
+int r[n], c[n], d1[2 * n], d2[2 * n], blocked[n][n], ans;
+ 
+void place(int j) {
+    if (j == n) {
         ans++;
         return;
     }
-    if (col[c]) solve(c + 1); // move on to the next column
-    else { // test queen in each row and check
-        for (int r = 1; r <= N; r++) {
-            if (!check[r][c] && !row[r] && !d1[c - r + N] && !d2[c + r - 1]){
-                row[r] = col[c] = d1[c - r + N] = d2[c + r - 1] = true;
-                solve(c + 1);
-                row[r] = col[c] = d1[c - r + N] = d2[c + r - 1] = false;
+    if (c[j]) place(j + 1);
+    else {
+        for (int i = 0; i < n; i++) {
+            if (!blocked[i][j] && !r[i] && !d1[i + j] && !d2[i - j + n]) {
+                blocked[i][j] = r[i] = d1[i + j] = d2[i - j + n] = 1;
+                place(j + 1);
+                blocked[i][j] = r[i] = d1[i + j] = d2[i - j + n] = 0;
             }
         }
     }
 }
-
+ 
+void solve() {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            char x; cin >> x;
+            if (x == '*') blocked[i][j] = 1;
+        }
+    }
+    place(0);
+    cout << ans;
+}
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
+    // freopen("input.txt", "i", stdin);
+    // freopen("output.txt", "w", stdout);
 
-    cin >> N >> Q;
-    for (int i = 0; i < Q; i++) {
-        int r, c; cin >> r >> c;
-        if (!row[r] && !d1[c - r + N] && !d2[c + r - 1])
-            row[r] = col[c] = d1[c - r + N] = d2[c + r - 1] = true;
-        else {
-            cout << 0;
-            return 0;
-        }
-        bef[r][c] = true;
+    int tc; tc = 1;
+    for (int t = 1; t <= tc; t++) {
+        // cout << "Case #" << t  << ": ";
+        solve();
     }
-    cin >> B;
-    for (int i = 0; i < B; i++) {
-        int r, c; cin >> r >> c;
-        if (!bef[r][c])
-            check[r][c] = true;
-        else {
-            cout << 0;
-            return 0;
-        }
-    }
-    solve(1);
-    cout << ans;
 }

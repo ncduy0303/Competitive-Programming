@@ -1,49 +1,63 @@
-// Problem: Find the largest rectangular area possible in a given histogram 
-// where the largest rectangle can be made of a number of contiguous bars
-
-// Idea: Maintain an ascending stack of height, whenever we process a new height, popping out all higher heights at the top of the stack
-//       and update the maximum area 
-// Remember to add a 0 height at the end to process everthing before it (greater height than 0)
-
-// Reference: https://www.geeksforgeeks.org/largest-rectangle-under-histogram/
+// Find the largest rectangular area in a histogram 
+// Use a monotonic stack {val, pos} to find the left border and right border at each position
+// Time complexity: O(n)
+// Problem link: https://www.spoj.com/problems/HISTOGRA/
 
 #include <bits/stdc++.h>
 
 using namespace std;
 
-const long long INF = 1e18;
-const int MAX_N = 200000 + 5;
-const int MAX_L = 20; // ~ Log N
-const long long MOD = 1e9 + 7;
+#define ar array
+#define ll long long
 
-typedef long long ll;
-typedef vector<int> vi;
-typedef pair<int,int> ii;
-typedef vector<ii> vii;
-typedef vector<vi> vvi;
+const int MAX_N = 1e5 + 1;
+const int MOD = 1e9 + 7;
+const int INF = 1e9;
+const ll LINF = 1e18;
 
-#define LSOne(S) (S & (-S))
-#define isBitSet(S, i) ((S >> i) & 1)
+
+
+void solve() {
+    while (true) {
+        int n; cin >> n;
+        if (!n) return;
+        
+        int arr[n], l[n], r[n];
+        for (int i = 0; i < n; i++) cin >> arr[i];
+
+        stack<ar<int,2>> st; 
+        // find left borders
+        for (int i = 0; i < n; i++) {
+            while (st.size() && st.top()[0] >= arr[i]) st.pop();
+            l[i] = st.size() ? st.top()[1] + 1 : 0;
+            st.push({arr[i], i}); 
+        }
+        while (st.size()) st.pop();
+        // find right borders
+        for (int i = n - 1; i >= 0; i--) {
+            while (st.size() && st.top()[0] >= arr[i]) st.pop();
+            r[i] = st.size() ? st.top()[1] - 1 : n - 1;
+            st.push({arr[i], i}); 
+        }
+        
+        ll mx = 0;
+        for (int i = 0; i < n; i++) {
+            ll cur = (ll) arr[i] * (r[i] - l[i] + 1);
+            mx = max(mx, cur);
+        }
+        cout << mx << "\n";
+    }
+}
 
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
 
-    int n; cin >> n;
-    int arr[n + 1] = {0}; 
-    for (int i = 0; i < n; i++) cin >> arr[i];
-    stack<int> s;
-    int max_area = 0;
-    for (int i = 0; i <= n; i++) {
-        while (!s.empty() && arr[s.top()] > arr[i]) {
-            int h = arr[s.top()];
-            s.pop();
-            int cur_area = h * (s.empty() ? i : i - s.top() - 1);
-            max_area = max(max_area, cur_area);
-        }
-        s.push(i);
+    int tc; tc = 1;
+    for (int t = 1; t <= tc; t++) {
+        // cout << "Case #" << t  << ": ";
+        solve();
     }
-    cout << max_area;
 }
