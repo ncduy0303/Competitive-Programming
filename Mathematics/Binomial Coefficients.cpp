@@ -30,9 +30,9 @@ ll fact[MAX_N], invf[MAX_N];
 void precompute() {
     fact[0] = invf[0] = 1;
     for (int i = 1; i < MAX_N; i++) {
-		fact[i] = fact[i - 1] * i % MOD;
-		invf[i] = qexp(fact[i], MOD - 2, MOD); // Fermat's little theorem
-	}
+        fact[i] = fact[i - 1] * i % MOD;
+        invf[i] = qexp(fact[i], MOD - 2, MOD); // Fermat's little theorem
+    }
 }
 
 ll nCk(int n, int k) {
@@ -40,7 +40,7 @@ ll nCk(int n, int k) {
     return fact[n] * invf[k] % MOD * invf[n - k] % MOD;
 
     // if there are only a few queries, then don't need to precompute invf[] => faster
-    return fact[n] * qexp(fact[k], MOD - 2, MOD) % MOD * qexp(fact[n - k], MOD - 2, MOD) % MOD;
+    // return fact[n] * qexp(fact[k], MOD - 2, MOD) % MOD * qexp(fact[n - k], MOD - 2, MOD) % MOD;
 }
 
 // A trick to calculate large factorial without overflowing is to take log at every step when precompute and take exponential when calculating

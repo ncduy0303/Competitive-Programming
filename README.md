@@ -34,8 +34,8 @@ My profile: [Codeforces](https://codeforces.com/profile/caoduy73), [Dunjudge.me]
   
 ## Data Structure
   - [Sparse Table](Data%20Structures/Sparse%20Table.cpp)
-  - [Fenwick Tree](Data%20Structures/Fenwick%20Tree)
-  - [Segment Tree](Data%20Structures/Segment%20Tree)
+  - [Fenwick Tree](Data%20Structures/Fenwick%20Tree/Fenwick%20Tree%20(point%20update,%20range%20query).cpp)
+  - [Segment Tree](Data%20Structures/Segment%20Tree/Segment%20Tree%20(Recursive).cpp)
   - [SQRT Decomposition + Mo's Algoithm](Data%20Structures/SQRT.cpp)
   - [Union-Find Disjoint Sets](Data%20Structures/UFDS.cpp)
   - [Trie](Data%20Structures/Trie.cpp)
