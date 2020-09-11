@@ -1,62 +1,66 @@
-//MUST USE 1-INDEXED FOR FENWICK TREE
+// Problem link: https://cses.fi/problemset/task/1648
 
 #include <bits/stdc++.h>
 
 using namespace std;
 
-const int INF = 1 << 30;
-const int MAX_N = 100000 + 5;
-const int MAX_L = 20; // ~ Log N
-const long long MOD = 1e9 + 7;
+#define ar array
+#define ll long long
 
-typedef long long ll;
-typedef vector<int> vi;
-typedef pair<int,int> ii;
-typedef vector<ii> vii;
-typedef vector<vi> vvi;
+const int MAX_N = 2e5 + 1;
+const int MOD = 1e9 + 7;
+const int INF = 1e9;
+const ll LINF = 1e18;
 
-#define LSOne(S) (S & (-S))
-#define isBitSet(S, i) ((S >> i) & 1)
+#define LSOne(S) ((S) & (-S))
 
-int ft[MAX_N] = {0}, arr[MAX_N], N, Q;
-
-void adjust(int x, int v) {
-    for (; x <= N; x += LSOne(x))
+int n, q;
+ll ft[MAX_N];
+ 
+void update(int x, int v) {
+    for (; x <= n; x += LSOne(x))
         ft[x] += v;
 }
-
-int sum(int x){
-    int res = 0;
-    for (; x; x -= LSOne(x))
+ 
+ll sum(int x) {
+    ll res = 0;
+    for (; x; x -= LSOne(x)) 
         res += ft[x];
     return res;
 }
+ 
+ll rsq(int l, int r) {
+    return sum(r) - sum(l - 1);
+}
 
-int rsq(int x, int y) { //range sum query, inclusive
-    return sum(y) - (x == 1 ? 0 : sum(x - 1));
+void solve() {
+    cin >> n >> q;
+    for (int i = 1; i <= n; i++) {
+        int x; cin >> x;
+        update(i, x);
+    }
+    while (q--) {
+        int t; cin >> t;
+        if (t == 1) {
+            int x, v; cin >> x >> v;
+            update(x, v - rsq(x, x));
+        }
+        else {
+            int l, r; cin >> l >> r;
+            cout << rsq(l, r) << "\n";
+        }
+    }
 }
 
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
 
-    cin >> N >> Q;
-    for(int i = 1; i <= N; i++) {
-        cin >> arr[i];
-        adjust(i, arr[i]);
-    }
-
-    while(Q--) {
-        int t; cin >> t;
-        if (t == 0) { //query
-            int x, y; cin >> x >> y;
-            cout << rsq(x, y) << "\n";
-        }
-        else { //adjust
-            int x, v; cin >> x >> v;
-            adjust(x, v);
-        }
+    int tc; tc = 1;
+    for (int t = 1; t <= tc; t++) {
+        // cout << "Case #" << t  << ": ";
+        solve();
     }
 }

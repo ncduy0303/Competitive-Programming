@@ -1,85 +1,97 @@
-// Persistent Segment Tree
-// Same as normal segment tree, but we can make queries on different versions of the tree after many updates
-// This is done by efficiently creating new nodes to store older versions without storing the whole tree after every updates
+// Persistent segment tree for range sum query, point set update 
+// Here implement with pointers
+// Problem link: https://cses.fi/problemset/task/1737
 
 #include <bits/stdc++.h>
 
 using namespace std;
 
-typedef long long ll;
+#define ar array
+#define ll long long
 
-const int MAX_N = 2e5 + 5;
+const int MAX_N = 2e5 + 1;
+const int MOD = 1e9 + 7;
+const int INF = 1e9;
+const ll LINF = 1e18;
 
 struct tdata {
-    int left, right;    // ID of left child & right child
-    int val;            // Max value of node
-    tdata() {}
-    tdata(int val, int left, int right) : val(val), left(left), right(right) {}
-};  // Each node has a position in this array, called ID
+	tdata *l, *r;
+	ll sum;
+	tdata() {}
+	tdata(tdata* l, tdata* r, int val) : l(l), r(r), sum(val) {}
+};
 
-int N, Q, arr[MAX_N], ver[MAX_N];
-int nNode = 0, nVer = 0;
-tdata st[6 * MAX_N];
+int n, q, cnt, arr[MAX_N];
+tdata *ver[MAX_N];
 
-// Update max value of a node (very important function)
-void refine(int node) {
-    st[node].val = max(st[st[node].left].val, st[st[node].right].val);
+void build(tdata *node, int start, int end) {
+	if (start == end) {
+		node->sum = arr[start];
+		return;
+	}
+	node->l = new tdata(); node->r = new tdata();
+	int mid = (start + end) / 2;
+	build(node->l, start, mid);
+	build(node->r, mid + 1, end);
+	node->sum = node->l->sum + node->r->sum;
 }
 
-void build(int node, int start, int end) {
-    if (start == end)
-        st[++nNode] = tdata(arr[start], 2 * nNode, 2 * nNode + 1);
-    else {
-        int mid = (start + end) / 2;
-        build(2 * node, start, mid);
-        build(2 * node + 1, mid + 1, end);
-        refine(node);
-    }
+void update(tdata *node, int start, int end, int idx, int val) {
+	if (start == end) {
+		node->sum = val;
+        return;
+	}
+	int mid = (start + end) / 2;
+	if (idx <= mid) {
+		tdata *l = node->l;
+		node->l = new tdata(l->l, l->r, l->sum);
+		update(node->l, start, mid, idx, val);
+	}
+	else {
+		tdata *r = node->r;
+		node->r = new tdata(r->l, r->r, r->sum);
+		update(node->r, mid + 1, end, idx, val);
+	}
+	node->sum = node->l->sum + node->r->sum;
 }
 
-int update(int node, int start, int end, int idx, int val) { // set arr[idx] to val
-    nNode++; // this line is very important
-    if (start == end) {
-        arr[idx] = val;
-        st[nNode] = tdata(val, 0, 0);
-    }
-    else {
-        int mid = (start + end) / 2;
-        if (idx <= mid) {
-            st[nNode].left = update(st[node].left, start, mid, idx, val);
-            st[nNode].right = st[node].right;
+ll query(tdata *node, int start, int end, int l, int r) {
+    if (r < start || end < l) return 0;
+    if (l <= start && end <= r) return node->sum;
+    int mid = (start + end) / 2;
+    return query(node->l, start, mid, l, r) + query(node->r, mid + 1, end, l, r);
+}
+
+void solve() {
+    cin >> n >> q;
+    for (int i = 1; i <= n; i++) cin >> arr[i];
+	ver[++cnt] = new tdata();
+    build(ver[cnt], 1, n);
+    while (q--) {
+        int t, k; cin >> t >> k;
+        if (t == 1) {
+            int a, x; cin >> a >> x;
+            update(ver[k], 1, n, a, x);
+        }
+        else if (t == 2) {
+            int a, b; cin >> a >> b;
+            cout << query(ver[k], 1, n, a, b) << "\n";
         }
         else {
-            st[nNode].left = st[node].left;
-            st[nNode].right = update(st[node].right, mid + 1, end, idx, val);
+            ver[++cnt] = new tdata(ver[k]->l, ver[k]->r, ver[k]->sum);
         }
-        refine(node);
     }
-    return nNode;
-}
-
-int query(int node, int start, int end, int l, int r) {
-    if (l > r) return -INT_MAX;
-    if (start == l && end == r) return st[node].val;
-
-    int mid = (start + end) / 2;
-    return max(query(st[node].left, start, mid, l, min(r, mid)), query(st[node].right, mid + 1, end, max(l, mid + 1), r));
 }
 
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
 
-    cin >> N >> Q;
-    for (int i = 1; i <= N; i++) cin >> arr[i];
-    build(1, 1, N);
-
-    // update
-    //ver[++nVer] = update(ver[nVer - 1], 1, N, idx, val);
-
-    // query (at time t)
-    //int res = query(ver[t], 1, N, l, r);
+    int tc; tc = 1;
+    for (int t = 1; t <= tc; t++) {
+        // cout << "Case #" << t  << ": ";
+        solve();
+    }
 }
-

@@ -1,54 +1,51 @@
-// Query on tree
-// Problem: https://cses.fi/problemset/task/1137/
+// Query on tree using eulerian ordering and fenwick tree
+// Problem link: https://cses.fi/problemset/task/1137/
 
 #include <bits/stdc++.h>
 
 using namespace std;
 
-const int MAX_N = 2e5 + 5;
-const int MAX_L = 20;
+#define ar array
+#define ll long long
+
+const int MAX_N = 2e5 + 1;
 const int MOD = 1e9 + 7;
-const int INF = 1e9 + 7;
+const int INF = 1e9;
+const ll LINF = 1e18;
 
-typedef long long ll;
-typedef vector<int> vi;
+#define LSOne(S) ((S) & (-S))
 
-int n, q, arr[MAX_N], id[MAX_N], num_child[MAX_N];
-ll ft[MAX_N];
-vi adj[MAX_N], topo;
-
-void update (int x, int v) {
-    for (; x <= n; x += x&-x)
+int n, q, arr[MAX_N], tin[MAX_N], tout[MAX_N], timer;
+ll ft[2 * MAX_N];
+vector<int> adj[MAX_N];
+ 
+void update(int x, int v) {
+    for (; x <= 2 * n; x += LSOne(x))
         ft[x] += v;
 }
-
+ 
 ll sum(int x) {
     ll res = 0;
-    for (; x; x -= x&-x)
+    for (; x; x -= LSOne(x))
         res += ft[x];
     return res;
 }
-
-ll rsq(int x, int y) {
-    return sum(y) - sum(x - 1);
+ 
+ll rsq(int a, int b) {
+    return sum(b) - sum(a - 1);
 }
-
-void dfs(int u = 1, int p = 1) {
-    topo.push_back(u);
+ 
+void dfs(int u, int p = 0) {
+    tin[u] = ++timer;
     for (int v : adj[u]) {
         if (v != p) {
             dfs(v, u);
-            num_child[u] += num_child[v] + 1;
         }
     }
+    tout[u] = ++timer;
 }
-
-int main() {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0); cout.tie(0);
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
-
+ 
+void solve() {
     cin >> n >> q;
     for (int i = 1; i <= n; i++) cin >> arr[i];
     for (int i = 0; i < n - 1; i++) {
@@ -56,21 +53,35 @@ int main() {
         adj[u].push_back(v);
         adj[v].push_back(u);
     }
-    dfs();
+    dfs(1);
     for (int i = 1; i <= n; i++) {
-        id[topo[i - 1]] = i;
-        update(i, arr[topo[i - 1]]);
+        update(tin[i], arr[i]);
+        update(tout[i], arr[i]);
     }
     while (q--) {
-        int c; cin >> c;
-        if (c == 1) {
-            int u, x; cin >> u >> x;
-            update(id[u], x - arr[u]);
-            arr[u] = x;
+        int t; cin >> t;
+        if (t == 1) {
+            int s, x; cin >> s >> x;
+            update(tin[s], x - arr[s]);
+            update(tout[s], x - arr[s]);
+            arr[s] = x;
         }
         else {
-            int u; cin >> u;
-            cout << rsq(id[u], id[u] + num_child[u]) << "\n";
+            int s; cin >> s;
+            cout << rsq(tin[s], tout[s]) / 2 << "\n";
         }
+    }
+}
+
+int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+
+    int tc; tc = 1;
+    for (int t = 1; t <= tc; t++) {
+        // cout << "Case #" << t  << ": ";
+        solve();
     }
 }

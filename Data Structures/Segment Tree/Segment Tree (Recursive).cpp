@@ -1,88 +1,76 @@
-// Segment Tree (Recursive, basic implementation)
-// Probably the one of the most advanced data structures for range queries and range updates
-// Here use 1-index
+// Segment tree for range minimum query, point set update
+// Problem link: https://cses.fi/problemset/task/1649
 
 #include <bits/stdc++.h>
 
 using namespace std;
 
-const int INF = 1 << 30;
-const int MAX_N = 100000 + 5;
-const int MAX_L = 20; // ~ Log N
-const long long MOD = 1e9 + 7;
+#define ar array
+#define ll long long
 
-typedef long long ll;
-typedef vector<int> vi;
-typedef pair<int,int> ii;
-typedef vector<ii> vii;
-typedef vector<vi> vvi;
+const int MAX_N = 2e5 + 1;
+const int MOD = 1e9 + 7;
+const int INF = 1e9;
+const ll LINF = 1e18;
 
-#define LSOne(S) (S & (-S))
-#define isBitSet(S, i) ((S >> i) & 1)
-
-int N, Q, arr[MAX_N], st[4 * MAX_N];
-
+int n, q, arr[MAX_N], st[4 * MAX_N];
+ 
 void build(int node, int start, int end) {
-    if (start == end)
-        st[node] = arr[start];
-    else {
-        int mid = (start + end) / 2;
-        build(2 * node, start, mid);
-        build(2 * node + 1, mid + 1, end);
-        st[node] = st[2 * node] + st[2 * node + 1];
-    }
-}
-
-void update(int node, int start, int end, int idx, int val) { //add val to arr[idx]
     if (start == end) {
-        arr[idx] += val;
-        st[node] += val;
+        st[node] = arr[start];
+        return;
     }
-    else {
-        int mid = (start + end) / 2;
-        if (idx <= mid) update(2 * node, start, mid, idx, val);
-        else update(2 * node + 1, mid + 1, end, idx, val);
-        st[node] = st[2 * node] + st[2 * node + 1];
-    }
-}
-
-int rsq(int node, int start, int end, int l, int r) { //range sum query in [l..r]
-    if (l > r) return 0; // remember to change to INF for min query nad -INF for max query
-    if (start == l && end == r) return st[node];
-
     int mid = (start + end) / 2;
-    return rsq(2 * node, start, mid, l, min(r, mid)) + rsq(2 * node + 1, mid + 1, end, max(l, mid + 1), r);
+    build(2 * node, start, mid);
+    build(2 * node + 1, mid + 1, end);
+    st[node] = min(st[2 * node], st[2 * node + 1]);
+}
+ 
+void update(int node, int start, int end, int idx, int val) {
+    if (start == end) {
+        arr[idx] = val;
+        st[node] = val;
+        return;
+    }
+    int mid = (start + end) / 2;
+    if (idx <= mid) update(2 * node, start, mid, idx, val);
+    else update(2 * node + 1, mid + 1, end, idx, val);
+    st[node] = min(st[2 * node], st[2 * node + 1]);
 }
 
-// A more common way to write the query function
-int rsq(int node, int start, int end, int l, int r) {
-    if (start > r || end < l) return 0;
+int query(int node, int start, int end, int l, int r) {
+    if (start > r || end < l) return INF;
     if (l <= start && end <= r) return st[node];
-    
     int mid = (start + end) / 2;
-    return rsq(2 * node, start, mid, l, r) + rsq(2 * node + 1, mid + 1, end, l, r);
+    return min(query(2 * node, start, mid, l, r), query(2 * node + 1, mid + 1, end, l, r)); 
+}
+ 
+void solve() {
+    cin >> n >> q;
+    for (int i = 1; i <= n; i++) cin >> arr[i];
+    build(1, 1, n);
+    while (q--) {
+        int t; cin >> t;
+        if (t == 1) {
+            int k, u; cin >> k >> u;
+            update(1, 1, n, k, u);
+        }
+        else {
+            int l, r; cin >> l >> r;
+            cout << query(1, 1, n, l, r) << "\n";
+        }
+    }
 }
 
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
 
-    cin >> N >> Q;
-    for (int i = 1; i <= N; i++) { // using 1-indexed
-        cin >> arr[i];
-    }
-    build(1, 1, N);
-    while (Q--) {
-        int t; cin >> t;
-        if (t == 0) { // update
-            int idx, val; cin >> idx >> val;
-            update(1, 1, N, idx, val);
-        }
-        else {
-            int l, r; cin >> l >> r;
-            cout << rsq(1, 1, N, l, r) << "\n";
-        }
+    int tc; tc = 1;
+    for (int t = 1; t <= tc; t++) {
+        // cout << "Case #" << t  << ": ";
+        solve();
     }
 }

@@ -1,29 +1,27 @@
-// Using a Fenwick Tree to implement an order statistic tree with the range of elements within a small range N
-// Fenwick Tree can easily do a search(logN), an erase(logN), and an order_by_key(logN)
-// The only new function that we need to implement is find_by_order(logN*logN) using binary search or (logN) just by traversing the Fenwick Tree
+// Create something similar to PBDS using Fenwick Tree
+// Time complexity: O(logn) for both operations
+// Problem link: https://cses.fi/problemset/task/1144
 
 #include <bits/stdc++.h>
 
 using namespace std;
 
-const int MAX_N = 1e6 + 5;
-const int MAX_L = 20; // ~ Log N
-const long long MOD = 1e9 + 7;
-const long long INF = 1e9 + 7;
+#define ar array
+#define ll long long
 
-typedef long long ll;
-typedef vector<int> vi;
-typedef pair<int,int> ii;
-typedef vector<ii> vii;
-typedef vector<vi> vvi;
+const int MAX_N = 2e5 + 1;
+const int MOD = 1e9 + 7;
+const int INF = 1e9;
+const ll LINF = 1e18;
 
-#define LSOne(S) (S & (-S))
-#define isBitSet(S, i) ((S >> i) & 1)
+const int MAX_L = 18;
 
-int ft[MAX_N] = {0}, N, Q;
+#define LSOne(S) ((S) & (-S))
 
-void adjust(int x, int v) {
-    for (; x <= N; x += LSOne(x))
+int n, q, ft[MAX_N];
+
+void update(int x, int v) {
+    for (; x <= n; x += LSOne(x))
         ft[x] += v;
 }
 
@@ -34,49 +32,55 @@ int sum(int x) {
     return res;
 }
 
-int find_by_order(int k) { // return the k-th smallest element using binary search O(logN * logN)
-    // set upper bound as N + 1 so it will always return N + 1 if k > N
-    // set lower bound as 0 so it will always return 0 if k < 1
-    int lo = 0, hi = N + 1;
-    while (lo < hi) {
-        int mid = (lo + hi) / 2;
-        if (sum(mid) >= k)
-            hi = mid;
-        else
-            lo = mid + 1;
-    }
-    return lo;
-}
-
-int find_by_order(int k) { // return the k-th smallest element using binary lifting O(logN)
+// using binary lifting technique
+int find_by_order(int k) { 
     int sum = 0, pos = 0;
     for (int i = MAX_L; i >= 0; i--) {
-        if (pos + (1 << i) < N && sum + ft[pos + (1 << i)] < k) {
+        if (pos + (1 << i) < n && sum + ft[pos + (1 << i)] < k) {
             sum += ft[pos + (1 << i)];
             pos += (1 << i);
         }
     }
-	return pos + 1; // +1 because 'pos' will have position of largest value less than 'k'
+	return pos + 1; 
+    // +1 because 'pos' will have position of largest value less than 'k'
 	// this function returns 1 if k < 1 and returns N if k > N
 }
 
-int order_by_key(int k) {
+int order_of_key(int k) {
     return sum(k);
+}
+
+void solve() {
+    cin >> n >> q;
+    int arr[n];
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+        update(arr[i], 1);
+    }
+    while (q--) {
+        char c; cin >> c;
+        if (c == '!') {
+            int k, x; cin >> k >> x; k--;
+            update(find_by_order(order_of_key(arr[k])), -1);
+            update(x, 1);
+            arr[k] = x;
+        }
+        else {
+            int a, b; cin >> a >> b;
+            cout << order_of_key(b + 1) - order_of_key(a) << "\n";
+        }
+    }
 }
 
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
 
-    cin >> N >> Q;
-    for (int i = 0; i < N; i++) {
-        int x; cin >> x;
-        adjust(x, 1); // insert(x)
+    int tc; tc = 1;
+    for (int t = 1; t <= tc; t++) {
+        // cout << "Case #" << t  << ": ";
+        solve();
     }
-    adjust(x, 1); // insert(x);
-    adjust(x, -1); // delete(x)
-    find_by_order(k); // return k-th smallest element
-    order_by_key(x); // return the rank of x <=> number of elements smaller than x plus one
 }

@@ -1,68 +1,77 @@
-//MUST USE 1-INDEXED FOR FENWICK TREE
+// Use 2 fenwick trees to support both range updates and range queries (RURQ)
+// A combination of PURQ and RUPQ
+// Problem link: https://www.spoj.com/problems/HORRIBLE/
 
 #include <bits/stdc++.h>
 
 using namespace std;
 
-const int INF = 1 << 30;
-const int MAX_N = 100000 + 5;
-const int MAX_L = 20; // ~ Log N
-const long long MOD = 1e9 + 7;
+#define ar array
+#define ll long long
 
-typedef long long ll;
-typedef vector<int> vi;
-typedef pair<int,int> ii;
-typedef vector<ii> vii;
-typedef vector<vi> vvi;
+const int MAX_N = 1e5 + 1;
+const int MOD = 1e9 + 7;
+const int INF = 1e9;
+const ll LINF = 1e18;
 
-#define LSOne(S) (S & (-S))
-#define isBitSet(S, i) ((S >> i) & 1)
+#define LSOne(S) ((S) & (-S))
 
-int ft[MAX_N] = {0}, ft2[MAX_N] = {0}, arr[MAX_N], N, Q;
+int n, q;
+ll ft1[MAX_N], ft2[MAX_N];
 
-void range_adjust(int x, int y, int v) {
-    for(int tx = x; tx <= N; tx += LSOne(tx)) {
-        ft[tx] += v;
-        ft2[tx] -= v*(x-1);
-    }
-    for(int ty = y + 1; ty <= N; ty += LSOne(ty)) {
-        ft[ty] -= v;
-        ft2[ty] += v*y;
-    }
+void update(ll *ft, int x, ll v) {
+    for (; x <= n; x += LSOne(x))
+        ft[x] += v;
 }
 
-int range_sum(int x){
-    int res = 0;
-    for (int tx = x; tx; tx -= LSOne(tx)) 
-        res += ft[tx]*x + ft2[tx];
+void range_update(int l, int r, ll v) {
+	update(ft1, l, v);
+	update(ft1, r + 1, -v);
+	update(ft2, l, v * (l - 1));
+	update(ft2, r + 1, -v * r);
+}
+
+ll sum(ll *ft, int x) {
+    ll res = 0;
+    for (; x; x -= LSOne(x)) 
+        res += ft[x];
     return res;
 }
 
-int range_rsq(int x, int y) { //range sum query, inclusive
-    return range_sum(y) - (x == 1 ? 0 : range_sum(x - 1));
+// sum of all elements in [1...x]
+ll ps(int x) {
+	return sum(ft1, x) * x - sum(ft2, x);
+}
+
+ll rsq(int l, int r) { 
+    return ps(r) - ps(l - 1);
+}
+
+void solve() {
+	memset(ft1, 0, sizeof ft1);
+	memset(ft2, 0, sizeof ft2);
+    cin >> n >> q;
+    while (q--) {
+        int t, l, r; cin >> t >> l >> r;
+        if (t == 0) {
+            int v; cin >> v;
+            range_update(l, r, v);
+        }
+        else {
+            cout << rsq(l, r) << "\n";
+        }
+    }
 }
 
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
-    
-    cin >> N >> Q;
-    for(int i = 1; i <= N; i++) {
-        cin >> arr[i];
-        range_adjust(i, i, arr[i]);
-    }
-    
-    while(Q--) {
-        int t; cin >> t;
-        if (t == 0) { //query
-            int x, y; cin >> x >> y;
-            cout << range_rsq(x, y) << "\n";
-        }
-        else { //adjust
-            int x, y, v; cin >> x >> y >> v;
-            range_adjust(x, y, v);
-        }
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+
+    int tc; cin >> tc;
+    for (int t = 1; t <= tc; t++) {
+        // cout << "Case #" << t  << ": ";
+        solve();
     }
 }

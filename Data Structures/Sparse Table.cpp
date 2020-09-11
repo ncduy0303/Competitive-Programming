@@ -1,81 +1,76 @@
 // Answer range query for static array
-// O(nlogn) construction
-// Usually O(logn) for each query, but can be modified to be O(1) for queries that can overlap (i.e minimum/maximum, gcd)
+// Time complexity: O(nlogn) construction, O(logn) query
+// Can be modified to be O(1) query for some queries (i.e minimum/maximum, gcd)
+// Problem link: https://cses.fi/problemset/task/1647/, https://cses.fi/problemset/task/1650
 
 #include <bits/stdc++.h>
 
 using namespace std;
 
-const int INF = 1 << 30;
-const int MAX_N = 100000 + 5;
-const int MAX_L = 20; // ~ Log N
-const long long MOD = 1e9 + 7;
+#define ar array
+#define ll long long
 
-typedef long long ll;
-typedef vector<int> vi;
-typedef pair<int,int> ii;
-typedef vector<ii> vii;
-typedef vector<vi> vvi;
+const int MAX_N = 2e5 + 1;
+const int MOD = 1e9 + 7;
+const int INF = 1e9;
+const ll LINF = 1e18;
 
-#define LSOne(S) (S & (-S))
-#define isBitSet(S, i) ((S >> i) & 1)
+const int MAX_L = 18;
 
-int N, Q, arr[MAX_N], table[MAX_N][MAX_L + 1], lg[MAX_N + 1];
+int n, q;
+int arr[MAX_N], lg[MAX_N], dp[MAX_N][MAX_L];
 
-void build_log_table() { // for O(1) range minimum query
+void build_lg_table() {
     lg[1] = 0;
-    for (int i = 2; i <= N; i++)
-        lg[i] = lg[i/2] + 1;
+    for (int i = 2; i <= n; i++) 
+        lg[i] = lg[i / 2] + 1;
+}
+ 
+void build_sparse_table() {
+    for (int i = 1; i <= n; i++)
+        dp[i][0] = arr[i];
+    for (int j = 1; j < MAX_L; j++)
+        for (int i = 1; i + (1 << j) <= n + 1; i++)
+            dp[i][j] = min(dp[i][j - 1], dp[i + (1 << (j - 1))][j - 1]);
+            // dp[i][j] = dp[i][j - 1] ^ dp[i + (1 << (j - 1))][j - 1];
 }
 
-void build_sparse_table() { // O(nlogn)
-    for(int i = 1; i <= N; i++)
-        table[i][0] = arr[i];
-
-    for(int j = 1; j <= MAX_L; j++) {
-        for(int i = 1; i + (1 << j) <= N + 1; i++)
-            table[i][j] = min(table[i][j - 1], table[i + (1 << (j - 1))][j - 1]);
-    }
+int min_query(int l, int r) { // O(1)
+    int k = lg[r - l + 1];
+    return min(dp[l][k], dp[r - (1 << k) + 1][k]);
 }
 
-int rmq(int l, int r){ // range minimum query in O(1)
-    int j = lg[r - l + 1];
-    return min(table[l][j], table[r - (1 << j) + 1][j]);
-}
-
-int rsq(int l, int r) { //range sum query in O(logn)
-    int k = r - l + 1;
-    int sum = 0;
-    for (int i = 0; i <= MAX_L; i++) {
-        if (k & (1 << i)) { // represent k in binary base and move on power of 2
-            sum ^= table[l][i];
+int xor_query(int l, int r) { // O(logn)
+    int k = r - l + 1, ans = 0;
+    for (int i = 0; i < MAX_L; i++) {
+        if (k & (1 << i)) {
+            ans ^= dp[l][i];
             l += (1 << i);
         }
     }
-    return sum;
+    return ans;
+}
+
+void solve() {
+    cin >> n >> q;
+    for (int i = 1; i <= n; i++) cin >> arr[i];
+    build_lg_table();
+    build_sparse_table();
+    while (q--) {
+        int l, r; cin >> l >> r;
+        cout << min_query(l, r) << "\n";
+    }
 }
 
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
 
-    cin >> N >> Q;
-    for(int i = 1; i <= N; i++) {
-        cin >> arr[i];
-    }
-    build_sparse_table();
-    build_log_table();
-    while(Q--) {
-        int t; cin >> t;
-        if (t == 0) { // rsq
-            int x, y; cin >> x >> y;
-            cout << rsq(x, y) << "\n";
-        }
-        else { // rmq
-            int x, y; cin >> x >> y;
-            cout << rmq(x, y) << "\n";
-        }
+    int tc; tc = 1;
+    for (int t = 1; t <= tc; t++) {
+        // cout << "Case #" << t  << ": ";
+        solve();
     }
 }

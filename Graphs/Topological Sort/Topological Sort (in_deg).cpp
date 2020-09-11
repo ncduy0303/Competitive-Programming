@@ -1,65 +1,66 @@
-// Idea: greedily take all nodes with in_deg == 0 and push them into the topological ordering, then decrease the in_deg of other nodes accordingly
+// Greedily take all nodes with in_deg == 0 and push them into the topological ordering, then decrease the in_deg of other nodes accordingly
+// Problem link: https://cses.fi/problemset/task/1679
 
 #include <bits/stdc++.h>
 
 using namespace std;
 
-const int INF = 1 << 30;
-const int MAX_N = 100000 + 5;
-const int MAX_L = 20; // ~ Log N
-const long long MOD = 1e9 + 7;
+#define ar array
+#define ll long long
 
-typedef long long ll;
-typedef vector<int> vi;
-typedef pair<int,int> ii;
-typedef vector<ii> vii;
-typedef vector<vi> vvi;
+const int MAX_N = 1e5 + 1;
+const int MOD = 1e9 + 7;
+const int INF = 1e9;
+const ll LINF = 1e18;
 
-#define LSOne(S) (S & (-S))
-#define isBitSet(S, i) ((S >> i) & 1)
-
-int V, E, visited[MAX_N];
-vector<int> adj[MAX_N];
-vector<int> topo;
-//For a rooted tree, an array par[MAX_N] storing nodes' direct ancestors can be used instead of adjacent list adj
-
+int n, m, visited[MAX_N], in_deg[MAX_N];
+vector<int> adj[MAX_N], topo;
+ 
 void build_topo() {
-	int in_deg[V + 1] = {0};
-	for (int u = 1; u <= V; u++) {
-        for (int v : adj[u]) {
+	for (int u = 1; u <= n; u++) 
+        for (int v : adj[u]) 
             in_deg[v]++;
-        }
-	}
 	queue<int> q;
-	for (int u = 1; u <= V; u++) {
-        if (in_deg[u] == 0) {
+	for (int u = 1; u <= n; u++) 
+        if (in_deg[u] == 0) 
             q.push(u);
-        }
-	}
-	while (!q.empty()) {
+	while (q.size()) {
 		int u = q.front(); q.pop();
 		topo.push_back(u);
 		for (int v : adj[u]) {
             in_deg[v]--;
-            if (in_deg[v] == 0) {
-                q.push(v);
-            }
+            if (in_deg[v] == 0) q.push(v);
 		}
 	}
+    // detect cycle
+    for (int i = 1; i <= n; i++) { 
+        if (in_deg[i]) {
+            cout << "IMPOSSIBLE\n";
+            exit(0);
+        }
+    }
+}
+
+void solve() {
+    cin >> n >> m;
+    for (int i = 0; i < m; i++) {
+        int u, v; cin >> u >> v;
+        adj[u].push_back(v);
+    }
+    build_topo();
+    for (int x : topo) cout << x << " ";
+    cout << "\n";
 }
 
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
-  
-    cin >> V >> E;
-    for (int i = 0; i < E; i++) {
-        int x, y; cin >> x >> y;
-        adj[x].push_back(y); 
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+
+    int tc; tc = 1;
+    for (int t = 1; t <= tc; t++) {
+        // cout << "Case #" << t  << ": ";
+        solve();
     }
-    build_topo();
-    for(int i = 0; i < topo.size(); i++)
-        cout << topo[i] << " ";
 }

@@ -1,72 +1,81 @@
-// Kosaraju's algorithm to find strongly connected components (SCCs)
-// Idea: Running DFS twice
+// Kosaraju's algorithm to find strongly connected components (SCCs) by running DFS twice
 // 1st pass done on the original graph and record the topological order of the nodes
 // 2nd pass done on the transposed graph using the order found in the 1st pass
-// Time complexity: O(V + E)
+// Time complexity: O(n + m)
+// Problem link: https://cses.fi/problemset/task/1682/
 
 #include <bits/stdc++.h>
 
 using namespace std;
 
-const int INF = 1 << 30;
-const int MAX_N = 100000 + 5;
-const int MAX_L = 20; // ~ Log N
-const long long MOD = 1e9 + 7;
+#define ar array
+#define ll long long
 
-typedef long long ll;
-typedef vector<int> vi;
-typedef pair<int,int> ii;
-typedef vector<ii> vii;
-typedef vector<vi> vvi;
+const int MAX_N = 1e5 + 1;
+const int MOD = 1e9 + 7;
+const int INF = 1e9;
+const ll LINF = 1e18;
 
-#define LSOne(S) (S & (-S))
-#define isBitSet(S, i) ((S >> i) & 1)
+int n, m, scc, visited[MAX_N];
+vector<int> adj[2][MAX_N], comp[MAX_N], dfn;
+// adj[0] is the original graph, adj[1] is the transposed graph
 
-int V, E, numSCC = 0, visited[MAX_N];
-vector<int> adj[MAX_N], adj_T[MAX_N], dfn;
-
-void Kosaraju(int u, int pass) {
+// t = 0 means 1st pass, t = 1 means 2nd pass
+void dfs(int u, int t) {
     visited[u] = 1;
-    if (pass == 1) { // 1st pass
-        for (int i = 0; i < adj[u].size(); i++) {
-            int v = adj[u][i];
-            if (!visited[v]) Kosaraju(v, 1); // first time visited
+    if (t == 1) comp[scc].push_back(u);
+    for (int v : adj[t][u]) {
+        if (!visited[v]) {
+            dfs(v, t);
         }
-        dfn.push_back(u);
     }
-    else { // 2nd pass
-        cout << u << " ";
-        for (int i = 0; i < adj_T[u].size(); i++) {
-            int v = adj_T[u][i];
-            if (!visited[v]) Kosaraju(v, 2); // first time visited
+    if (t == 0) dfn.push_back(u);
+}
+
+void kosaraju() {
+    for (int i = 1; i <= n; i++) {
+        if (!visited[i]) {
+            dfs(i, 0);
         }
+    }
+    memset(visited, 0, sizeof visited);
+    for (int i = n - 1; i >= 0; i--) {
+        if (!visited[dfn[i]]) {
+            scc++;
+            dfs(dfn[i], 1);
+        }
+    }
+}
+ 
+void solve() {
+    cin >> n >> m;
+    for (int i = 0; i < m; i++) {
+        int u, v; cin >> u >> v;
+        adj[0][u].push_back(v);
+        adj[1][v].push_back(u);
+    }
+    kosaraju();
+    if (scc == 1) cout << "YES\n";
+    else {
+        cout << "NO\n";
+        memset(visited, 0, sizeof visited);
+        dfs(comp[1][0], 0);
+        if (!visited[comp[2][0]]) 
+            cout << comp[1][0] << " " << comp[2][0] << "\n";
+        else 
+            cout << comp[2][0] << " " << comp[1][0] << "\n";
     }
 }
 
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
 
-    cin >> V >> E;
-    for (int i = 0; i < E; i++) {
-        int x, y; cin >> x >> y;
-        adj[x].push_back(y);
-        adj_T[y].push_back(x);
-    }
-
-    memset(visited, 0, sizeof visited);
-    for (int i = 0; i < V; i++)
-        if (!visited[i])
-            Kosaraju(i, 1);
-
-    memset(visited, 0, sizeof visited);
-    for (int i = V - 1; i >= 0; i--) {
-        if (!visited[dfn[i]]) {
-            cout << "SCC " << ++numSCC << ": ";
-            Kosaraju(dfn[i], 2);
-            cout << "\n";
-        }
+    int tc; tc = 1;
+    for (int t = 1; t <= tc; t++) {
+        // cout << "Case #" << t  << ": ";
+        solve();
     }
 }

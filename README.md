@@ -2,7 +2,7 @@
 My own templates and implementation of important algorithms and data structures for competitive programming
 
 
-My profile: [Codeforces](https://codeforces.com/profile/caoduy73), [Dunjudge.me](https://dunjudge.me/users/g1760382k/)
+My profile: [Codeforces](https://codeforces.com/profile/caoduy73)
 
 ## Contest templates
   - [My template C++](Contest%20Template/main.cpp)

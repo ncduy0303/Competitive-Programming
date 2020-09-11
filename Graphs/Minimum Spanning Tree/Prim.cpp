@@ -6,56 +6,62 @@
 
 using namespace std;
 
-const int INF = 1 << 30;
-const int MAX_N = 100000 + 5;
-const int MAX_L = 20; // ~ Log N
-const long long MOD = 1e9 + 7;
+#define ar array
+#define ll long long
 
-typedef long long ll;
-typedef vector<int> vi;
-typedef pair<int,int> ii;
-typedef vector<ii> vii;
-typedef vector<vi> vvi;
+const int MAX_N = 1e5 + 1;
+const int MOD = 1e9 + 7;
+const int INF = 1e9;
+const ll LINF = 1e18;
 
-#define LSOne(S) (S & (-S))
-#define isBitSet(S, i) ((S >> i) & 1)
+int n, m, visited[MAX_N];
+vector<ar<int,2>> adj[MAX_N];
 
-int V, E, visited[MAX_N] = {0};
-vector<pair<int, int> > adj[MAX_N];
-priority_queue<ii, vii, greater<ii> > pq;
-
-void process(int u) {
-    visited[u] = 1;
-    for(int i = 0; i < adj[u].size(); i++) {
-        int v = adj[u][i].first, w = adj[u][i].second;
-        if (!visited[v]) pq.push({w, v});
-    }
-}
-
-int Prim(int s) { //return mst_cost
-    int mst_cost = 0;
-    process(s);
-    while(!pq.empty()) {
-        pair<int, int> next = pq.top(); pq.pop();
-        int w = next.first, v = next.second;
-        if (!visited[v]) {
-            mst_cost += w;
-            process(v);
+void prim(int s = 1) {
+    ll cost = 0;
+    priority_queue<ar<ll,2>, vector<ar<ll,2>>, greater<ar<ll,2>>> pq;
+    visited[s] = 1; 
+    for (auto [u, d] : adj[s]) 
+        if (!visited[u]) 
+            pq.push({d, u});
+    while (pq.size()) {
+        auto [d, u] = pq.top(); pq.pop();
+        if (!visited[u]) {
+            cost += d;
+            visited[u] = 1;
+            for (auto [v, w] : adj[u]) 
+                if (!visited[v]) 
+                    pq.push({w, v});
+        }
+    } 
+    for (int i = 1; i <= n; i++) {
+        if (!visited[i]) {
+            cout << "IMPOSSIBLE\n";
+            exit(0);
         }
     }
+    cout << cost << "\n";
+}
+
+void solve() {
+    cin >> n >> m;    
+    for(int i = 0; i < m; i++) {
+        int u, v, w; cin >> u >> v >> w;
+        adj[u].push_back({v, w}); 
+        adj[v].push_back({u, w});
+    }
+    prim();
 }
 
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
-    
-    cin >> V >> E;    
-    for(int i = 0; i < E; i++) {
-        int u, v, w; cin >> u >> v >> w;
-        adj[u].push_back({v, w}); 
-        adj[v].push_back({u, w});
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+
+    int tc; tc = 1;
+    for (int t = 1; t <= tc; t++) {
+        // cout << "Case #" << t  << ": ";
+        solve();
     }
-    cout << Prim(0);
 }

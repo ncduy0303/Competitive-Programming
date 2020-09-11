@@ -24,21 +24,22 @@ void solve() {
         
         int arr[n], l[n], r[n];
         for (int i = 0; i < n; i++) cin >> arr[i];
-
-        stack<ar<int,2>> st; 
+        
+        stack<int> st;
         // find left borders
         for (int i = 0; i < n; i++) {
-            while (st.size() && st.top()[0] >= arr[i]) st.pop();
-            l[i] = st.size() ? st.top()[1] + 1 : 0;
-            st.push({arr[i], i}); 
+            while (st.size() && arr[st.top()] >= arr[i]) st.pop();
+            l[i] = st.size() ? st.top() + 1 : 0;
+            st.push(i);
         }
+        // clear stack
         while (st.size()) st.pop();
         // find right borders
         for (int i = n - 1; i >= 0; i--) {
-            while (st.size() && st.top()[0] >= arr[i]) st.pop();
-            r[i] = st.size() ? st.top()[1] - 1 : n - 1;
-            st.push({arr[i], i}); 
-        }
+            while (st.size() && arr[st.top()] >= arr[i]) st.pop();
+            r[i] = st.size() ? st.top() - 1 : n - 1;
+            st.push(i);
+        }        
         
         ll mx = 0;
         for (int i = 0; i < n; i++) {
