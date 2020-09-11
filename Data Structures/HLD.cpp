@@ -134,16 +134,16 @@ int lca(int u, int v) {
 
 // mid is the ancestor of u (lca of u and v)
 int query_up(int u, int mid) { 
-	int res = 0	;
-	while (true) {
-		if (u == mid) break;
-		if (chainId[u] == chainId[mid]) { 
-			res = max(res, query_st(1, 1, n, st_pos[mid] + 1, st_pos[u])); 
-			break;
-		}
-		res = max(res, query_st(1, 1, n, st_pos[chainHead[chainId[u]]], st_pos[u]));
-		u = par[chainHead[chainId[u]]];
-	}
+    int res = 0	;
+    while (true) {
+        if (u == mid) break;
+        if (chainId[u] == chainId[mid]) { 
+            res = max(res, query_st(1, 1, n, st_pos[mid] + 1, st_pos[u])); 
+            break;
+        }
+        res = max(res, query_st(1, 1, n, st_pos[chainHead[chainId[u]]], st_pos[u]));
+        u = par[chainHead[chainId[u]]];
+    }
     return res;
 }
 

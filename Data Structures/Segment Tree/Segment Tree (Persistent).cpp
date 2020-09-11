@@ -15,44 +15,44 @@ const int INF = 1e9;
 const ll LINF = 1e18;
 
 struct tdata {
-	tdata *l, *r;
-	ll sum;
-	tdata() {}
-	tdata(tdata* l, tdata* r, int val) : l(l), r(r), sum(val) {}
+    tdata *l, *r;
+    ll sum;
+    tdata() {}
+    tdata(tdata* l, tdata* r, int val) : l(l), r(r), sum(val) {}
 };
 
 int n, q, cnt, arr[MAX_N];
 tdata *ver[MAX_N];
 
 void build(tdata *node, int start, int end) {
-	if (start == end) {
-		node->sum = arr[start];
-		return;
-	}
-	node->l = new tdata(); node->r = new tdata();
-	int mid = (start + end) / 2;
-	build(node->l, start, mid);
-	build(node->r, mid + 1, end);
-	node->sum = node->l->sum + node->r->sum;
+    if (start == end) {
+        node->sum = arr[start];
+        return;
+    }
+    node->l = new tdata(); node->r = new tdata();
+    int mid = (start + end) / 2;
+    build(node->l, start, mid);
+    build(node->r, mid + 1, end);
+    node->sum = node->l->sum + node->r->sum;
 }
 
 void update(tdata *node, int start, int end, int idx, int val) {
-	if (start == end) {
-		node->sum = val;
+    if (start == end) {
+        node->sum = val;
         return;
-	}
-	int mid = (start + end) / 2;
-	if (idx <= mid) {
-		tdata *l = node->l;
-		node->l = new tdata(l->l, l->r, l->sum);
-		update(node->l, start, mid, idx, val);
-	}
-	else {
-		tdata *r = node->r;
-		node->r = new tdata(r->l, r->r, r->sum);
-		update(node->r, mid + 1, end, idx, val);
-	}
-	node->sum = node->l->sum + node->r->sum;
+    }
+    int mid = (start + end) / 2;
+    if (idx <= mid) {
+        tdata *l = node->l;
+        node->l = new tdata(l->l, l->r, l->sum);
+        update(node->l, start, mid, idx, val);
+    }
+    else {
+        tdata *r = node->r;
+        node->r = new tdata(r->l, r->r, r->sum);
+        update(node->r, mid + 1, end, idx, val);
+    }
+    node->sum = node->l->sum + node->r->sum;
 }
 
 ll query(tdata *node, int start, int end, int l, int r) {
