@@ -25,10 +25,10 @@ void update(ll *ft, int x, ll v) {
 }
 
 void range_update(int l, int r, ll v) {
-	update(ft1, l, v);
-	update(ft1, r + 1, -v);
-	update(ft2, l, v * (l - 1));
-	update(ft2, r + 1, -v * r);
+    update(ft1, l, v);
+    update(ft1, r + 1, -v);
+    update(ft2, l, v * (l - 1));
+    update(ft2, r + 1, -v * r);
 }
 
 ll sum(ll *ft, int x) {
@@ -40,7 +40,7 @@ ll sum(ll *ft, int x) {
 
 // sum of all elements in [1...x]
 ll ps(int x) {
-	return sum(ft1, x) * x - sum(ft2, x);
+    return sum(ft1, x) * x - sum(ft2, x);
 }
 
 ll rsq(int l, int r) { 
@@ -48,8 +48,8 @@ ll rsq(int l, int r) {
 }
 
 void solve() {
-	memset(ft1, 0, sizeof ft1);
-	memset(ft2, 0, sizeof ft2);
+    memset(ft1, 0, sizeof ft1);
+    memset(ft2, 0, sizeof ft2);
     cin >> n >> q;
     while (q--) {
         int t, l, r; cin >> t >> l >> r;

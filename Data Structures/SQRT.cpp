@@ -44,11 +44,11 @@ void subtract(int idx) {
 
  // compress used values from 1e9 to 2e5 
 void compress() {
-	map<int, int> mp;
-	for (int i = 1; i <= n; i++) 
-		mp[arr[i]] = i;
-	for (int i = 1; i <= n; i++) 
-		arr[i] = mp[arr[i]];
+    map<int, int> mp;
+    for (int i = 1; i <= n; i++) 
+        mp[arr[i]] = i;
+    for (int i = 1; i <= n; i++) 
+        arr[i] = mp[arr[i]];
 }
 
 void mo_algo() {

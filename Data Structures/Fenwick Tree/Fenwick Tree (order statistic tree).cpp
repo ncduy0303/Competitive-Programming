@@ -41,9 +41,9 @@ int find_by_order(int k) {
             pos += (1 << i);
         }
     }
-	return pos + 1; 
+    return pos + 1; 
     // +1 because 'pos' will have position of largest value less than 'k'
-	// this function returns 1 if k < 1 and returns N if k > N
+    // this function returns 1 if k < 1 and returns N if k > N
 }
 
 int order_of_key(int k) {

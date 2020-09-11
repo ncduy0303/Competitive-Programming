@@ -41,25 +41,25 @@ void dfs(int u = 0, int d = 0) {
 // insert a string into the trie
 void insert(string s) {
     // start at the root node
-	int u = 0; 
-	for (char c : s) {
+    int u = 0; 
+    for (char c : s) {
         // if this node has not been allocated, then allocate the node and increase num by 1
-		if (!trie[u][c - 'A']) trie[u][c - 'A'] = ++num; 
+        if (!trie[u][c - 'A']) trie[u][c - 'A'] = ++num; 
         // move to the next node
-		u = trie[u][c - 'A']; 
-	}
+        u = trie[u][c - 'A']; 
+    }
     // mark the end of string
-	cnt[u]++; 
+    cnt[u]++; 
 }
 
 // check if a string exist in the trie
 bool search(string s) { 
-	int u = 0;
-	for (char c : s) {
+    int u = 0;
+    for (char c : s) {
         if (!trie[u][c - 'A']) return false;
         u = trie[u][c - 'A'];
-	}
-	return cnt[u] > 0;
+    }
+    return cnt[u] > 0;
 }
 
 void solve() {
