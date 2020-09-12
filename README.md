@@ -53,7 +53,7 @@ My profile: [Codeforces](https://codeforces.com/profile/caoduy73)
   - [Binomial Coefficients](Mathematics/Binomial%20Coefficients.cpp)
 
 ## Computational Geometry
-  - [Sweep Line](Geometry/Sweep%20Line)
+  - Sweep Line: [Closet Pairs](Geometry/Sweep%20Line/Closest%20Pairs.cpp), [Rectangle Union](Geometry/Sweep%20Line/Rectangle%20Union.cpp)
   
 ## Other Classic Problems
   - [N-queen](Others/N%20Queens.cpp)

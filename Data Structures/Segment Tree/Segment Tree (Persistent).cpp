@@ -65,7 +65,7 @@ ll query(tdata *node, int start, int end, int l, int r) {
 void solve() {
     cin >> n >> q;
     for (int i = 1; i <= n; i++) cin >> arr[i];
-	ver[++cnt] = new tdata();
+    ver[++cnt] = new tdata();
     build(ver[cnt], 1, n);
     while (q--) {
         int t, k; cin >> t >> k;

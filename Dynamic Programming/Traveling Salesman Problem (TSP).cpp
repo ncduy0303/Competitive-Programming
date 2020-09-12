@@ -21,27 +21,26 @@ int tsp(int mask, int u) {
     if (dp[mask][u] != -1) return dp[mask][u];
 
     int ans = INF;
-	// Visit all the unvisited nodes and take the best route
-	for (int v = 0; v < n; v++) {
-		if (!(mask & (1 << v))) { // this node is unvisited
-			int cur = adj[u][v] + tsp(mask | (1 << v), v);
-			ans = min(ans, cur);
-		}
-	}
-
-	return dp[mask][u] = ans;
+    // Visit all the unvisited nodes and take the best route
+    for (int v = 0; v < n; v++) {
+        if (!(mask & (1 << v))) { // this node is unvisited
+            int cur = adj[u][v] + tsp(mask | (1 << v), v);
+            ans = min(ans, cur);
+        }
+    }
+    return dp[mask][u] = ans;
 }
 
 void solve() {
-	int xs, ys; cin >> xs >> ys; // not important
-	cin >> x[0] >> y[0] >> n; n++;
-	for (int i = 1; i < n; i++) cin >> x[i] >> y[i];
-	for (int i = 0; i < n; i++) 
-		for (int j = i; j < n; j++)
-			adj[i][j] = adj[j][i] = abs(x[i] - x[j]) + abs(y[i] - y[j]);
-	memset(dp, -1, sizeof dp);
+    int xs, ys; cin >> xs >> ys; // not important
+    cin >> x[0] >> y[0] >> n; n++;
+    for (int i = 1; i < n; i++) cin >> x[i] >> y[i];
+    for (int i = 0; i < n; i++) 
+        for (int j = i; j < n; j++)
+            adj[i][j] = adj[j][i] = abs(x[i] - x[j]) + abs(y[i] - y[j]);
+    memset(dp, -1, sizeof dp);
     // start from node 0 (bitmask = 00...01)
-	cout << "The shortest path has length " << tsp(1, 0) << "\n";
+    cout << "The shortest path has length " << tsp(1, 0) << "\n";
 }
 
 int main() {

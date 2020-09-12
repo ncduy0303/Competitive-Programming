@@ -17,21 +17,21 @@ int n, m, visited[MAX_N], in_deg[MAX_N];
 vector<int> adj[MAX_N], topo;
  
 void build_topo() {
-	for (int u = 1; u <= n; u++) 
+    for (int u = 1; u <= n; u++) 
         for (int v : adj[u]) 
             in_deg[v]++;
-	queue<int> q;
-	for (int u = 1; u <= n; u++) 
+    queue<int> q;
+    for (int u = 1; u <= n; u++) 
         if (in_deg[u] == 0) 
             q.push(u);
-	while (q.size()) {
-		int u = q.front(); q.pop();
-		topo.push_back(u);
-		for (int v : adj[u]) {
+    while (q.size()) {
+        int u = q.front(); q.pop();
+        topo.push_back(u);
+        for (int v : adj[u]) {
             in_deg[v]--;
             if (in_deg[v] == 0) q.push(v);
-		}
-	}
+        }
+    }
     // detect cycle
     for (int i = 1; i <= n; i++) { 
         if (in_deg[i]) {
