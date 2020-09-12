@@ -134,7 +134,7 @@ int lca(int u, int v) {
 
 // mid is the ancestor of u (lca of u and v)
 int query_up(int u, int mid) { 
-    int res = 0	;
+    int res = 0;
     while (true) {
         if (u == mid) break;
         if (chainId[u] == chainId[mid]) { 
