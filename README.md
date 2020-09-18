@@ -43,7 +43,7 @@ My profile: [Codeforces](https://codeforces.com/profile/caoduy73)
   - [Heavy Light Decomposition](Data%20Structures/HLD.cpp)
   
 ## String Algorithm
-  - Pattern Searching ([KMP](String%20Processing/KMP%20(Prefix%20function).cpp), [Z-Algorithm](String%20Processing/Z-algo%20(Z%20function).cpp))
+  - Pattern Searching ([KMP](String%20Processing/KMP%20(Prefix%20function).cpp), [Z-Algorithm](String%20Processing/Z-algo%20(Z%20function).cpp), [Rabin-Karp](String%20Processing/String%20Hashing%20(Rabin-Karp).cpp))
   
 ## Number Theory
   - [Sieve of Eratosthenes](Mathematics/Sieve%20Of%20Eratosthenes.cpp)
