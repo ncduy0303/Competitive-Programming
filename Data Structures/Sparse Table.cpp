@@ -18,13 +18,7 @@ const ll LINF = 1e18;
 const int MAX_L = 18;
 
 int n, q;
-int arr[MAX_N], lg[MAX_N], dp[MAX_N][MAX_L];
-
-void build_lg_table() {
-    lg[1] = 0;
-    for (int i = 2; i <= n; i++) 
-        lg[i] = lg[i / 2] + 1;
-}
+int arr[MAX_N], dp[MAX_N][MAX_L];
  
 void build_sparse_table() {
     for (int i = 1; i <= n; i++)
@@ -35,8 +29,12 @@ void build_sparse_table() {
             // dp[i][j] = dp[i][j - 1] ^ dp[i + (1 << (j - 1))][j - 1];
 }
 
+int lg(int x) {
+    return 32 - __builtin_clz(x) - 1;
+}
+
 int min_query(int l, int r) { // O(1)
-    int k = lg[r - l + 1];
+    int k = lg(r - l + 1);
     return min(dp[l][k], dp[r - (1 << k) + 1][k]);
 }
 
@@ -54,7 +52,6 @@ int xor_query(int l, int r) { // O(logn)
 void solve() {
     cin >> n >> q;
     for (int i = 1; i <= n; i++) cin >> arr[i];
-    build_lg_table();
     build_sparse_table();
     while (q--) {
         int l, r; cin >> l >> r;
