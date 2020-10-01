@@ -54,7 +54,7 @@ void precompute_log() {
 
 ll log_nCk(int n, int k) { 
     if (k < 0 || k > n) return 0;
-	return exp(log_fact[n] - log_fact[n - k] - log_fact[k]); 
+    return exp(log_fact[n] - log_fact[n - k] - log_fact[k]); 
 }
 
 void solve() {
