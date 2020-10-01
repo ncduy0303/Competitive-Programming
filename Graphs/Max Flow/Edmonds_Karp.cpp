@@ -1,6 +1,5 @@
 // Maximum Flow (Edmonds-Karp Algorithm)
 // Time complexity: O(nm^2) in total, O(nm) BFS iterations with O(m) per BFS
-// Reference: https://github.com/mochow13/competitive-programming-library/blob/master/Graph/Max%20Flow%20Edmond%20Karp.cpp
 // Problem link: https://cses.fi/problemset/task/1694/
 
 #include <bits/stdc++.h>
@@ -17,50 +16,62 @@ const ll LINF = 1e18;
 
 struct max_flow_graph {
     int V;
-    struct edge {
-        int src, dst, cap, res;
-        size_t rev;
-    };
-    edge &rev(edge e) { 
-        return adj[e.dst][e.rev]; 
-    };
-    vector<vector<edge>> adj;
-    max_flow_graph(int V) : V(V), adj(V) {}
-    void add_edge(int src, int dst, int cap) {
-        adj[src].push_back({src, dst, cap, 0, adj[dst].size()});   // original edge
-        adj[dst].push_back({dst, src, 0, 0, adj[src].size() - 1}); // residual back edge (notice cap = 0)
+    vector<ar<ll,3>> edges; // {dest, cap, flow}
+    vector<vector<int>> adj;
+    vector<int> dist;
+    vector<ar<int,2>> par;
+    max_flow_graph(int V): V(V), adj(V) {}
+    void add_edge(int u, int v, int w) {
+        adj[u].push_back(edges.size());
+        edges.push_back({v, w, 0});
+        adj[v].push_back(edges.size());
+        edges.push_back({u, 0, 0});
     }
-    ll max_flow(int s, int t) {
-        for (int u = 0; u < V; u++)
-            for (auto &e : adj[u])
-                e.res = e.cap;
-        ll total = 0;
-        while (true) {
-            vector<int> prev(V, -1); prev[s] = -2;
-            queue<int> q; q.push(s);
-            while (!q.empty() && prev[t] == -1) {
-                int u = q.front(); q.pop();
-                for (edge &e : adj[u]) {
-                    if (prev[e.dst] == -1 && e.res > 0) {
-                        prev[e.dst] = e.rev;
-                        q.push(e.dst);
-                    }
+    bool bfs(int s, int t) {
+        dist.assign(V, -1);
+        par.assign(V, {-1, -1});
+        queue<int> q;
+        dist[s] = 0; q.push(s);
+        while (q.size()) {
+            int u = q.front(); q.pop();
+            if (u == t) break;
+            for (int idx : adj[u]) {
+                auto [v, cap, flow] = edges[idx];
+                if (cap > flow && dist[v] == -1) {
+                    dist[v] = dist[u] + 1;
+                    par[v] = {u, idx};
+                    q.push(v);
                 }
             }
-            if (prev[t] == -1) break;
-            int inc = INF;
-            for (int u = t; u != s; u = adj[u][prev[u]].dst)
-                inc = min(inc, rev(adj[u][prev[u]]).res);
-            for (int u = t; u != s; u = adj[u][prev[u]].dst) {
-                adj[u][prev[u]].res += inc;
-                rev(adj[u][prev[u]]).res -= inc;
-            }
-            total += inc;
         }
-        return total;
+        return dist[t] != -1;
+    }
+    ll send_one_flow(int s, int t) {
+        ll new_flow = INF;
+        for (int u = t; u != s; u = par[u][0]) {
+            int idx = par[u][1];
+            auto [v, cap, flow] = edges[idx];
+            new_flow = min(new_flow, cap - flow);
+        }
+        for (int u = t; u != s; u = par[u][0]) {
+            int idx = par[u][1];
+            auto [v, cap, flow] = edges[idx];
+            edges[idx][2] += new_flow;
+            edges[idx ^ 1][2] -= new_flow;
+        }
+        return new_flow;
+    }
+    ll edmonds_karp(int s, int t) {
+        ll max_flow = 0;
+        while (bfs(s, t)) {
+            ll new_flow = send_one_flow(s, t);
+            if (!new_flow) break;
+            max_flow += new_flow;
+        }
+        return max_flow;
     }
 };
- 
+
 void solve() {
     int n, m; cin >> n >> m;
     max_flow_graph adj(n);
@@ -68,7 +79,7 @@ void solve() {
         int u, v, w; cin >> u >> v >> w; u--; v--;
         adj.add_edge(u, v, w);
     }
-    cout << adj.max_flow(0, n - 1) << "\n";
+    cout << adj.edmonds_karp(0, n - 1) << "\n";
 }
 
 int main() {
