@@ -14,23 +14,17 @@ const int MOD = 1e9 + 7;
 const int INF = 1e9;
 const ll LINF = 1e18;
 
-const int SQRT = 450;
-
-struct node{
+struct query{
+    int SQRT = 500;
     int l, r, id;
+    bool operator< (query b) {
+        query a = *this;
+        return ar<int,2>{a.l/SQRT, a.r} < ar<int,2>{b.l/SQRT, b.r};
+    }
 };
- 
-bool cmp(node a, node b){
-    if (a.l/SQRT != b.l/SQRT)
-        return a.l/SQRT < b.l/SQRT;
-    else
-        return a.r < b.r;
-        // trick to reduce run time 
-        // return (a.r < b.r) ^ ((a.l/SQRT) % 2);
-}
- 
+
 int n, q, arr[MAX_N], ans[MAX_N], cnt[MAX_N], cur;
-node query[MAX_N];
+query qs[MAX_N];
 
 void add(int idx) {
     if (cnt[arr[idx]] == 0) cur++;
@@ -42,7 +36,7 @@ void subtract(int idx) {
     cnt[arr[idx]]--;
 }
 
- // compress used values from 1e9 to 2e5 
+// compress used values from 1e9 to 2e5 
 void compress() {
     map<int, int> mp;
     for (int i = 1; i <= n; i++) 
@@ -52,16 +46,16 @@ void compress() {
 }
 
 void mo_algo() {
-    sort(query + 1, query + n + 1, cmp);
+    sort(qs + 1, qs + n + 1);
     int curL = 0, curR = 0;
     add(0);
     for (int i = 1; i <= n; i++) {
-        int L = query[i].l, R = query[i].r;
+        int L = qs[i].l, R = qs[i].r;
         while (curL < L) subtract(curL++);
         while (curL > L) add(--curL);
         while (curR < R) add(++curR);
         while (curR > R) subtract(curR--);
-        ans[query[i].id] = cur;
+        ans[qs[i].id] = cur;
     }
 }
 
@@ -70,8 +64,8 @@ void solve() {
     for (int i = 1; i <= n; i++) cin >> arr[i];
     compress();
     for (int i = 1; i <= q; i++) {
-        cin >> query[i].l >> query[i].r;
-        query[i].id = i;
+        cin >> qs[i].l >> qs[i].r;
+        qs[i].id = i;
     }
     mo_algo();
     for (int i = 1; i <= q; i++) 

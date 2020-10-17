@@ -1,4 +1,4 @@
-// Union-Find Disjoint Set
+// Disjoint Set Union
 // Union by rank & Path compression
 
 #include <bits/stdc++.h>
@@ -19,17 +19,13 @@ int find(int u) {
     return u == par[u] ? u : par[u] = find(par[u]);
 }
  
-void unite(int u, int v) {
-    // par[find(u)] = find(v);
+void merge(int u, int v) {
     u = find(u), v = find(v);
-    num_grp -= (u == v);
-    if (sz[u] > sz[v]) {
-        par[v] = u;
-        sz[u] += sz[v];
-    } else {
-        par[u] = v;
-        sz[v] += sz[u];
-    }
+    if (u == v) return;
+    if (sz[u] > sz[v]) swap(u, v);
+    par[u] = v;
+    sz[v] += sz[u];
+    num_grp--;
 }
 
 void solve() {
