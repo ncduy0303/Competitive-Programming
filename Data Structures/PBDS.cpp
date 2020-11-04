@@ -20,28 +20,28 @@ const ll LINF = 1e18;
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 using namespace __gnu_pbds;
-template <class T> using ordered_set = tree<T, null_type, less_equal<T>, rb_tree_tag, tree_order_statistics_node_update>;
+template <class T> using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 template <class K, class V> using ordered_map = tree<K, V, less<K>, rb_tree_tag, tree_order_statistics_node_update>;
 
 void solve() {
     int n, q; cin >> n >> q;
     int arr[n];
-    ordered_set<int> os;
+    ordered_set<pair<int,int>> os;
     for (int i = 0; i < n; i++) {
         cin >> arr[i];
-        os.insert(arr[i]);
+        os.insert({arr[i], i});
     }
     while (q--) {
         char c; cin >> c;
         if (c == '!') {
             int k, x; cin >> k >> x; k--;
-            os.erase(os.find_by_order(os.order_of_key(arr[k])));
-            os.insert(x);
+            os.erase(os.find_by_order(os.order_of_key({arr[k], k})));
+            os.insert({x, k});
             arr[k] = x;
         }
         else {
             int a, b; cin >> a >> b;
-            cout << os.order_of_key(b + 1) - os.order_of_key(a) << "\n";
+            cout << os.order_of_key({b + 1, 0}) - os.order_of_key({a, 0}) << "\n";
         }
     }
 }
