@@ -13,16 +13,9 @@ const ll LINF = 1e18;
 template <class T> struct matrix {
     vector<vector<T>> m;
     int r, c;
-    matrix() {
-        this->r = this->c = 0;
-    }
-    matrix(int r, int c, T x) {
-        this->r = r; this->c = c;
-        m.assign(r, vector<T>(c, x));
-    }
-    matrix(int n) { // identity matrix
-        this->r = this->c = n;
-        m.assign(r, vector<T>(c));
+    matrix() : r(), c() {}
+    matrix(int r, int c, T x) : r(r), c(c), m(r, vector<T>(c, x)) {}
+    matrix(int n) : matrix(n, n, 0) { // identity matrix
         for (int i = 0; i < n; i++) m[i][i] = 1;
     }
     matrix operator+ (matrix<T> b) {
@@ -71,9 +64,7 @@ template <class T> struct matrix {
     }
     void print() {
         for (int i = 0; i < r; i++) {
-            for (int j = 0; j < c; j++) {
-                cout << m[i][j] << " ";
-            }
+            for (int j = 0; j < c; j++) cout << m[i][j] << " ";
             cout << "\n";
         }
     }
