@@ -24,7 +24,7 @@ struct convexhull {
     };
     deque<pair<line,ll>> dq;
     void add(line y) {
-        while (dq.size() >= 2 && dq.back().second >= dq.back().first.intersect(y)) dq.pop_back();
+        while (dq.size() && dq.back().second >= dq.back().first.intersect(y)) dq.pop_back();
         if (dq.empty()) {
             dq.push_back({y, 0});
             return;
