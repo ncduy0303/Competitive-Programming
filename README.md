@@ -32,6 +32,7 @@ My profile: [Codeforces](https://codeforces.com/profile/caoduy73)
   - [Elevator Rides](Dynamic%20Programming/Elevator%20Rides.cpp)
   - [Convex Hull Trick](Dynamic%20Programming/Convex%20Hull%20Trick%20&%20Li-Chao%20Segment%20Tree.cpp)
   - [Travelling Salesman Problem](Dynamic%20Programming/Traveling%20Salesman%20Problem%20(TSP).cpp)
+  - [Convex Hull Trick](Dynamic%20Programming/Convex%20Hull%20Trick%20&%20Li-Chao%20Segment%20Tree.cpp)
   
 ## Data Structure
   - [Sparse Table](Data%20Structures/Sparse%20Table.cpp)

@@ -22,7 +22,7 @@ struct lichaotree{
     int ln(int node) {return 2 * node;}
     int rn(int node) {return 2 * node + 1;}
     int n; vector<tdata> st;
-    lichaotree(int n): n(n), st(4 * n, {0, 0}) {}
+    lichaotree(int n): n(n), st(4 * n, {INF, INF}) {}
     void update(int node, int start, int end, tdata y) {
         int mid = (start + end) / 2;
         bool b1 = y(start) < st[node](start);
@@ -54,8 +54,8 @@ struct lichaotree {
         tdata *ln, *rn;
         tdata(line seg): seg(seg) {}
     };
-    int n; tdata* st;
-    lichaotree(int n): n(n) {st = new tdata({0, 0});}
+    int n; tdata *st;
+    lichaotree(int n): n(n) {st = new tdata({INF, INF});}
     void update(tdata *node, int start, int end, line y) {
         int mid = (start + end) / 2;
         bool b1 = y(start) < node->seg(start);
@@ -71,15 +71,15 @@ struct lichaotree {
             else node->rn = new tdata(y);
         }
     }
-    ll query(tdata* node, ll start, ll end, ll x) {
+    ll query(tdata *node, ll start, ll end, ll x) {
         if (start + 1 == end) return node->seg(x);
         ll mid = (start + end) / 2;
         if (x < mid && node->ln) return min(node->seg(x), query(node->ln, start, mid, x));
         else if (node->rn) return min(node->seg(x), query(node->rn, mid, end, x));
         return node->seg(x);
     }
-    void update(line y) {update(st, 0, n - 1, y);}
-    ll query(int x) {return query(st, 0, n - 1, x);}
+    void update(line y) {update(st, 0, n, y);}
+    ll query(int x) {return query(st, 0, n, x);}
 }; 
 
 int main() {
