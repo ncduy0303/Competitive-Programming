@@ -7,7 +7,7 @@
 // Each edge is represented by the node that is further away to the root
 // => Each node is associated only one unique edge, except the root node
 
-// num_child[u] = number of children the u (including itself)
+// sz[u] = size of the subtree of u
 // par[u] = parent node of u
 // dep[u] = distance of u from the root
 
@@ -18,10 +18,10 @@
 // chainPos[u] = the position of node u in the chain it belongs to (aka chainInd[u])
 
 // adj: adjacency list
-// edges: edge list
+// el: edge list
 
 // arr: array storing edge costs based on HLD
-// st_pos: position of edges based on HLD
+// pos: position of edges based on HLD
 // st: segment tree
 
 #include <bits/stdc++.h>
@@ -36,153 +36,164 @@ const int MOD = 1e9 + 7;
 const int INF = 1e9;
 const ll LINF = 1e18;
 
-int n, pos;
-int par[MAX_N], num_child[MAX_N], dep[MAX_N];
-int chainNum, chainSize[MAX_N], chainHead[MAX_N], chainId[MAX_N], chainPos[MAX_N];
-int arr[MAX_N], st_pos[MAX_N], st[4 * MAX_N];
-ar<int,2> edges[MAX_N];
-vector<ar<int,2>> adj[MAX_N];
-
-void build_st(int node, int start, int end) { 
-    if (start == end) {
-        st[node] = arr[start];
-        return;
+struct segtree { 
+    struct tdata {
+        ll mx;
+        tdata(): mx() {}
+        tdata(ll val): mx(val) {}
+        tdata(tdata l, tdata r): mx(max(l.mx, r.mx)) {}
+    };
+    int ln(int node) {return 2 * node;}
+    int rn(int node) {return 2 * node + 1;}
+    int n; vector<tdata> st;
+    void init(int _n) {
+        n = _n;
+        st.resize(4 * n);
     }
-    int mid = (start + end) / 2;
-    build_st(2 * node, start, mid);
-    build_st(2 * node + 1, mid + 1, end);
-    st[node] = max(st[2 * node], st[2 * node + 1]);
-}
-
-void update_st(int node, int start, int end, int idx, int val) { 
-    if (start == end) {
-        st[node] = val;
-        return;
+    void init(vector<int> &arr) {
+        n = arr.size();
+        st.resize(4 * n);
+        build(arr, 1, 0, n - 1);
     }
-    int mid = (start + end) / 2;
-    if (idx <= mid) update_st(2 * node, start, mid, idx, val);
-    else update_st(2 * node + 1, mid + 1, end, idx, val);
-    st[node] = max(st[2 * node], st[2 * node + 1]);
-}
+    void apply(int node, ll val) {
+        st[node].mx = val;
+    }
+    void combine(int node) {
+        st[node].mx = max(st[ln(node)].mx, st[rn(node)].mx);
+    }
+    void build(vector<int> &arr, int node, int start, int end) {
+        if (start == end) {
+            st[node] = tdata(arr[start]);
+            return;
+        }
+        int mid = (start + end) / 2;
+        build(arr, ln(node), start, mid);
+        build(arr, rn(node), mid + 1, end);
+        combine(node);
+    }
+    void update(int node, int start, int end, int idx, ll val) {
+        if (start == end) {
+            apply(node, val);
+            return;
+        }
+        int mid = (start + end) / 2;
+        if (idx <= mid) update(ln(node), start, mid, idx, val);
+        else update(rn(node), mid + 1, end, idx, val);
+        combine(node);
+    }
+    tdata query(int node, int start, int end, int l, int r) {
+        if (r < start || end < l) return tdata();
+        if (l <= start && end <= r) return st[node];
+        int mid = (start + end) / 2;
+        return tdata(query(ln(node), start, mid, l, r), query(rn(node), mid + 1, end, l, r));
+    }
+    void update(int idx, ll val) {update(1, 0, n - 1, idx, val);}
+    tdata query(int l, int r) {return query(1, 0, n - 1, l, r);}
+};
 
-int query_st(int node, int start, int end, int l, int r) {
-    if (start > r || end < l) return 0;
-    if (l <= start && end <= r) return st[node];
-    int mid = (start + end) / 2;
-    return max(query_st(2 * node, start, mid, l, r), query_st(2 * node + 1, mid + 1, end, l, r)); 
+int n, cnt;
+int sz[MAX_N], dep[MAX_N], par[MAX_N], child[MAX_N];
+int chainNum, chainHead[MAX_N], chainSize[MAX_N], chainId[MAX_N], chainPos[MAX_N];
+vector<int> arr; int pos[MAX_N];
+vector<ar<int,2>> adj[MAX_N], el;
+segtree st;
+ 
+void reset() {
+    memset(chainHead, -1, sizeof chainHead);
+    arr.clear();
+    for (int i = 1; i <= n; i++) adj[i].clear();
+    el.clear();
+    chainNum = cnt = 0;
 }
-
-void dfs(int u = 1, int p = 0, int d = 0) {
-    par[u] = p;
-    num_child[u] = 1;
+ 
+void dfs(int u, int p = 0, int d = 0) {
+    sz[u] = 1;
     dep[u] = d;
+    par[u] = p;
+    int mx = 0;
     for (auto [v, w] : adj[u]) {
         if (v != p) {
             dfs(v, u, d + 1);
-            num_child[u] += num_child[v];
+            sz[u] += sz[v];
+            if (sz[v] > mx) mx = sz[v], child[u] = v;
         }
     }
 }
 
-// there is no edge associated with node 1 (root), so set val to 0
-// can pass in more information depending on the type of queries neede
-void hld(int u = 1, int val = 0) { 
-    if (chainHead[chainNum] == -1) chainHead[chainNum] = u; 
+void hld(int u, int x = -INF) {
+    if (chainHead[chainNum] == -1) chainHead[chainNum] = u;
     chainId[u] = chainNum;
-    chainPos[u] = chainSize[chainNum];
-    chainSize[chainNum]++;
-
-    st_pos[u] = ++pos;
-    arr[pos] = val;
-
-    int heaviest = -1, max_cost;
-    for (auto [v, w] : adj[u]) 
-        if (v != par[u])
-            // find the heaviest path from node u
-            if (heaviest == -1 || num_child[v] > num_child[heaviest]) 
-                heaviest = v, max_cost = w;
-
-    // if not leaf node, then extend the chain
-    if (heaviest != -1) 
-        hld(heaviest, max_cost);
-    // extend to all other light paths
-    for (auto [v, w] : adj[u]) { 
-        if (v != par[u] && v != heaviest) {
-            chainNum++;
+    chainPos[u] = chainSize[chainNum]++;
+    arr.push_back(x);
+    pos[u] = cnt++;
+    for (auto [v, w] : adj[u]) {
+        if (v != par[u] && v == child[u]) {
             hld(v, w);
         }
     }
-}
-
-void update(int idx, int val) {
-    // representative of an edge is the node that is further away from the root
-    auto [u, v] = edges[idx]; 
-    int node = dep[u] > dep[v] ? u : v;
-    update_st(1, 1, n, st_pos[node], val);
-}
-
-int lca(int u, int v) {
-    // bring u and v to the same chain, then one must be the lca of the other
-    while (chainId[u] != chainId[v]) { 
-        if (dep[chainHead[chainId[u]]] > dep[chainHead[chainId[v]]])
-            u = par[chainHead[chainId[u]]];
-        else
-            v = par[chainHead[chainId[v]]];
+    for (auto [v, w] : adj[u]) {
+        if (v != par[u] && v != child[u]) {
+            chainNum++, hld(v, w);
+        }
     }
-    return dep[u] < dep[v] ? u : v;
 }
-
-// mid is the ancestor of u (lca of u and v)
-int query_up(int u, int mid) { 
-    int res = 0;
+ 
+int lca(int u, int v) {
+    while (chainId[u] != chainId[v]) {
+        if (dep[chainHead[chainId[u]]] > dep[chainHead[chainId[v]]]) u = par[chainHead[chainId[u]]];
+        else v = par[chainHead[chainId[v]]];
+    }
+    return dep[u] > dep[v] ? v : u;
+}
+ 
+ll query_up(int u, int m) {
+    ll res = 0;
     while (true) {
-        if (u == mid) break;
-        if (chainId[u] == chainId[mid]) { 
-            res = max(res, query_st(1, 1, n, st_pos[mid] + 1, st_pos[u])); 
+        if (u == m) break;
+        if (chainId[u] == chainId[m]) {
+            res = max(res, st.query(pos[m] + 1, pos[u]).mx);
             break;
         }
-        res = max(res, query_st(1, 1, n, st_pos[chainHead[chainId[u]]], st_pos[u]));
-        u = par[chainHead[chainId[u]]];
+        res = max(res, st.query(pos[chainHead[chainId[u]]], pos[u]).mx);
+        u = par[chainHead[chainId[u]]];        
     }
     return res;
 }
-
-// maximum edge cost from u to v
-int query(int u, int v) { 
-    int mid = lca(u, v); 
-    return max(query_up(u, mid), query_up(v, mid));
+ 
+ll query(int u, int v) {
+    int m = lca(u, v);
+    return max(query_up(u, m), query_up(v, m));
 }
-
-void reset() { 
-    memset(st, 0, sizeof st);
-    memset(chainHead, -1, sizeof chainHead);
-    for (int i = 1; i <= n; i++) adj[i].clear();
-    chainNum = 1; pos = 0;
+ 
+void update(int i, int x) {
+    auto [u, v] = el[i];
+    if (dep[u] < dep[v]) swap(u, v);
+    st.update(pos[u], x);
 }
-
+ 
 void solve() {
-    reset();
     cin >> n;
-    for (int i = 1; i <= n - 1; i++) {
+    reset();
+    for (int i = 0; i < n - 1; i++) {
         int u, v, w; cin >> u >> v >> w;
-        adj[u].push_back({v, w}); 
+        adj[u].push_back({v, w});
         adj[v].push_back({u, w});
-        edges[i] = {u, v};
+        el.push_back({u, v});
     }
-    dfs();
-    hld();
-    build_st(1, 1, n);
+    dfs(1);
+    hld(1);
+    st.init(arr);
     while (true) {
-        string s; cin >> s;
-        if (s == "DONE") return;
-        if (s == "CHANGE") {
-            int idx, val; cin >> idx >> val;
-            update(idx, val);
+        string t; cin >> t;
+        if (t == "CHANGE") {
+            int i, x; cin >> i >> x; i--;
+            update(i, x);
         }
-        else {
+        else if (t == "QUERY") {
             int u, v; cin >> u >> v;
             cout << query(u, v) << "\n";
         }
+        else return;
     }
 }
 
