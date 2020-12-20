@@ -18,6 +18,31 @@ int gcd(int a, int b) {
     return b ? gcd(b, a % b) : a;
 }
 
+// extended version to find x, y such that ax + by = gcd(a, b)
+int gcd(int a, int b, int &x, int &y) {
+    if (b == 0) {x = 1, y = 0; return a;}
+    int x1, y1, d = gcd(b, a % b, x1, y1);
+    x = y1;
+    y = x1 - y1 * (a / b);
+    return d;
+}
+
+// find a solution of a Linear Diophantine Equation
+bool find_any_solution(int a, int b, int c, int &x, int &y) {
+    int d = gcd(abs(a), abs(b), x, y);
+    if (c % d) return false; // no solution
+    x *= c / d; 
+    y *= c / d;
+    if (a < 0) x = -x;
+    if (b < 0) y = -y;
+    return true;
+}
+
+void shift_solution(int a, int b, int &x, int &y, int cnt) {
+    x += cnt * b;
+    y -= cnt * a;
+}
+
 void solve() {
     int a, b; cin >> a >> b;
     cout << gcd(a, b) << "\n";
