@@ -30,6 +30,7 @@ My profile: [Codeforces](https://codeforces.com/profile/caoduy73)
   - [Cutting Sticks](Dynamic%20Programming/Cutting%20Sticks.cpp)
   - [Matrix Chain](Dynamic%20Programming/Matrix%20Chain.cpp)
   - [Elevator Rides](Dynamic%20Programming/Elevator%20Rides.cpp)
+  - [Divide & Conquer Trick](Dynamic%20Programming/D&C%20Trick.cpp)
   - [Convex Hull Trick](Dynamic%20Programming/Convex%20Hull%20Trick%20&%20Li-Chao%20Segment%20Tree.cpp)
   - [Travelling Salesman Problem](Dynamic%20Programming/Traveling%20Salesman%20Problem%20(TSP).cpp)
   

@@ -19,18 +19,18 @@ int gcd(int a, int b) {
 }
 
 // extended version to find x, y such that ax + by = gcd(a, b)
-int gcd(int a, int b, int &x, int &y) {
+ll gcd(ll a, ll b, ll &x, ll &y) {
     if (b == 0) {x = 1, y = 0; return a;}
-    int x1, y1, d = gcd(b, a % b, x1, y1);
+    ll x1, y1, d = gcd(b, a % b, x1, y1);
     x = y1;
     y = x1 - y1 * (a / b);
     return d;
 }
 
 // find a solution of a Linear Diophantine Equation
-bool find_any_solution(int a, int b, int c, int &x, int &y) {
-    int d = gcd(abs(a), abs(b), x, y);
-    if (c % d) return false; // no solution
+bool lde(ll a, ll b, ll c, ll &x, ll &y) {
+    ll d = gcd(abs(a), abs(b), x, y);
+    if (c % d) return false; 
     x *= c / d; 
     y *= c / d;
     if (a < 0) x = -x;
@@ -38,9 +38,25 @@ bool find_any_solution(int a, int b, int c, int &x, int &y) {
     return true;
 }
 
-void shift_solution(int a, int b, int &x, int &y, int cnt) {
+void shift(ll a, ll b, ll &x, ll &y, ll cnt) {
     x += cnt * b;
     y -= cnt * a;
+}
+
+ll inv_mod(ll a, ll m) {
+    ll x, y;
+    gcd(a, m, x, y);
+    return (m + x % m) % m;
+}
+
+// solve ax = b (mod m)
+ll lce(ll a, ll b, ll m) {
+    ll d = gcd(a, m);
+    if (d != 1) {
+        if (b % d) return -1;
+        a /= d; b /= d; m /= d;
+    }
+    return b * inv_mod(a, m) % m;
 }
 
 void solve() {
