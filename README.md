@@ -2,7 +2,7 @@
 My own templates and implementation of important algorithms and data structures for competitive programming
 
 
-My profile: [Codeforces](https://codeforces.com/profile/caoduy73)
+My profile: [Codeforces](https://codeforces.com/profile/ncduy0303), [AtCoder](https://atcoder.jp/users/ncduy0303)
 
 ## Contest templates
   - [My template C++](Contest%20Template/main.cpp)
@@ -26,13 +26,15 @@ My profile: [Codeforces](https://codeforces.com/profile/caoduy73)
   - [Longest Common Subsequence](Dynamic%20Programming/Longest%20Common%20Subsequence%20(LCS).cpp)
   - [Longest Increasing Subsequence](Dynamic%20Programming/Longest%20Increasing%20Subsequence%20(LIS).cpp)
   - [Digit DP](Dynamic%20Programming/Digit%20DP.cpp)
+  - [SOS DP](Dynamic%20Programming/SOS%20DP.cpp)
   - [Weighted Job Scheduling](Dynamic%20Programming/Weighted%20Job%20Scheduling.cpp)
   - [Cutting Sticks](Dynamic%20Programming/Cutting%20Sticks.cpp)
   - [Matrix Chain](Dynamic%20Programming/Matrix%20Chain.cpp)
   - [Elevator Rides](Dynamic%20Programming/Elevator%20Rides.cpp)
+  - [Travelling Salesman Problem](Dynamic%20Programming/Traveling%20Salesman%20Problem%20(TSP).cpp)
+  - [Deque Trick](Dynamic%20Programming/Deque%20Trick.cpp)
   - [Divide & Conquer Trick](Dynamic%20Programming/D&C%20Trick.cpp)
   - [Convex Hull Trick](Dynamic%20Programming/Convex%20Hull%20Trick%20&%20Li-Chao%20Segment%20Tree.cpp)
-  - [Travelling Salesman Problem](Dynamic%20Programming/Traveling%20Salesman%20Problem%20(TSP).cpp)
   
 ## Data Structure
   - [Sparse Table](Data%20Structures/Sparse%20Table.cpp)
