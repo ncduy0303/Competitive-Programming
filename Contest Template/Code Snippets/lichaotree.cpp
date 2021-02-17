@@ -51,7 +51,7 @@ struct lichaotree {
     };
     struct tdata {
         line seg;
-        tdata *ln, *rn;
+        tdata *ln = NULL, *rn = NULL;
         tdata(line seg): seg(seg) {}
     };
     int n; tdata *st;

@@ -89,7 +89,7 @@ struct segtree {
 // dynamic segment tree (range sum, range set, lazy propagation)
 struct segtree { 
     struct tdata {
-        tdata *ln, *rn;
+        tdata *ln = NULL, *rn = NULL;
         ll start, end, sum, setval;
         tdata(): start(), end(), sum(), setval(LINF) {}
         tdata(int start, int end, ll val): start(start), end(end), sum(val), setval(LINF) {}
@@ -158,7 +158,7 @@ struct segtree {
 // persistent segment tree (range sum, range set, lazy propagation, copy)
 struct segtree { 
     struct tdata {
-        tdata *ln, *rn;
+        tdata *ln = NULL, *rn = NULL;
         ll sum, setval;
         tdata(): sum(), setval(LINF) {}
         tdata(ll val): sum(val), setval(LINF) {}

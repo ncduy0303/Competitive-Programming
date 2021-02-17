@@ -14,7 +14,7 @@ const ll LINF = 1e18;
 mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 struct tdata {
     int val, pri, sz;
-    tdata *ln, *rn;
+    tdata *ln = NULL, *rn = NULL;
     tdata(int val): val(val), pri(rng()), sz(1), ln(), rn() {} 
 };
 int sz(tdata *node) {return node ? node->sz : 0;}
