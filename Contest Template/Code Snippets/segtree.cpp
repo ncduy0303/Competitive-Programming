@@ -147,6 +147,7 @@ struct segtree {
         propagate(node);
         if (r < node->start || node->end < l) return tdata();
         if (l <= node->start && node->end <= r) return *node;
+        node->init();
         return tdata(query(node->ln, l, r), query(node->rn, l, r));
     }
     void update(int idx, ll val) {update(st, idx, val);}
