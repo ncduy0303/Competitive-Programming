@@ -10,9 +10,8 @@ using namespace std;
 #define ll long long
 
 const int MAX_N = 1e4 + 1;
-const int MOD = 1e9 + 7;
-const int INF = 1e4;
-const ll LINF = 1e18;
+const ll MOD = 1e9 + 7;
+const ll INF = 1e4;
 
 struct pt {
     double x, y;
@@ -44,7 +43,8 @@ void solve() {
                 if (pnts[r].second - pnts[l].second > ans) break; // this helps speed up the approach
                 ans = min(ans, hypot(pnts[r].first - pnts[l].first, pnts[r].second - pnts[l].second));
             }
-        }*/
+        }
+        */
         box.clear();
         box.insert(pnts[0]);
         for (int l = 0, r = 1; r < n; r++) {
@@ -69,12 +69,10 @@ void solve() {
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
-    // freopen("input.txt", "r", stdin);
-    // freopen("output.txt", "w", stdout);
-
-    int tc; tc = 1;
+    int tc = 1;
+    // cin >> tc;
     for (int t = 1; t <= tc; t++) {
-        // cout << "Case #" << t  << ": ";
+        // cout << "Case #" << t << ": ";
         solve();
     }
 }

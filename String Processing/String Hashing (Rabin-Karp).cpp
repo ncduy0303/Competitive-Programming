@@ -17,57 +17,61 @@ using namespace std;
 #define ar array
 #define ll long long
 
-const int MAX_N = 1e6 + 1;
-const int MOD = 1e9 + 7;
-const int INF = 1e9;
-const ll LINF = 1e18;
+const int MAX_N = 1e5 + 5;
+const ll MOD = 1e9 + 7;
+const ll INF = 1e9;
 
-const int nbase = 2;
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+ll rand(ll l, ll r) {return uniform_int_distribution(l, r)(rng);}
+const int BASE = rand(300, 1e9);
+const int NUM_MOD = 2;
+const ll MODS[] = {(int)1e9 + 2277, (int)1e9 + 5277};
+struct Hash {
+    vector<ll> H[NUM_MOD], P[NUM_MOD];
+    Hash(string s) {
+        for (int i = 0; i < NUM_MOD; i++) {
+            P[i].push_back(1);
+            H[i].push_back(0);
+        }
+        for (char c : s) {
+            for (int i = 0; i < NUM_MOD; i++) {
+                P[i].push_back(P[i].back() * BASE % MODS[i]);
+                H[i].push_back((H[i].back() * BASE + c) % MODS[i]);
+            }
+        }
+    } 
+    ar<ll,NUM_MOD> operator()(int l, int r) {
+        ar<ll,NUM_MOD> res;
+        for (int i = 0; i < NUM_MOD; i++) {
+            res[i] = (H[i][r + 1] - H[i][l] * P[i][r + 1 - l]) % MODS[i];
+            if (res[i] < 0) res[i] += MODS[i];
+        }
+        return res;
+    }
+};
 
-ll P[nbase][MAX_N], H[nbase][MAX_N], B[nbase];
-vector<ll> Hp(nbase);
-// only need to store the hash value for the whole string p
-
-// here use 0-index, return hase value of s[l..r]
-vector<ll> gethash(int l, int r) {
-    vector<ll> res;
-    for (int i = 0; i < nbase; i++)
-        res.push_back((H[i][r + 1] - H[i][l] * P[i][r + 1 - l] + (ll)MOD * MOD) % MOD); 
+int cnt_occ(string s, string t) {
+    int n = s.size(), m = t.size();
+    Hash hs(s), ht(t);
+    int res = 0;
+    for (int i = 0, j = m - 1; j < n; i++, j++) {
+        res += (hs(i, j) == ht(0, m - 1));
+    }
     return res;
 }
 
-void solve() {   
-    mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
-    for (int i = 0; i < nbase; i++) B[i] = rng() % 100000000 + 256;
-
-    string s, p; cin >> s >> p;
-    for (int i = 0; i < nbase; i++) {
-        P[i][0] = 1;
-        for (int j = 0; j < s.size(); j++) {
-            P[i][j + 1] = P[i][j] * B[i] % MOD;
-            H[i][j + 1] = (H[i][j] * B[i] + s[j] - 'a' + 1) % MOD; 
-        }
-        for (int j = 0; j < p.size(); j++) {
-            Hp[i] = (Hp[i] * B[i] + p[j] - 'a' + 1) % MOD; 
-        }
-    }
-
-    int num = 0;
-    for (int i = 0, j = i + p.size() - 1; j < s.size(); i++, j++) {
-        num += (gethash(i, j) == Hp);
-    }
-    cout << num << "\n";
+void solve() {
+    string s, t; cin >> s >> t;
+    cout << cnt_occ(s, t) << "\n";
 }
 
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
-    // freopen("input.txt", "r", stdin);
-    // freopen("output.txt", "w", stdout);
-
-    int tc; tc = 1;
+    int tc = 1;
+    // cin >> tc;
     for (int t = 1; t <= tc; t++) {
-        // cout << "Case #" << t  << ": ";
+        // cout << "Case #" << t << ": ";
         solve();
     }
 }

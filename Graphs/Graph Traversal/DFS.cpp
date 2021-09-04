@@ -5,20 +5,18 @@ using namespace std;
 #define ar array
 #define ll long long
 
-const int MAX_N = 1e5 + 1;
-const int MOD = 1e9 + 7;
-const int INF = 1e9;
-const ll LINF = 1e18;
+const int MAX_N = 1e5 + 5;
+const ll MOD = 1e9 + 7;
+const ll INF = 1e9;
 
-int n, m, visited[MAX_N], num;
+int n, m, vis[MAX_N];
 vector<int> adj[MAX_N];
 
 void dfs(int u) {
-    visited[u] = 1;
+    vis[u] = 1;
     for (int v : adj[u]) {
-        if (!visited[v]) {
-            dfs(v);
-        }
+        if (vis[v]) continue;
+        dfs(v);
     }
 }
 
@@ -30,34 +28,18 @@ void solve() {
         adj[v].push_back(u);
     }
     for (int i = 1; i <= n; i++) {
-        if (!visited[i]) {
-            dfs(i);
-            num++;
-        }
+        if (vis[i]) continue;
+        dfs(i);
     }
-    cout << num << "\n"; // number of connected components
-
-    /*
-    Example input:
-        6 4
-        1 2
-        5 1
-        2 4
-        4 6
-    Expected output:
-        2
-    */
 }
 
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
-    // freopen("input.txt", "r", stdin);
-    // freopen("output.txt", "w", stdout);
-
-    int tc; tc = 1;
+    int tc = 1;
+    // cin >> tc;
     for (int t = 1; t <= tc; t++) {
-        // cout << "Case #" << t  << ": ";
+        // cout << "Case #" << t << ": ";
         solve();
     }
 }

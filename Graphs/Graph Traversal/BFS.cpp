@@ -5,10 +5,9 @@ using namespace std;
 #define ar array
 #define ll long long
 
-const int MAX_N = 1e5 + 1;
-const int MOD = 1e9 + 7;
-const int INF = 1e9;
-const ll LINF = 1e18;
+const int MAX_N = 1e5 + 5;
+const ll MOD = 1e9 + 7;
+const ll INF = 1e9;
 
 int n, m;
 vector<int> adj[MAX_N], dist;
@@ -36,20 +35,6 @@ void solve() {
         adj[v].push_back(u);
     }
     bfs(1);
-    for (int i = 1; i <= n; i++) 
-        cout << dist[i] << " ";
-    cout << "\n";
-
-    /*
-    Example input:
-        6 4
-        1 2
-        5 1
-        2 4
-        4 6
-    Expected output:
-        0 1 -1 2 1 3
-    */
 }
 
 int main() {

@@ -11,9 +11,8 @@ using namespace std;
 #define ll long long
 
 const int MAX_N = 1e5 + 1;
-const int MOD = 1e9 + 7;
-const int INF = 1e9;
-const ll LINF = 1e18;
+const l MOD = 1e9 + 7;
+const ll INF = 1e9;
 
 struct event {
     int id; // Index of rectangle in rects

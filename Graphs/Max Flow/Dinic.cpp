@@ -10,10 +10,9 @@ using namespace std;
 #define ar array
 #define ll long long
 
-const int MAX_N = 1e5 + 1;
-const int MOD = 1e9 + 7;
-const int INF = 1e9;
-const ll LINF = 1e18;
+const int MAX_N = 1e5 + 5;
+const ll MOD = 1e9 + 7;
+const ll INF = 1e18;
 
 struct max_flow_graph {
     struct edge {
@@ -23,7 +22,7 @@ struct max_flow_graph {
     vector<edge> el; 
     vector<vector<int>> adj;
     vector<int> dist, par;
-    max_flow_graph(int n) : n(n), adj(n + 1) {}
+    max_flow_graph(int n) : n(n), adj(n) {}
     void add_edge(int u, int v, int w) {
         adj[u].push_back(el.size());
         el.push_back({u, v, w, 0});
@@ -42,8 +41,8 @@ struct max_flow_graph {
         return nf;
     }
     bool bfs(int s, int e) {
-        dist.assign(n + 1, INF);
-        par.assign(n + 1, 0);
+        dist.assign(n, INF);
+        par.assign(n, 0);
         queue<int> q;
         q.push(s); dist[s] = 0;
         while (q.size()) {
@@ -93,12 +92,10 @@ void solve() {
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
-    // freopen("input.txt", "r", stdin);
-    // freopen("output.txt", "w", stdout);
-
-    int tc; tc = 1;
+    int tc = 1;
+    // cin >> tc;
     for (int t = 1; t <= tc; t++) {
-        // cout << "Case #" << t  << ": ";
+        // cout << "Case #" << t << ": ";
         solve();
     }
 }
